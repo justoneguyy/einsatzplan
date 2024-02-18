@@ -1,0 +1,34 @@
+--- einsatzplan ueberblick:
+> infos: 13 mitarbeiter aktuell
+-- wochenuebersicht:
+  - option 1 (mitarbeiter vertikal):
+    - tabelle mit mitarbeitern ganz links in einer spalte untereinander
+    -> vorteile: 
+      - 
+    - rechts daneben spalten montag - sonntag (samstag + sonntag spalten ausblendbar machen fuer mehr platz?)
+    - maximal 10 mitarbeiter ohne scrollen
+  - option 2 (mitarbeiter horizontal):
+    - tabelle mit mitarbeitern oben in einer zeile nebeneinander (so wie es aktuell der fall ist)
+    -> vorteile: 
+
+
+--- profile page
+  - Benutzerprofil-Informationen (ggf änderbar falls jemand geheiratet hat?):
+    - Vorname, Nachname, E-Mail-Adresse, etc.
+    - Profilbild-Upload, falls relevant für das System.
+  - Arbeitsbezogene Details:
+    - Position und Rolle im Unternehmen.
+    - Abteilung und Teamzugehörigkeit.
+  - Berichtsheft wenn Azubi?
+
+
+--- settings page
+  - theme auswahl (dark/lightmode)
+  - Benachrichtigungseinstellungen:
+    - E-Mail-Benachrichtigungen aktivieren/deaktivieren.
+    - Push-Benachrichtigungen für wichtige Ereignisse.
+  - Benutzerpräferenzen:
+    - Anpassbare Darstellungsoptionen (Schriftgröße, Farbthema).
+    - Voreinstellungen für die Ansicht von Kalenderwochen oder Monaten.
+  - Integrationen:
+    - Einstellungen für externe Integrationen, falls relevant für dein System. (-- export vom einsatzplan für azubis?)

@@ -1,3 +1,9 @@
+import { HorizontalTable } from '@/components/hor-table'
+
 export default function Home() {
-  return <section className=''>Dashboard</section>
+  return (
+    <section className=''>
+      <HorizontalTable />
+    </section>
+  )
 }
