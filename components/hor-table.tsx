@@ -7,17 +7,18 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { ArrowRightIcon } from '@radix-ui/react-icons'
+import { employees, weekDays } from '@/_dev/mockdata/constants'
+import { AssignmentCard } from './assignment-card'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Button } from './ui/button'
 import {
   Tooltip,
   TooltipContentNoAnimation,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
-import { Assignment, Employee } from '@/lib/types'
-import { employees, weekDays } from '@/_dev/mockdata/constants'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
+import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
+import { Input } from './ui/input'
 
 export function HorizontalTable() {
   return (
@@ -32,6 +33,7 @@ export function HorizontalTable() {
             </TableHead>
             {weekDays.map((day) => (
               // TODO: also highlight the day in addition to tableRow?
+              // TODO: format with date -> e.g. Mo, 24.02.
               <TableHead key={day} className='w-auto border-r'>
                 {/* TODO: need to find a good solution for this later on. maybe even an option to blend out saturday/sunday */}
                 {/* <TableHead key={day} className='min-w-[200px]'> */}
@@ -41,7 +43,8 @@ export function HorizontalTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {employees.map((employee: Employee) => (
+          {employees.map((employee) => (
+            // TODO: rufbereitschaft needs to be implemented/shown somehow
             <TableRow key={employee.id}>
               <TableCell className='border-r font-medium'>
                 <div className='flex items-center gap-1'>
@@ -72,26 +75,30 @@ export function HorizontalTable() {
                 </div>
               </TableCell>
               {Object.keys(employee.assignments).map((day) => (
-                <TableCell key={day} className='border-r'>
-                  {employee.assignments[day]
-                    // TODO: add this as an option (if only the current task for the current time should be shown (ofc based on view))
-                    // TODO: implement dynamic filter based on current time
-                    .filter(
-                      (assignment: Assignment) =>
-                        assignment.timeFrom === '10:00' &&
-                        assignment.timeTil === '12:00'
-                    )
-                    .map((assignment: Assignment, index: number) => (
-                      <div key={index}>
-                        {/* TODO: this stuff must be editable for admin user */}
-                        <p className='flex items-center gap-1 text-xs text-muted-foreground'>
-                          {assignment.timeFrom}
-                          <ArrowRightIcon />
-                          {assignment.timeTil}
-                        </p>
-                        <p>{assignment.task}</p>
-                      </div>
-                    ))}
+                <TableCell key={day} className='max-w-80 border-r'>
+                  {/* TODO: change this to the underlying carousel */}
+                  <Input type='text' className='h-16' />
+
+                  {/* <div className='flex overflow-x-hidden'>
+                    {employee.assignments[day]
+                      // TODO: add this as an option (if only the current task for the current time should be shown (ofc based on view))
+                      // TODO: implement dynamic filter based on current time
+                      .filter(
+                        (assignment) =>
+                          assignment.timeFrom === '10:00' &&
+                          assignment.timeTil === '12:00'
+                      )
+                      .map((assignment, index: number) => (
+                        // TODO: this stuff must be editable for admin user
+                        // TODO: change to AssignmentCard
+                        // TODO: add ContextMenu for admin user to edit/delete/copy
+                        <AssignmentCard
+                          key={index}
+                          assignment={assignment}
+                          employee={employee}
+                        />
+                      ))}
+                  </div> */}
                 </TableCell>
               ))}
             </TableRow>

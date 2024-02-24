@@ -31,7 +31,7 @@ function CustomCaption(props: CaptionProps) {
     //     Next
     //   </button>
     // </h2>
-    <div className='relative flex w-56 items-center justify-center pt-1'>
+    <div className='relative flex w-56 items-center justify-center'>
       <div className='absolute left-1'>
         <button
           disabled={!previousMonth}
@@ -83,7 +83,7 @@ function CalendarFull({
       classNames={{
         // TODO: search for better width handling
         // caption: 'hidden',
-        caption: 'w-56 flex justify-center pt-1 relative items-center',
+        caption: 'w-56 flex justify-center relative items-center',
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
         caption_label: 'text-sm font-medium',
@@ -152,7 +152,7 @@ function CalendarCaption({
       classNames={{
         // TODO: search for better width handling
         // caption: 'hidden',
-        caption: 'w-56 flex justify-center pt-1 relative items-center',
+        caption: 'w-56 flex justify-center relative items-center',
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-4',
         caption_label: 'text-sm font-medium',

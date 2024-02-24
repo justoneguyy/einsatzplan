@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PersonIcon } from '@radix-ui/react-icons'
+import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
 import { UsersIcon } from 'lucide-react'
 import {
   Tooltip,
@@ -27,16 +27,27 @@ import {
   TooltipTrigger,
 } from './ui/tooltip'
 
-export function AssignmentCard() {
+import { Assignment, Employee } from '@/lib/types'
+
+interface AssignmentCardProps {
+  assignment: Assignment
+  employee: Employee
+}
+
+export function AssignmentCard({ assignment, employee }: AssignmentCardProps) {
   return (
-    <Card className='w-[200px] rounded-md'>
+    <Card className='max-h-14 min-w-[200px] rounded-md'>
       {/* <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
       </CardHeader> */}
       <CardContent className='p-2'>
         <div className='relative text-muted-foreground'>
-          <p className='flex items-center gap-1 text-xs'>08:00 - 09:00</p>
+          <p className='flex items-center gap-1 text-xs'>
+            {assignment.timeFrom}
+            <ArrowRightIcon />
+            {assignment.timeTil}
+          </p>
           {/* maybe change this into a button & popover */}
           <TooltipProvider>
             <Tooltip>
@@ -48,12 +59,12 @@ export function AssignmentCard() {
               </TooltipTrigger>
               {/* TODO: it seems that Tooltips still have a delay. fix this. */}
               <TooltipContentNoAnimation>
-                <p>Add Card here</p>
+                <p>{employee.name}</p>
               </TooltipContentNoAnimation>
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p>Service Einsatz Glinde</p>
+        <p>{assignment.task}</p>
       </CardContent>
     </Card>
   )

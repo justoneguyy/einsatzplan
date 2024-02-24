@@ -10,7 +10,7 @@ type Availability = {
 }
 
 export type Employee = {
-  id: number
+  id: string
   name: string
   profilePicture?: string
   availability: Availability[]

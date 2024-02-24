@@ -11,7 +11,7 @@ export const weekDays = [
 ]
 
 export const employees: Employee[] = Array.from({ length: 13 }, (_, i) => ({
-  id: i + 1,
+  id: (i + 1).toString(),
   name: `Employee ${i + 1}`,
   profilePicture: '/images/enton.png',
   availability: [
