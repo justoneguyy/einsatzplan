@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
+import { ComboBoxResponsive } from './combobox-responsive'
 
 // TODO: change this in general
 // TODO: implement zod for validation
@@ -42,8 +43,9 @@ export function NewTaskDialog() {
             <Label htmlFor='username' className='text-right'>
               Mitarbeiter
             </Label>
-            {/* Dropdown list */}
-            <Input id='username' className='col-span-3' />
+            <div className='col-span-3'>
+              <ComboBoxResponsive />
+            </div>
           </div>
         </div>
         <DialogFooter>

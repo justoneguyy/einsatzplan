@@ -23,6 +23,7 @@ import { useState } from 'react'
 
 // TODO: maybe add checkboxes so multiple employees can be selected at once
 // TODO: change this so the employee is added on click (or like above mentioned with checkboxes)
+// TODO: might need to rename
 
 export function ComboBoxResponsive() {
   const [open, setOpen] = useState(false)
@@ -35,16 +36,16 @@ export function ComboBoxResponsive() {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant='outline' className='justify-start'>
+          <Button variant='outline' className='w-full justify-start'>
             {selectedEmployee ? (
               <>{selectedEmployee.name}</>
             ) : (
-              <>+ Mitarbeiter</>
+              <>Mitarbeiter auswaehlen</>
             )}
           </Button>
         </PopoverTrigger>
         {/* TODO: change scrollbar (currently ugly af) */}
-        <PopoverContent className='w-[200px] p-0' align='start'>
+        <PopoverContent className='w-full p-0' align='start'>
           <EmployeeList
             setOpen={setOpen}
             setSelectedEmployee={setSelectedEmployee}
@@ -58,7 +59,11 @@ export function ComboBoxResponsive() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant='outline' className='w-[150px] justify-start'>
-          {selectedEmployee ? <>{selectedEmployee.name}</> : <>+ Mitarbeiter</>}
+          {selectedEmployee ? (
+            <>{selectedEmployee.name}</>
+          ) : (
+            <>Mitarbeiter auswaehlen</>
+          )}
         </Button>
       </DrawerTrigger>
       <DrawerContent>

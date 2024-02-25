@@ -6,6 +6,9 @@
 - unused imports, empty Classnames
 - refactor imports to not use relative paths
 - html best practices (handling tags and attributes e.g. dont use div all the time)
+- look over the file/folder structure & potentially refactor
+- add favicon
+- umlaute reinpacken
 
 ## einsatzplan
 
