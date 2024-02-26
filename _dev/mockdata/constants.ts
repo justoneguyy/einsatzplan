@@ -10,6 +10,8 @@ export const weekDays = [
   'Sonntag',
 ]
 
+export const weekDaysShort = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+
 export const employees: Employee[] = Array.from({ length: 13 }, (_, i) => ({
   id: (i + 1).toString(),
   name: `Employee ${i + 1}`,

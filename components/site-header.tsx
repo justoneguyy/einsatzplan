@@ -1,4 +1,4 @@
-import { CalendarCaption } from '@/components/ui/calendar'
+import { CalendarWeek } from '@/components/calendar'
 import Link from 'next/link'
 import { UserNav } from './user-nav'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
@@ -16,22 +16,24 @@ export function SiteHeader() {
             <span className='font-semibold'>Einsatzplan</span>
           </Link>
         </section>
-        {/* TODO: fix later so this only is shown on specific route */}
         <section className='flex items-center justify-between gap-40'>
-          <Tabs defaultValue='week' className=''>
+          {/* TODO: change the above to a grid if the underlying Tabs are not implemented */}
+          <div></div>
+          {/* TODO: not sure yet if I wanna implement different views. */}
+          {/* <Tabs defaultValue='week' className=''>
             <TabsList>
               <TabsTrigger value='day'>Tag</TabsTrigger>
               <TabsTrigger value='week'>Woche</TabsTrigger>
               <TabsTrigger value='month'>Monat</TabsTrigger>
-              {/* TODO: render the tabscontent on trigger (different views) */}
-              {/* <TabsContent value="day"></TabsContent>
+               TODO: render the tabscontent on trigger (different views)
+               <TabsContent value="day"></TabsContent>
               <TabsContent value="week"></TabsContent>
-              <TabsContent value="month"></TabsContent> */}
+              <TabsContent value="month"></TabsContent>
             </TabsList>
-          </Tabs>
+          </Tabs> */}
 
-          <CalendarCaption mode='single' className='rounded-md border' />
-          {/* <CalendarFull mode='single' className='mt-96 rounded-md border' /> */}
+          {/* TODO: add className with proper background */}
+          <CalendarWeek className='' />
           <NewTaskDialog />
         </section>
         <section>
