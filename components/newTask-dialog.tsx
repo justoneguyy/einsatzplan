@@ -19,7 +19,7 @@ export function NewTaskDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant='secondary'>
+        <Button variant='outline'>
           <PlusCircledIcon className='mr-2 h-4 w-4' />
           {/* <PlusIcon className='mr-2 h-4 w-4' /> */}
           Neue Aufgabe
@@ -44,6 +44,7 @@ export function NewTaskDialog() {
               Mitarbeiter
             </Label>
             <div className='col-span-3'>
+              {/* TODO: maybe im just gonna use a dropdown menu for this */}
               <ComboBoxResponsive />
             </div>
           </div>
