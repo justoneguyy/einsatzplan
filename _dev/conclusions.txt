@@ -1,0 +1,24 @@
+Menu in Dialog:
+
+- Command:
+    + is working with multiple selections
+    + can be a drawer in mobile view
+    - scroll function doesnt work in dialog, dont know why
+
+- Select:
+    + Scrolling is working with "unique" scroll icon
+    - cant be a drawer in mobile view
+    - doesnt support multiple selections
+
+- Dropdown:
+    + multiple selections possible
+    - cant be a drawer in mobile view
+    - no scroll at all
+
+
+final conclusion:
+    -> im gonna use a select which adds an item on select above the select itself, so multiple can be selected if needed.
+        - need zod for validation, so that no items can be selected twice.
+        - there should be no CheckIcon.
+        - the item should be deletable
+        - should the item be editable?

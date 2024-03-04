@@ -57,7 +57,7 @@ export function UserNav() {
         <MenubarContent className='min-w-40' align='end'>
           <MenubarLabel className='font-normal'>
             <div className='flex flex-col space-y-1'>
-              <p className='text-sm font-medium leading-none'>
+              <p className='text-center text-sm font-medium leading-none'>
                 Justin Hoffmann
               </p>
             </div>

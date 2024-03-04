@@ -4,6 +4,7 @@ import '@/styles/globals.css'
 import { cn } from '@/lib/utils'
 import { SiteHeader } from '@/components/site-header'
 import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster2 } from '@/components/ui/toaster2'
 
 // TODO: replace later on with config/site.ts
 // TODO: change title on all pages?
@@ -27,6 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster2 />
         </ThemeProvider>
       </body>
     </html>

@@ -86,6 +86,10 @@ const config = {
       },
     },
     extend: {
+      zIndex: {
+        '100': '100',
+        '9999': '9999',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -99,6 +103,9 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      transitionDuration: {
+        '400': '400ms',
       },
     },
   },

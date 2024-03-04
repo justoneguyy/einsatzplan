@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { NewTaskDialog } from './newTask-dialog'
-import { UserNav } from './user-nav'
-import { CalendarWeek } from './calendar-week'
+import { UserNav } from '@/components/user-nav'
+import { CalendarWeek } from '@/components/calendar-week'
+import NewTaskDialog from '@/components/newTask-dialog'
 
 export function SiteHeader() {
   return (

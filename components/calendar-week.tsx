@@ -121,11 +121,27 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
             {/* TODO: might need to prettify/format this */}
-            {selectedDays.length === 7 &&
-              `KW ${getWeek(selectedDays[0])}, ${format(selectedDays[0], 'dd.MM')} - ${format(selectedDays[6], 'dd.MM')}`}
+            {selectedDays.length === 7 && (
+              <p className='tracking-wide'>
+                KW {getWeek(selectedDays[0])},{' '}
+                {format(selectedDays[0], 'dd.MM')} -{' '}
+                {format(selectedDays[6], 'dd.MM')}
+              </p>
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
+          {/* TOOD: add search function for date or dropdown menu for years/months? */}
+          {/*
+            import React from 'react';
+            import { DayPicker } from 'react-day-picker';
+
+            export default function App() {
+              return (
+                <DayPicker captionLayout="dropdown-buttons" fromYear={2015} toYear={2025} />
+              );
+            }
+           */}
           <Calendar
             selected={selectedDays}
             showOutsideDays

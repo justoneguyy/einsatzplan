@@ -9,6 +9,7 @@
 - look over the file/folder structure & potentially refactor
 - add favicon
 - umlaute reinpacken
+- standardize all const and function components; also ui components -> no default export; also normal components -> default export
 
 ## einsatzplan
 
