@@ -14,6 +14,7 @@ export function SiteHeader() {
         </section>
         <section className='col-span-4 justify-self-center'>
           <div className='grid grid-cols-3 items-center gap-28'>
+            {/* TODO: add 'jump to today' button */}
             <div className='col-start-2'>
               <CalendarWeek />
             </div>

@@ -20,7 +20,7 @@ import { ScrollArea, ScrollBar } from './ui/scroll-area'
 import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
 import { Input } from './ui/input'
 
-export function HorizontalTable() {
+export function TableWeek() {
   return (
     <div className='rounded-md border'>
       {/* TODO: change cursor to default (atleast for non-admins)? */}
@@ -34,7 +34,7 @@ export function HorizontalTable() {
             {weekDays.map((day) => (
               // TODO: also highlight the day in addition to tableRow?
               // TODO: format with date -> e.g. Mo, 24.02.
-              <TableHead key={day} className='w-auto border-r'>
+              <TableHead key={day} className='w-auto border-r pl-4'>
                 {/* TODO: need to find a good solution for this later on. maybe even an option to blend out saturday/sunday */}
                 {/* <TableHead key={day} className='min-w-[200px]'> */}
                 {day}

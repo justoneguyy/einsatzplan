@@ -1,9 +1,9 @@
-import { HorizontalTable } from '@/components/hor-table'
+import { TableWeek } from '@/components/table-week'
 
 export default function DashboardPage() {
   return (
     <section className=''>
-      <HorizontalTable />
+      <TableWeek />
     </section>
   )
 }
