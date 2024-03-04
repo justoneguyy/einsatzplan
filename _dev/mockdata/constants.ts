@@ -14,7 +14,8 @@ export const weekDaysShort = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
 export const employees: Employee[] = Array.from({ length: 13 }, (_, i) => ({
   id: (i + 1).toString(),
-  name: `Employee ${i + 1}`,
+  name: 'von Seggern',
+  // name: `Employee ${i + 1}`,
   profilePicture: '/images/enton.png',
   availability: [
     // TODO: might change the color to the actual tailwind bg-color; also prob gonna user different colors

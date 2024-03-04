@@ -86,6 +86,10 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        '15': 'repeat(15, minmax(0, 1fr))',
+        '16': 'repeat(16, minmax(0, 1fr))',
+      },
       zIndex: {
         '100': '100',
         '9999': '9999',

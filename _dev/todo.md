@@ -10,6 +10,7 @@
 - add favicon
 - umlaute reinpacken
 - standardize all const and function components; also ui components -> no default export; also normal components -> default export
+- change naming of files, folders and components to be more consistent
 
 ## einsatzplan
 

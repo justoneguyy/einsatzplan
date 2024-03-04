@@ -17,26 +17,30 @@ import {
   TooltipTrigger,
 } from './ui/tooltip'
 import { ScrollArea, ScrollBar } from './ui/scroll-area'
-import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+} from './ui/carousel'
 import { Input } from './ui/input'
+import { Card, CardContent } from './ui/card'
 
 export function TableWeek() {
   return (
     <div className='rounded-md border'>
       {/* TODO: change cursor to default (atleast for non-admins)? */}
-      <Table>
+      <Table className=''>
         <TableHeader>
-          <TableRow>
-            {/* TODO: adjust width later on */}
-            <TableHead className='w-[200px] border-r pl-4'>
+          <TableRow className='grid grid-cols-8'>
+            <TableHead className='col-span-1 flex items-center border-r pl-4'>
               Mitarbeiter
             </TableHead>
             {weekDays.map((day) => (
               // TODO: also highlight the day in addition to tableRow?
               // TODO: format with date -> e.g. Mo, 24.02.
-              <TableHead key={day} className='w-auto border-r pl-4'>
+              <TableHead key={day} className='flex items-center border-r pl-4'>
                 {/* TODO: need to find a good solution for this later on. maybe even an option to blend out saturday/sunday */}
-                {/* <TableHead key={day} className='min-w-[200px]'> */}
                 {day}
               </TableHead>
             ))}
@@ -45,8 +49,8 @@ export function TableWeek() {
         <TableBody>
           {employees.map((employee) => (
             // TODO: rufbereitschaft needs to be implemented/shown somehow
-            <TableRow key={employee.id}>
-              <TableCell className='border-r font-medium'>
+            <TableRow key={employee.id} className='grid grid-cols-8'>
+              <TableCell className='col-span-1 border-r font-medium'>
                 <div className='flex items-center gap-1'>
                   {/* TODO: popover for clicked on employee OR just go to profile .. idk yet */}
                   {/* TODO: might make this a separate component since used already twice */}
@@ -71,15 +75,48 @@ export function TableWeek() {
                     </TooltipProvider>
                   </div>
                   {/* TOOD: only lastname? */}
-                  {employee.name}
+                  <p className='hidden lg:flex'>{employee.name}</p>
                 </div>
               </TableCell>
               {Object.keys(employee.assignments).map((day) => (
-                <TableCell key={day} className='max-w-80 border-r'>
-                  {/* TODO: change this to the underlying carousel */}
-                  <Input type='text' className='h-16' />
+                <TableCell key={day} className='border-r'>
+                  <Carousel className=''>
+                    <CarouselContent className='cursor-pointer'>
+                      {employee.assignments[day].map(
+                        (assignment, index: number) => (
+                          <CarouselItem
+                            key={index}
+                            className='basis-10/12 rounded-md pl-4'
+                          >
+                            <Card>
+                              <CardContent className='flex items-center justify-center p-2'>
+                                <span>{assignment.task}</span>
+                              </CardContent>
+                            </Card>
+                          </CarouselItem>
+                        )
+                      )}
+                    </CarouselContent>
+                  </Carousel>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  )
+}
 
-                  {/* <div className='flex overflow-x-hidden'>
+{
+  /* TODO: change this to the underlying carousel */
+}
+{
+  /* <Input type='text' className='h-16' /> */
+}
+
+{
+  /* <div className='flex overflow-x-hidden'>
                     {employee.assignments[day]
                       // TODO: add this as an option (if only the current task for the current time should be shown (ofc based on view))
                       // TODO: implement dynamic filter based on current time
@@ -98,13 +135,5 @@ export function TableWeek() {
                           employee={employee}
                         />
                       ))}
-                  </div> */}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  )
+                  </div> */
 }

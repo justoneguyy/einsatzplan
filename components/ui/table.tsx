@@ -9,7 +9,8 @@ const Table = React.forwardRef<
   <table
     ref={ref}
     className={cn(
-      'overflow-autorelative w-full caption-bottom text-sm',
+      'w-full caption-bottom text-sm',
+      // 'overflow-autorelative w-full caption-bottom text-sm',
       className
     )}
     {...props}
