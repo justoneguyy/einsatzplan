@@ -22,3 +22,14 @@ final conclusion:
         - there should be no CheckIcon.
         - the item should be deletable
         - should the item be editable?
+
+
+Table or Grid for dashboard:
+
+    - deciding factor is if I want "filtering" (hiding).
+        - rufbereitschaft (could also be set to the user role.)
+            -> the background of the cell should be blue
+            -> maybe indicator beneath the employee who currently has rufbereitschaft
+        -
+
+    - would need to somehow implement resizing in the table.

@@ -15,6 +15,7 @@ export type Employee = {
   profilePicture?: string
   availability: Availability[]
   assignments: {
-    [key: string]: Assignment[]
-  }
+    day: string
+    tasks: Assignment[]
+  }[]
 }

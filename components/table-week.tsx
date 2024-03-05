@@ -12,7 +12,7 @@ import { AssignmentCard } from './assignment-card'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   Tooltip,
-  TooltipContentNoAnimation,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
@@ -25,6 +25,15 @@ import {
 } from './ui/carousel'
 import { Input } from './ui/input'
 import { Card, CardContent } from './ui/card'
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from './ui/resizable'
+import { Slider } from './ui/slider'
+import { Progress } from './ui/progress'
+import { Indicator } from './ui/indicator'
+import TaskDialog from './task-dialog'
 
 export function TableWeek() {
   return (
@@ -61,41 +70,59 @@ export function TableWeek() {
                       {/* TODO: change fallback to first charavter of firstname + lastname */}
                       <AvatarFallback>ET</AvatarFallback>
                     </Avatar>
-                    <TooltipProvider>
+                    <TooltipProvider delayDuration={0}>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span
                             className={`absolute bottom-0 right-0 h-2 w-2 rounded-full p-1 ${`bg-${employee.availability[0].color}-500`}`}
                           />
                         </TooltipTrigger>
-                        <TooltipContentNoAnimation>
+                        <TooltipContent>
                           <p>Verfügbar</p>
-                        </TooltipContentNoAnimation>
+                        </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
                   {/* TOOD: only lastname? */}
-                  <p className='hidden lg:flex'>{employee.name}</p>
+                  <div className='flex flex-col items-center gap-1'>
+                    <p className='hidden lg:flex'>{employee.name}</p>
+                    {/* TODO: only show if the employee currently has Rufbereitschaft -> only one should be active at a time */}
+                    <TooltipProvider delayDuration={0}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Indicator className='w-3/4' />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            Hat aktuell Rufbereitschaft
+                            <br />
+                            {/* TODO: change to actual date */}
+                            (vom 01.01. - 08.01.)
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                 </div>
               </TableCell>
-              {Object.keys(employee.assignments).map((day) => (
-                <TableCell key={day} className='border-r'>
+              {employee.assignments.map((dayAssignment) => (
+                <TableCell key={dayAssignment.day} className='border-r'>
                   <Carousel className=''>
                     <CarouselContent className='cursor-pointer'>
-                      {employee.assignments[day].map(
-                        (assignment, index: number) => (
-                          <CarouselItem
-                            key={index}
-                            className='basis-10/12 rounded-md pl-4'
-                          >
+                      {dayAssignment.tasks.map((assignment, index: number) => (
+                        <CarouselItem
+                          key={index}
+                          className='basis-10/12 rounded-md pl-4'
+                        >
+                          <TaskDialog>
                             <Card>
                               <CardContent className='flex items-center justify-center p-2'>
                                 <span>{assignment.task}</span>
                               </CardContent>
                             </Card>
-                          </CarouselItem>
-                        )
-                      )}
+                          </TaskDialog>
+                        </CarouselItem>
+                      ))}
                     </CarouselContent>
                   </Carousel>
                 </TableCell>

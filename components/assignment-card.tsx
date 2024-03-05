@@ -22,7 +22,7 @@ import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
 import { UsersIcon } from 'lucide-react'
 import {
   Tooltip,
-  TooltipContentNoAnimation,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
@@ -49,7 +49,7 @@ export function AssignmentCard({ assignment, employee }: AssignmentCardProps) {
             {assignment.timeTil}
           </p>
           {/* maybe change this into a button & popover */}
-          <TooltipProvider>
+          <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <span className='absolute right-2 top-0 h-2 w-2'>
@@ -57,10 +57,9 @@ export function AssignmentCard({ assignment, employee }: AssignmentCardProps) {
                   {/* <UsersIcon className='h-4 w-4' /> */}
                 </span>
               </TooltipTrigger>
-              {/* TODO: it seems that Tooltips still have a delay. fix this. */}
-              <TooltipContentNoAnimation>
+              <TooltipContent>
                 <p>{employee.name}</p>
-              </TooltipContentNoAnimation>
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>

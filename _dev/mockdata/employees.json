@@ -1,0 +1,262 @@
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "profilePicture": "/images/enton.png",
+    "role": "admin",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Monday",
+        "tasks": [
+          { "timeFrom": "09:00", "timeTil": "12:00", "task": "Meeting" },
+          { "timeFrom": "14:00", "timeTil": "17:00", "task": "Coding" },
+          { "timeFrom": "18:00", "timeTil": "20:00", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Jane Smith",
+    "profilePicture": "/images/jane.png",
+    "role": "admin",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Tuesday",
+        "tasks": [
+          { "timeFrom": "10:00", "timeTil": "12:30", "task": "Planning" },
+          { "timeFrom": "14:00", "timeTil": "16:30", "task": "Testing" },
+          { "timeFrom": "18:00", "timeTil": "20:30", "task": "Coding" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Bob Johnson",
+    "role": "user",
+    "profilePicture": "/images/bob.png",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Wednesday",
+        "tasks": [
+          { "timeFrom": "08:30", "timeTil": "11:30", "task": "Research" },
+          { "timeFrom": "13:30", "timeTil": "16:30", "task": "Documentation" },
+          { "timeFrom": "18:00", "timeTil": "20:30", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Alice Brown",
+    "profilePicture": "/images/alice.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Thursday",
+        "tasks": [
+          { "timeFrom": "09:30", "timeTil": "12:30", "task": "Meeting" },
+          { "timeFrom": "14:30", "timeTil": "17:30", "task": "Coding" },
+          { "timeFrom": "18:30", "timeTil": "20:30", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Charlie Davis",
+    "profilePicture": "/images/charlie.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Friday",
+        "tasks": [
+          { "timeFrom": "10:00", "timeTil": "12:00", "task": "Planning" },
+          { "timeFrom": "13:30", "timeTil": "15:30", "task": "Testing" },
+          { "timeFrom": "17:00", "timeTil": "19:00", "task": "Coding" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "name": "Eva White",
+    "profilePicture": "/images/eva.png",
+    "role": "on-call service",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Saturday",
+        "tasks": [
+          { "timeFrom": "11:00", "timeTil": "14:00", "task": "Meeting" },
+          { "timeFrom": "15:30", "timeTil": "18:30", "task": "Coding" },
+          { "timeFrom": "19:30", "timeTil": "21:30", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "name": "Frank Miller",
+    "profilePicture": "/images/frank.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Sunday",
+        "tasks": [
+          { "timeFrom": "12:00", "timeTil": "14:30", "task": "Planning" },
+          { "timeFrom": "16:00", "timeTil": "18:30", "task": "Testing" },
+          { "timeFrom": "19:30", "timeTil": "21:30", "task": "Coding" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "name": "Grace Clark",
+    "profilePicture": "/images/grace.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Monday",
+        "tasks": [
+          { "timeFrom": "09:30", "timeTil": "11:30", "task": "Research" },
+          { "timeFrom": "13:00", "timeTil": "16:00", "task": "Documentation" },
+          { "timeFrom": "17:30", "timeTil": "20:00", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "name": "Harry Turner",
+    "profilePicture": "/images/harry.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Tuesday",
+        "tasks": [
+          { "timeFrom": "11:00", "timeTil": "13:00", "task": "Meeting" },
+          { "timeFrom": "14:30", "timeTil": "17:00", "task": "Coding" },
+          { "timeFrom": "18:30", "timeTil": "20:30", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "name": "Ivy Martinez",
+    "profilePicture": "/images/ivy.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Wednesday",
+        "tasks": [
+          { "timeFrom": "10:30", "timeTil": "12:30", "task": "Planning" },
+          { "timeFrom": "14:00", "timeTil": "16:30", "task": "Testing" },
+          { "timeFrom": "18:00", "timeTil": "20:30", "task": "Coding" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "name": "Jack Hill",
+    "profilePicture": "/images/jack.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Thursday",
+        "tasks": [
+          { "timeFrom": "09:00", "timeTil": "12:00", "task": "Meeting" },
+          { "timeFrom": "13:30", "timeTil": "16:30", "task": "Coding" },
+          { "timeFrom": "18:00", "timeTil": "20:30", "task": "Testing" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "name": "Kelly King",
+    "profilePicture": "/images/kelly.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Friday",
+        "tasks": [
+          { "timeFrom": "10:00", "timeTil": "12:00", "task": "Planning" },
+          { "timeFrom": "13:30", "timeTil": "15:30", "task": "Testing" },
+          { "timeFrom": "17:00", "timeTil": "19:00", "task": "Coding" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "13",
+    "name": "Liam Lee",
+    "profilePicture": "/images/liam.png",
+    "role": "user",
+    "availability": [
+      { "status": "Available", "color": "green" },
+      { "status": "Busy", "color": "red" }
+    ],
+    "assignments": [
+      {
+        "day": "Saturday",
+        "tasks": [
+          { "timeFrom": "11:00", "timeTil": "14:00", "task": "Meeting" },
+          { "timeFrom": "15:30", "timeTil": "18:30", "task": "Coding" },
+          { "timeFrom": "19:30", "timeTil": "21:30", "task": "Testing" }
+        ]
+      }
+    ]
+  }
+]

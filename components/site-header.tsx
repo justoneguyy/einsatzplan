@@ -18,6 +18,7 @@ export function SiteHeader() {
             <div className='col-start-2'>
               <CalendarWeek />
             </div>
+            {/* TODO: only render as admin */}
             <div>
               <NewTaskDialog />
             </div>

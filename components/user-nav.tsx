@@ -20,7 +20,7 @@ import {
 } from './ui/menubar'
 import {
   Tooltip,
-  TooltipContentNoAnimation,
+  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
@@ -39,16 +39,16 @@ export function UserNav() {
                 {/* TODO: change fallback to first charavter of firstname + lastname */}
                 <AvatarFallback>ET</AvatarFallback>
               </Avatar>
-              <TooltipProvider>
+              <TooltipProvider delayDuration={0}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span
                       className={`absolute bottom-0 right-0 h-2 w-2 rounded-full p-1 ${'bg-green-500'}`}
                     />
                   </TooltipTrigger>
-                  <TooltipContentNoAnimation className=''>
+                  <TooltipContent>
                     <p>Verfügbar</p>
-                  </TooltipContentNoAnimation>
+                  </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
@@ -63,6 +63,29 @@ export function UserNav() {
             </div>
           </MenubarLabel>
           <MenubarSeparator />
+          {/* TODO: either fix this or remove it */}
+          <MenubarSub>
+            <MenubarSubTrigger>
+              {/* TOOD: change based on status */}
+              <span className='mr-3 h-3 w-3 rounded-full bg-green-500' />
+              <p>Status</p>
+            </MenubarSubTrigger>
+            <MenubarSubContent>
+              <MenubarItem>
+                <span className='mr-3 h-3 w-3 rounded-full bg-green-500' />
+                <span>Verfuegbar</span>
+              </MenubarItem>
+              <MenubarItem>
+                <span className='mr-3 h-3 w-3 rounded-full bg-red-500' />
+                <span>Nicht stoeren</span>
+              </MenubarItem>
+              {/* TODO: this should be shown but shouldnt be clickable (vacation, at-school & sick) */}
+              {/* <MenubarItem>
+              <span className='mr-3 h-3 w-3 rounded-full bg-black' />
+                <p>Urlaub</p>
+              </MenubarItem> */}
+            </MenubarSubContent>
+          </MenubarSub>
           <MenubarItem className='cursor-pointer'>
             {/* TODO: currently if you click on this link, the menubar is still shown -- fix this */}
             <Settings className='mr-2 h-4 w-4' />
@@ -72,7 +95,6 @@ export function UserNav() {
             <MenubarSubTrigger>
               <SunIcon className='mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
               <MoonIcon className='absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
-              <span className='sr-only'>Toggle theme</span>
               <p>Theme</p>
             </MenubarSubTrigger>
             <MenubarSubContent>

@@ -68,6 +68,11 @@ const config = {
         500: colors.yellow[500],
         900: colors.yellow[900],
       },
+      blue: {
+        100: colors.blue[100],
+        500: colors.blue[500],
+        900: colors.blue[900],
+      },
       transparent: colors.transparent,
       inherit: colors.inherit,
       current: colors.current,
