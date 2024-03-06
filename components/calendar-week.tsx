@@ -13,6 +13,7 @@ import {
 } from '@radix-ui/react-icons'
 import { Button, buttonVariants } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { CaptionLabel } from 'react-day-picker'
 
 setDefaultOptions({
   locale: de,
@@ -124,7 +125,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
             className={cn('w-[250px] justify-center text-left font-normal')}
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
-            {/* TODO: might need to prettify/format this */}
+            {/* TODO: might need to prettify/format this (should the year be added here?) */}
             {selectedDays.length === 7 && (
               <p>
                 KW {getWeek(selectedDays[0])},{' '}
@@ -135,13 +136,15 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
-          {/* TODO: style this */}
+          {/* TODO: maybe make it wider to add more space */}
           <Calendar
-            // captionLayout='dropdown-buttons'
-            // fromYear={fromYear}
-            // toYear={toYear}
+            classNames={{
+              caption_label: 'hidden',
+            }}
+            captionLayout='dropdown-buttons'
+            fromYear={fromYear}
+            toYear={toYear}
             selected={selectedDays}
-            showOutsideDays
             showWeekNumber
             modifiers={modifiers}
             // TODO: close popover on day click? -- get feedback on this

@@ -115,11 +115,7 @@ export function TableWeek() {
                           className='basis-10/12 rounded-md pl-4'
                         >
                           <TaskDialog>
-                            <Card>
-                              <CardContent className='flex items-center justify-center p-2'>
-                                <span>{assignment.task}</span>
-                              </CardContent>
-                            </Card>
+                            <AssignmentCard employee={employee} />
                           </TaskDialog>
                         </CarouselItem>
                       ))}

@@ -1,0 +1,40 @@
+Priority-order:
+
+
+Required:
+
+[x] Add "to today" Button in the site-header
+[ ] Maybe add Date right next to the weekday (or also make this optional with below adjustments)
+[ ] Change table to tanstack-table (with Order functionality etc.)
+[ ] Add resizables to table for first and Last two columns
+[ ] adjust height of the table so it perfectly fits 1080p by Default with current number of employees
+[ ] Add & Change components based on future roles
+[ ] Add dateFrom, dateTo, timeFrom, timeTo and (repeat every week, start on date x) in taskDialog (Date (range) is by default Just today; time is optional (add Switch for choosing between whole day or time. by default the whole day). The Task Just gets repeated for x days If selected for x days. ) add selection for the repeat thingy. Look at Google calendar for inspiration
+[ ] Add min year Date to calendar dropdown of years (the min year Date should be the year from the first Data)
+[ ] Add api for Holidays in Niedersachsen -> add indicator in the table for that. (Also in the calendar? Dont know how hard that would be).
+[ ] Add api for Feiertage -> add Green Card instead of carousel with Name of feiertag
+[ ] Add Handling for Ticket urls
+[ ] Add Prisma + actual DB (mongodb)
+[ ] Add proper props parsing alongside components
+[ ] Add Login Page
+[ ] See if the communication between the clients is in sync (If Not, implement websockets)
+[ ] Make the components responsive (for mobile)
+[ ] Adjust Theme
+
+
+
+Optional:
+
+[ ] Add Dashboard with informations for the User himself (next tasks etc.)
+[ ] Add context menu for the cards so you can Copy them (or do that in the Card Dialog)
+[ ] Add reusable cards/tasks which you can either drag & drop or which you can choose in the newTask-dialog
+[ ] Add "mode" for admins to move around the tasks
+[ ] seperate trainees from employees?
+[ ] also consider sorting function of one was implemented before for all together
+[ ] Add additional metadata (with config File)
+[ ] Add "messaging" i.e. Urlaub beantragen functionality
+[ ] Add alerts based on "events" Like Rufbereitschaft or vacation
+[ ] Add settings Page (with preferences etc.)
+[ ] Change highlighting of table
+[ ] Add more Views (daily and month) for the table
+[ ] Add Export/Print functionality for trainees

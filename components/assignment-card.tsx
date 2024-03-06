@@ -25,45 +25,55 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip'
+} from '@/ui/tooltip'
 
 import { Assignment, Employee } from '@/lib/types'
+import { Badge } from './ui/badge'
 
 interface AssignmentCardProps {
-  assignment: Assignment
   employee: Employee
 }
 
-export function AssignmentCard({ assignment, employee }: AssignmentCardProps) {
+// TODO: add dynamic data
+export function AssignmentCard({ employee }: AssignmentCardProps) {
   return (
-    <Card className='max-h-14 min-w-[200px] rounded-md'>
-      {/* <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader> */}
+    <Card className='rounded-md'>
       <CardContent className='p-2'>
         <div className='relative text-muted-foreground'>
           <p className='flex items-center gap-1 text-xs'>
-            {assignment.timeFrom}
+            {/* {employee.assignments} */}
+            8:00
             <ArrowRightIcon />
-            {assignment.timeTil}
+            {/* {assignment.timeTil} */}
+            10:00
           </p>
-          {/* maybe change this into a button & popover */}
           <TooltipProvider delayDuration={0}>
+            {/* idk if I wanna keep it like this */}
             <Tooltip>
+              {/* <Tooltip open={true}> */}
               <TooltipTrigger asChild>
                 <span className='absolute right-2 top-0 h-2 w-2'>
+                  {/* conditionally render. if 1 user is assigned render the PersonIcon, otherwise the UsersIcon */}
                   <PersonIcon className='h-4 w-4' />
                   {/* <UsersIcon className='h-4 w-4' /> */}
                 </span>
               </TooltipTrigger>
-              <TooltipContent>
-                <p>{employee.name}</p>
+              <TooltipContent usePortal={true} className='bg-transparent p-0'>
+                <Card>
+                  <CardHeader className='p-4'>
+                    <CardTitle className='text-center text-base'>
+                      Mitarbeiter
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className='flex justify-start px-4'>
+                    <Badge className=''>Johne Doe</Badge>
+                  </CardContent>
+                </Card>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p>{assignment.task}</p>
+        <p>Coden</p>
       </CardContent>
     </Card>
   )

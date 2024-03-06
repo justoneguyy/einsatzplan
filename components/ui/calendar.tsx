@@ -7,6 +7,24 @@ import { DateRange, DayPicker } from 'react-day-picker'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/ui/button'
 import { de } from 'date-fns/locale'
+import { Select } from './select'
+
+// function CustomDropdown({ children, ...props }) {
+//   return (
+//     <Select onValueChange={field.onChange} defaultValue={field.value}>
+//     <FormControl>
+//       <SelectTrigger>
+//         <SelectValue placeholder='Wähle eine verifizierte E-Mail aus.' />
+//       </SelectTrigger>
+//     </FormControl>
+//     <SelectContent>
+//       <SelectItem value='m@example.com'>m@example.com</SelectItem>
+//       <SelectItem value='m@google.com'>m@google.com</SelectItem>
+//       <SelectItem value='m@support.com'>m@support.com</SelectItem>
+//     </SelectContent>
+//   </Select>
+//   )
+// }
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -27,6 +45,15 @@ function Calendar({
         month: 'space-y-4',
         caption: 'flex justify-center pt-1 relative items-center',
         caption_label: 'text-sm font-medium',
+        vhidden: 'hidden', // hides the month and year label beside the dropdowns
+        caption_dropdowns: 'flex space-x-1',
+        dropdown: cn(
+          buttonVariants({ variant: 'outline' }),
+          'h-7 px-1 py-0 bg-background',
+          '*:bg-background' // idk how to access other props than background and text of the option elements inside the dropdown menu. will stay like this for now
+        ),
+        dropdown_month: 'text-sm font-medium',
+        dropdown_year: 'text-sm font-medium',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
           buttonVariants({ variant: 'outline' }),
