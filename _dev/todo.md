@@ -11,6 +11,8 @@
 - umlaute & sz etc. reinpacken
 - standardize all const and function components; also ui components -> no default export; also normal components -> default export
 - change naming of files, folders and components to be more consistent
+- change metadata in layouts for each site
+- create error pages
 
 ## einsatzplan
 

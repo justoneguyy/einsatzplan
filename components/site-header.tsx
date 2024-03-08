@@ -16,7 +16,7 @@ import {
   PlusCircledIcon,
 } from '@radix-ui/react-icons'
 import { AlertCircle, CheckCircle, Palmtree } from 'lucide-react'
-import NewDialog from './dialog/new-dialog'
+import CreateDialog from '@/components/dialog/create-dialog'
 
 export function SiteHeader() {
   const role: string = 'admin'
@@ -41,33 +41,7 @@ export function SiteHeader() {
                 <CalendarWeek />
               </div>
               <div>
-                {/* <NewTaskDialog /> */}
-                <NewDialog />
-                {/* <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant='outline'>
-                      <PlusCircledIcon className='mr-2 h-4 w-4' />
-                      Neu
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align='start'>
-                    <DropdownMenuItem>
-                      <NewTaskDialog />
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <AlertCircle className='mr-2 h-4 w-4' />
-                      <span>Rufbereitschaft</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Palmtree className='mr-2 h-4 w-4' />
-                      <span>Urlaub</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <PersonIcon className='mr-2 h-4 w-4' />
-                      <span>Mitarbeiter</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu> */}
+                <CreateDialog />
               </div>
             </div>
           </section>
@@ -89,7 +63,11 @@ export function SiteHeader() {
           </section>
           <section className='col-span-4 justify-self-center'>
             <div className='grid grid-cols-3 items-center gap-28'>
-              <div className='col-start-2'>
+              <div className='justify-self-end'>
+                {/* TODO: maybe rename, not sure yet */}
+                <Button variant='outline'>Heute</Button>
+              </div>
+              <div>
                 <CalendarWeek />
               </div>
             </div>

@@ -4,8 +4,8 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'Settings',
-  description: 'Settings page for the user account settings and preferences',
+  title: 'Einstellungen',
+  description: 'Verwalte dein Benutzerkonto und setze E-Mail-Präferenzen.',
 }
 
 const sidebarNavItems = [
@@ -18,8 +18,12 @@ const sidebarNavItems = [
     href: '/settings/appearance',
   },
   {
-    title: 'Notifications',
+    title: 'Benachrichtigungen',
     href: '/settings/notifications',
+  },
+  {
+    title: 'Mitarbeiterverwaltung',
+    href: '/settings/employee-administration',
   },
 ]
 

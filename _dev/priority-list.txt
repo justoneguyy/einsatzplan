@@ -28,6 +28,7 @@ Required:
 
 Optional:
 
+[ ] Add docs
 [ ] Add Dashboard with informations for the User himself (next tasks etc.)
 [ ] Add context menu for the cards so you can Copy them (or do that in the Card Dialog)
 [ ] Add reusable cards/tasks which you can either drag & drop or which you can choose in the newTask-dialog

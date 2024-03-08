@@ -35,7 +35,7 @@ import { AlertCircle, Palmtree } from 'lucide-react'
 import { VacationForm } from '../form/vacation-form'
 import { OnCallForm } from '../form/onCall-form'
 
-export default function NewDialog() {
+export default function CreateDialog() {
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -172,7 +172,7 @@ const DialogItem: React.FC<DialogItemProps> = ({
 // import { TaskForm } from './task-form'
 // import { AlertCircle, Palmtree } from 'lucide-react'
 
-// export default function NewDialog() {
+// export default function CreateDialog() {
 //   const [open, setOpen] = useState(false)
 //   const isDesktop = useMediaQuery('(min-width: 768px)')
 
