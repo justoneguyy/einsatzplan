@@ -31,7 +31,7 @@ import { Assignment, Employee } from '@/lib/types'
 import { Badge } from './ui/badge'
 
 interface AssignmentCardProps {
-  employee: Employee
+  employee?: Employee
 }
 
 // TODO: add dynamic data

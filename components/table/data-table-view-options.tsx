@@ -28,7 +28,7 @@ export function DataTableViewOptions<TData>({
           Filter
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='start' className='w-[150px]'>
+      <DropdownMenuContent align='end' className='w-[150px]'>
         {/* <DropdownMenuLabel>Spalten ausblenden</DropdownMenuLabel>
         <DropdownMenuSeparator /> */}
         {table

@@ -32,8 +32,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { Card, CardContent } from './ui/card'
-import { TaskForm } from './task-form'
+import { Card, CardContent } from '../ui/card'
+import { TaskForm } from '../form/task-form'
 
 export default function TaskDialog({
   children,

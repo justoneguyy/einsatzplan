@@ -30,6 +30,8 @@ export const taskSchema = z.object({
   weekday: z.string(),
   assignedEmployeeName: z.string(),
 
+  onCall: z.boolean().optional(),
+  avilable: z.boolean().optional(),
   dateFrom: z.date().optional(),
   dateTil: z.date().optional(),
   timeFrom: z.string().optional(),

@@ -9,31 +9,16 @@ import {
 
 import { employees, weekDays } from '@/_dev/mockdata/constants'
 import { AssignmentCard } from './assignment-card'
+import TaskDialog from './dialog/task-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Carousel, CarouselContent, CarouselItem } from './ui/carousel'
+import { Indicator } from './ui/indicator'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from './ui/tooltip'
-import { ScrollArea, ScrollBar } from './ui/scroll-area'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-} from './ui/carousel'
-import { Input } from './ui/input'
-import { Card, CardContent } from './ui/card'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from './ui/resizable'
-import { Slider } from './ui/slider'
-import { Progress } from './ui/progress'
-import { Indicator } from './ui/indicator'
-import TaskDialog from './task-dialog'
 
 export function TableWeek() {
   return (

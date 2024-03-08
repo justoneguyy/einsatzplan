@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { UserNav } from '@/components/user-nav'
 import { CalendarWeek } from '@/components/calendar-week'
-import NewTaskDialog from '@/components/newTask-dialog'
+import NewTaskDialog from '@/components/dialog/newTask-dialog'
 import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import {
@@ -16,7 +16,7 @@ import {
   PlusCircledIcon,
 } from '@radix-ui/react-icons'
 import { AlertCircle, CheckCircle, Palmtree } from 'lucide-react'
-import NewDialog from './new-dialog'
+import NewDialog from './dialog/new-dialog'
 
 export function SiteHeader() {
   const role: string = 'admin'

@@ -125,13 +125,15 @@ export function DataTableColumnHeaderHide<TData, TValue>({
 }: DataTableColumnHeaderProps<TData, TValue>) {
   return (
     <Button
-      variant='ghost'
+      variant='highlight'
       size='sm'
       className='-ml-3 flex h-8 items-center gap-2 text-sm'
       onClick={() => column.toggleVisibility(false)}
     >
-      <span>{title}</span>
-      <EyeNoneIcon className='h-3.5 w-3.5 text-muted-foreground/70' />
+      <span className='group group-hover:text-primary group-hover:shadow-sm'>
+        {title}
+      </span>
+      <EyeNoneIcon className='group h-3.5 w-3.5 text-muted-foreground/70 group-hover:text-primary group-hover:shadow-sm' />
     </Button>
   )
 }

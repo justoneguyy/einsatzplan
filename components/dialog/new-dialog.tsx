@@ -30,10 +30,10 @@ import {
   PlusCircledIcon,
 } from '@radix-ui/react-icons'
 import { ReactElement, ReactNode, Ref, useState } from 'react'
-import { TaskForm } from './task-form'
+import { TaskForm } from '../form/task-form'
 import { AlertCircle, Palmtree } from 'lucide-react'
-import { VacationForm } from './vacation-form'
-import { OnCallForm } from './onCall-form'
+import { VacationForm } from '../form/vacation-form'
+import { OnCallForm } from '../form/onCall-form'
 
 export default function NewDialog() {
   const [open, setOpen] = useState(false)

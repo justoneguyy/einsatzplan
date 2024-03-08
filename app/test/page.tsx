@@ -1,4 +1,4 @@
-import NewTaskDialog from '@/components/newTask-dialog'
+import NewTaskDialog from '@/components/dialog/newTask-dialog'
 import {
   Tooltip,
   TooltipContent,

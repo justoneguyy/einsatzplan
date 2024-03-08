@@ -1,13 +1,13 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { columns } from './components/columns'
-import { DataTable } from './components/data-table'
+import { columns } from '../../../components/table/columns'
+import { DataTable } from '../../../components/table/data-table'
 import { z } from 'zod'
-import { taskSchema } from './data/schema'
+import { taskSchema } from '../../../components/table/data/schema'
 
 async function getTasks() {
   const data = await fs.readFile(
-    path.join(process.cwd(), 'app/test/tasks/data/tasks.json')
+    path.join(process.cwd(), 'components/table/data/tasks.json')
   )
 
   const tasks = JSON.parse(data.toString())

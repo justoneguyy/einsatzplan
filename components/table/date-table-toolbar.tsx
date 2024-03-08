@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { UserNav } from '@/components/user-nav'
 import { CalendarWeek } from '@/components/calendar-week'
-import NewTaskDialog from '@/components/newTask-dialog'
+import NewTaskDialog from '@/components/dialog/newTask-dialog'
 import { Button } from '@/ui/button'
 import { DataTableViewOptions } from './data-table-view-options'
 import { Table } from '@tanstack/react-table'

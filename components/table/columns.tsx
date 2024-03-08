@@ -1,45 +1,46 @@
 'use client'
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/ui/tooltip'
+import { ColumnDef } from '@tanstack/react-table'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
-
-import { ColumnDef, IdIdentifier } from '@tanstack/react-table'
-
+import { Task } from './data/schema'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
 } from './data-table-column-header'
-import { Task } from '../data/schema'
-import { Indicator } from '@/components/ui/indicator'
-
-type ResizableColumnDef<T extends Record<string, unknown>> = ColumnDef<T> & {
-  resizableGroup?: string
-}
+import { CellEmployee, CellWeekday } from './cells'
 
 // TODO: set fixed/min width for the specific columns
-export const columns: ResizableColumnDef<Task>[] = [
+export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'assignedEmployeeName',
     header: ({ column }) => (
       // TODO: maybe change to sorting on click (no dropdown)
       <DataTableColumnHeaderAscDescReset column={column} title='Mitarbeiter' />
     ),
+    cell: ({ row }) => {
+      return (
+        // TOOD: in real db change this to e.g.
+        <CellEmployee
+          assignedEmployeeName={row.getValue('assignedEmployeeName')}
+          // onCall={row.getValue('onCall')}
+        />
+      )
+    },
     enableHiding: false,
     enableResizing: true,
     // TODO: change minSize (should only show the avatar (and the indicator) when <md)
-    minSize: 180,
-    maxSize: 200,
+    minSize: 150,
+    maxSize: 250,
   },
   // ger names because I can only seem to access the column.accessorKey in view-options
   {
     accessorKey: 'montag',
     header: 'Montag',
+    cell: ({ row }) => {
+      return (
+        <CellWeekday id={row.getValue('id')} title={row.getValue('title')} />
+      )
+    },
     enableHiding: false,
   },
   {

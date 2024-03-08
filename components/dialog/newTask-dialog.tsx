@@ -20,7 +20,7 @@ import {
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
-import { TaskForm } from './task-form'
+import { TaskForm } from '../form/task-form'
 
 export default function NewTaskDialog() {
   const [open, setOpen] = useState(false)

@@ -23,6 +23,7 @@
     "title": "Project Meeting",
     "weekday": "Dienstag",
     "assignedEmployeeName": "Alex Brown",
+    "onCall": true,
     "timeFrom": "10:00",
     "timeTil": "11:30",
     "assignedEmployeeAvailability": "Available"
