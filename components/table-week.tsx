@@ -108,13 +108,14 @@ export function TableWeek() {
               {employee.assignments.map((dayAssignment) => (
                 <TableCell key={dayAssignment.day} className='border-r'>
                   <Carousel className=''>
-                    <CarouselContent className='cursor-pointer'>
+                    <CarouselContent className='-ml-3 cursor-pointer'>
                       {dayAssignment.tasks.map((assignment, index: number) => (
                         <CarouselItem
                           key={index}
-                          className='basis-10/12 rounded-md pl-4'
+                          className='basis-10/12 rounded-md pl-3'
                         >
                           <TaskDialog>
+                            {/* TODO: maybe these cards should just be quickly editable? dont know yet */}
                             <AssignmentCard employee={employee} />
                           </TaskDialog>
                         </CarouselItem>

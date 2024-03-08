@@ -113,7 +113,6 @@ export function TaskForm({
   })
 
   function onSubmit(data: TaskFormValues) {
-    console.log(data)
     toast('Aufgabe erstellt', {
       description: 'Die Aufgabe wurde erfolgreich erstellt.',
       duration: 5000,
@@ -162,6 +161,7 @@ export function TaskForm({
                               <SelectValue placeholder='Mitarbeiter auswaehlen' />
                             </SelectTrigger>
                           </FormControl>
+                          {/* TODO: only show employees which are not on vacation and which are not sick. also, add tooltip for this so the user knows */}
                           <SelectContent>
                             {employees.map((employee) => (
                               <SelectItem
@@ -290,7 +290,7 @@ export function TaskForm({
         </div>
         <div className='!mt-8 flex justify-end space-x-3'>
           <Button type='button' variant='outline' onClick={onCancel}>
-            Schliessen
+            Abbrechen
           </Button>
           {/* close on Click? */}
           <Button type='submit' onClick={onCreate}>

@@ -132,6 +132,12 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
                 {format(selectedDays[0], 'dd.MM')} -{' '}
                 {format(selectedDays[6], 'dd.MM')}
               </p>
+              // with year
+              // <p>
+              //   KW {getWeek(selectedDays[0])},{' '}
+              //   {format(selectedDays[0], 'dd.MM.yyyy')} -{' '}
+              //   {format(selectedDays[6], 'dd.MM.yyyy')}
+              // </p>
             )}
           </Button>
         </PopoverTrigger>

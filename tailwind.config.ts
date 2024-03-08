@@ -91,6 +91,9 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        inset: 'inset 0 0 0 1px hsl(var(--border))',
+      },
       gridTemplateColumns: {
         '15': 'repeat(15, minmax(0, 1fr))',
         '16': 'repeat(16, minmax(0, 1fr))',

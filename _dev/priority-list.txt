@@ -4,8 +4,7 @@ Priority-order:
 Required:
 
 [x] Add "to today" Button in the site-header
-[ ] Maybe add Date right next to the weekday (or also make this optional with below adjustments)
-[ ] Change table to tanstack-table (with Order functionality etc.)
+[x] Change table to tanstack-table (with Order functionality etc.)
 [ ] Add resizables to table for first and Last two columns
 [ ] adjust height of the table so it perfectly fits 1080p by Default with current number of employees
 [ ] Add & Change components based on future roles
@@ -16,10 +15,14 @@ Required:
 [ ] Add Handling for Ticket urls
 [ ] Add Prisma + actual DB (mongodb)
 [ ] Add proper props parsing alongside components
+[ ] Maybe add Date right next to the weekday (or also make this optional with below adjustments)
 [ ] Add Login Page
 [ ] See if the communication between the clients is in sync (If Not, implement websockets)
+[ ] Mitarbeiterverwaltung
 [ ] Make the components responsive (for mobile)
 [ ] Adjust Theme
+[ ] Upgrade nextjs, packages etc.
+[ ] state management (context, reducer hooks or a library)
 
 
 
