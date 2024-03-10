@@ -13,6 +13,7 @@
 - change naming of files, folders and components to be more consistent
 - change metadata in layouts for each site
 - create error pages
+- change scrollbar
 
 ## einsatzplan
 

@@ -1,0 +1,119 @@
+[
+  {
+    "username": "ole.holthus",
+    "firstName": "Ole",
+    "lastName": "Holthus",
+    "initials": "OH",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer", "apprentice"]
+  },
+  {
+    "username": "justin.hoffmann",
+    "firstName": "Justin",
+    "lastName": "Hoffmann",
+    "initials": "JH",
+    "profilePicture": "/public/images/enton.png",
+    "role": "user",
+    "groups": ["Software Developer", "apprentice"]
+  },
+  {
+    "username": "moritz.koerner",
+    "firstName": "Moritz",
+    "lastName": "Körner",
+    "initials": "MK",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer", "apprentice"]
+  },
+  {
+    "username": "christopher.spencer",
+    "firstName": "Christopher",
+    "lastName": "Spencer",
+    "initials": "CS",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Software Developer", "apprentice"]
+  },
+  {
+    "username": "Max.zuern",
+    "firstName": "Max",
+    "lastName": "Zürn",
+    "initials": "MZ",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer", "apprentice"]
+  },
+  {
+    "username": "dominik.kaczmarzik",
+    "firstName": "Dominik",
+    "lastName": "Kaczmarzik",
+    "initials": "DK",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer"]
+  },
+  {
+    "username": "florian.mennicken",
+    "firstName": "Florian",
+    "lastName": "Mennicken",
+    "initials": "FM",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Software Developer"]
+  },
+  {
+    "username": "anton.muench",
+    "firstName": "Anton",
+    "lastName": "Münch",
+    "initials": "AM",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer", "on-call service"]
+  },
+  {
+    "username": "denis.reinke",
+    "firstName": "Denis",
+    "lastName": "Reinke",
+    "initials": "DR",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Software Developer"]
+  },
+  {
+    "username": "jonas.schlake",
+    "firstName": "Jonas",
+    "lastName": "Schlake",
+    "initials": "JS",
+    "profilePicture": "",
+    "role": "admin",
+    "groups": ["Systems Engineer", "on-call service"]
+  },
+  {
+    "username": "soeren.seefeld",
+    "firstName": "Sören",
+    "lastName": "Seefeld",
+    "initials": "SS",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Software Developer"]
+  },
+  {
+    "username": "andre.von-seggern",
+    "firstName": "André",
+    "lastName": "von Seggern",
+    "initials": "AvS",
+    "profilePicture": "",
+    "role": "admin",
+    "groups": ["Software Developer", "on-call service"]
+  },
+  {
+    "username": "fabio.wittenberg",
+    "firstName": "Fabio",
+    "lastName": "Wittenberg",
+    "initials": "FW",
+    "profilePicture": "",
+    "role": "user",
+    "groups": ["Systems Engineer", "on-call service"]
+  }
+]

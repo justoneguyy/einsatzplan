@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// might need to split this up into an additional profile model
+model Employee {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  username        String    // default (of firstName + '.' + lastName) cant be set at this stage
+  firstName       String
+  lastName        String
+  initials        String    // used when the profilePicture is not set
+  profilePicture  String?
+
+  //// relations
+  // One-to-Many
+  roleId          String    @db.ObjectId
+  role            Role      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  // Many-to-Many
+  groups          EmployeeGroup[]
+  tasks           EmployeeTask[]
+  task_createdBy  Task[]    @relation("task_createdBy")
+  task_updatedBy  Task[]    @relation("task_updatedBy")
+}
+
+model Task {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
+  dateFrom      DateTime
+  dateTil       DateTime
+  timeFrom      String?
+  timeTil       String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  createdById   String      @db.ObjectId
+  createdBy     Employee    @relation("task_createdBy", fields: [createdById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  updatedById   String      @db.ObjectId
+  updatedBy     Employee    @relation("task_updatedBy", fields: [updatedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  // a task can be assigned to multiple employees and an employee can be assigned to multiple tasks
+  employees EmployeeTask[]
+}
+
+enum RoleNames {
+  User
+  Admin
+}
+
+// roles are used to define the permissions of the user
+model Role {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        RoleNames
+  description String?
+
+  // a role can be given to multiple employees
+  employees   Employee[]
+}
+
+enum GroupNames {
+  Anwendungsentwickler
+  Systemintegrator
+  Auszubildener
+  Rufbereitschaft
+}
+
+// groups are other than roles, used to group employees in order to filter(...) them
+model Group {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  name            GroupNames
+  description     String?
+
+  // a group can have multiple employees and an employee can be in multiple groups
+  employeeGroups  EmployeeGroup[]
+}
+
+
+// intermediary models
+model EmployeeTask {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+
+  employeeId  String    @db.ObjectId
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  taskId      String    @db.ObjectId
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([employeeId, taskId])
+}
+
+model EmployeeGroup {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+
+  employeeId  String    @db.ObjectId
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  groupId     String    @db.ObjectId
+  group       Group     @relation(fields: [groupId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([employeeId, groupId])
+}
+
+
+// audit log model?

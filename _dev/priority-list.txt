@@ -5,6 +5,8 @@ Required:
 
 [x] Add "to today" Button in the site-header
 [x] Change table to tanstack-table (with Order functionality etc.)
+[ ] Rolle in db (user, admin)
+[ ] Gruppe in db (Anwendungsentwicklung, Systemtechnik, Rufbereitschaft, Azubi) -- fuer ggf. sortieren/suchen
 [ ] Add resizables to table for first and Last two columns
 [ ] adjust height of the table so it perfectly fits 1080p by Default with current number of employees
 [ ] Add & Change components based on future roles
@@ -13,6 +15,9 @@ Required:
 [ ] Add api for Holidays in Niedersachsen -> add indicator in the table for that. (Also in the calendar? Dont know how hard that would be).
 [ ] Add api for Feiertage -> add Green Card instead of carousel with Name of feiertag
 [ ] Add Handling for Ticket urls
+[ ] Wie soll das Passwort gespeichert werden?
+[ ] Wie soll man sich einloggen?
+[x] Add Docker
 [ ] Add Prisma + actual DB (mongodb)
 [ ] Add proper props parsing alongside components
 [ ] Maybe add Date right next to the weekday (or also make this optional with below adjustments)
@@ -23,6 +28,7 @@ Required:
 [ ] Adjust Theme
 [ ] Upgrade nextjs, packages etc.
 [ ] state management (context, reducer hooks or a library)
+[ ] nochmal wegen den initials gucken (andre)
 
 
 
@@ -41,4 +47,5 @@ Optional:
 [ ] Add settings Page (with preferences etc.)
 [ ] Change highlighting of table
 [ ] Add more Views (daily and month) for the table
+[ ] comments/notes on tasks?
 [ ] Add Export/Print functionality for trainees

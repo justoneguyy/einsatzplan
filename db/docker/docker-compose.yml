@@ -1,0 +1,61 @@
+version: '3.8'
+
+name: einsatzplan
+
+services:
+  mongo:
+    build:
+      context: ./mongodb_replica
+      args:
+        MONGO_VERSION: latest
+    env_file:
+      - ./database.dev.env
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mongosh',
+          'admin',
+          '--port',
+          '27019',
+          '--eval',
+          "db.adminCommand('ping').ok",
+        ]
+      interval: 5s
+      timeout: 2s
+      retries: 20
+
+  # uncomment, if seed data is needed
+  # mongo_seed:
+  #   build:
+  #     context: ./mongodb_seed
+  #     args:
+  #       MONGO_VERSION: latest
+  #   ports:
+  #     - '27018:27018'
+  #   depends_on:
+  #     - mongo
+  #   restart: on-failure
+  #   healthcheck:
+  #     test:
+  #       [
+  #         'CMD',
+  #         'mongosh',
+  #         'admin',
+  #         '--port',
+  #         '27017',
+  #         '--eval',
+  #         "db.adminCommand('ping').ok",
+  #       ]
+  #     interval: 5s
+  #     timeout: 2s
+  #     retries: 20
+  #     start_period: 20s
+
+volumes:
+  mongodb_data:
