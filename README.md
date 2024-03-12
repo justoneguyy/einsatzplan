@@ -1,6 +1,10 @@
 Einsatzplan für Uhlhorn
 
-mongodb connection string: mongodb://localhost:27017/
+## installation
+
+pnpm install in root directory
+
+mongodb connection string in .env file
 
 ## prisma setup (pnpm)
 

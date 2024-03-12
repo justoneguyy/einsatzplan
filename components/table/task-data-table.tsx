@@ -4,7 +4,6 @@ import { DragHandleDots2Icon } from '@radix-ui/react-icons'
 import {
   ColumnDef,
   SortingState,
-  // Table,
   VisibilityState,
   flexRender,
   getCoreRowModel,
@@ -12,9 +11,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { memo, useMemo, useState } from 'react'
-import { DataTableColumnHeaderAscDescReset } from './data-table-column-header'
-import { DataTableViewOptions } from './data-table-view-options'
 import {
   Table,
   TableBody,
@@ -23,20 +19,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function DataTable<TData, TValue>({
+export function TaskDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-
-  const memoEnabled: boolean = true
 
   const table = useReactTable({
     data,
@@ -62,9 +57,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className='max-w-full space-y-2'>
-      <div className='flex justify-end'>
-        <DataTableViewOptions table={table} />
-      </div>
+      {/* {toolbar && <DataTableToolbar table={table} showFilter />} */}
       <div className='rounded-md border'>
         <Table className='w-full'>
           <TableHeader>
@@ -79,7 +72,7 @@ export function DataTable<TData, TValue>({
                         position: 'relative',
                         width: `calc(var(--header-${header?.id}-size) * 1px)`,
                       }}
-                      className='border-b border-r pl-4 last:border-r-0'
+                      className='border-b border-r pl-4 text-center last:border-r-0'
                     >
                       {header.isPlaceholder
                         ? null

@@ -1,30 +1,42 @@
-import Link from 'next/link'
-import { UserNav } from '@/components/user-nav'
 import { CalendarWeek } from '@/components/calendar-week'
-import NewTaskDialog from '@/components/dialog/newTask-dialog'
-import { Button } from './ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu'
-import {
-  ArrowRightIcon,
-  PersonIcon,
-  PlusCircledIcon,
-} from '@radix-ui/react-icons'
-import { AlertCircle, CheckCircle, Palmtree } from 'lucide-react'
 import CreateDialog from '@/components/dialog/create-dialog'
+import { UserNav } from '@/components/user-nav'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
+// TODO: prob gonna change this to someting more intuitive
+// TODO: also, maybe dont use two functions but render these based on route. dont know if that is possible & more perfomant
 export function SiteHeader() {
+  return (
+    <header className='supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur'>
+      <div className='mx-6 grid grid-cols-3 items-center py-3'>
+        <section className=''>
+          <Link href='/' className=''>
+            <span className='font-semibold'>Einsatzplan</span>
+          </Link>
+        </section>
+        <section className='justify-self-center'>
+          <Link href='/' className=''>
+            <span className='text-primary/50 hover:text-primary'>
+              Dashboard
+            </span>
+          </Link>
+        </section>
+        <section className='justify-self-end'>
+          <UserNav />
+        </section>
+      </div>
+    </header>
+  )
+}
+
+export function SiteHeaderDashboard() {
   const role: string = 'admin'
 
   // admin layout
   if (role === 'admin') {
     return (
-      <header className='supports-backdrop-blur:bg-background/60 top-0 z-50 w-full border-b bg-background/95 backdrop-blur'>
+      <header className='supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur'>
         <div className='mx-6 grid grid-cols-6 items-center py-3'>
           <section className='col-span-1'>
             <Link href='/' className=''>

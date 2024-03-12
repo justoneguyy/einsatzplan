@@ -6,11 +6,11 @@ import { Task } from './data/schema'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
-} from './data-table-column-header'
-import { CellEmployee, CellWeekday } from './cells'
+} from '../ui/data-table-column-header'
+import { CellEmployee, CellWeekday } from './task-cells'
 
 // TODO: set fixed/min width for the specific columns
-export const columns: ColumnDef<Task>[] = [
+export const TaskColumns: ColumnDef<Task>[] = [
   {
     accessorKey: 'assignedEmployeeName',
     header: ({ column }) => (

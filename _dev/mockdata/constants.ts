@@ -85,3 +85,10 @@ export const employees: Employee[] = Array.from({ length: 13 }, (_, i) => ({
     },
   ],
 }))
+
+export const groups = [
+  { id: '1', name: 'SOFTWARE_DEVELOPER' },
+  { id: '2', name: 'SYSTEMS_ENGINEER' },
+  { id: '3', name: 'APPRENTICE' },
+  { id: '4', name: 'ONCALL_SERVICE' },
+]

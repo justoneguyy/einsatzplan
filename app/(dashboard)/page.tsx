@@ -2,10 +2,10 @@ import { TableWeek } from '@/components/table-week'
 
 import { promises as fs } from 'fs'
 import path from 'path'
-import { columns } from '@/components/table/columns'
-import { DataTable } from '@/components/table/data-table'
 import { z } from 'zod'
 import { taskSchema } from '@/components/table/data/schema'
+import { TaskColumns } from '@/components/table/task-columns'
+import { TaskDataTable } from '@/components/table/task-data-table'
 
 async function getTasks() {
   const data = await fs.readFile(
@@ -23,7 +23,7 @@ export default async function DashboardPage() {
   return (
     <section className=''>
       {/* <TableWeek /> */}
-      <DataTable columns={columns} data={tasks} />
+      <TaskDataTable columns={TaskColumns} data={tasks} />
     </section>
   )
 }

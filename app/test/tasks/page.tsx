@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import { columns } from '../../../components/table/columns'
-import { DataTable } from '../../../components/table/data-table'
+import { columns } from '../../../components/table/task-columns'
+import { DataTable } from '../../../components/table/employee-data-table'
 import { z } from 'zod'
 import { taskSchema } from '../../../components/table/data/schema'
 

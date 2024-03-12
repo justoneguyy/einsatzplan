@@ -20,7 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='de'>
-      <body className={cn('bg-background antialiased', GeistSans.className)}>
+      <body
+        className={cn(
+          'min-h-screen bg-background antialiased',
+          GeistSans.className
+        )}
+      >
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
@@ -32,25 +37,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-    // <html lang='de'>
-    //   <body
-    //     className={cn(
-    //       'min-h-screen bg-background antialiased',
-    //       GeistSans.className
-    //     )}
-    //   >
-    //     <ThemeProvider
-    //       attribute='class'
-    //       defaultTheme='system'
-    //       enableSystem
-    //       disableTransitionOnChange
-    //     >
-    //       <div className='relative flex min-h-screen flex-col'>
-    //         <SiteHeader />
-    //         <main className='relative mx-6 flex-1 py-8'>{children}</main>
-    //       </div>
-    //     </ThemeProvider>
-    //   </body>
-    // </html>
   )
 }
