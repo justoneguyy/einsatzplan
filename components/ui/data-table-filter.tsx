@@ -12,7 +12,7 @@ import {
 import { Table } from '@tanstack/react-table'
 
 interface DataTableFilterProps<TData> {
-  table: Table<TData>
+  table?: Table<TData>
 }
 
 export function DataTableFilter<TData>({ table }: DataTableFilterProps<TData>) {
@@ -26,7 +26,7 @@ export function DataTableFilter<TData>({ table }: DataTableFilterProps<TData>) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[150px]'>
         {table
-          .getAllColumns()
+          ?.getAllColumns()
           .filter(
             (column) =>
               typeof column.accessorFn !== 'undefined' && column.getCanHide()

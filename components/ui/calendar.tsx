@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/ui/button'
 import { de } from 'date-fns/locale'
 import { Select } from './select'
+import { GeistSans } from 'geist/font/sans'
+import { fontMono, fontSans } from '@/styles/font'
 
 // function CustomDropdown({ children, ...props }) {
 //   return (
@@ -50,7 +52,8 @@ function Calendar({
         dropdown: cn(
           buttonVariants({ variant: 'outline' }),
           'h-7 px-1 py-0 bg-background',
-          '*:bg-background' // idk how to access other props than background and text of the option elements inside the dropdown menu. will stay like this for now
+          '*:bg-background', // idk how to access other props than background and text of the option elements inside the dropdown menu. will stay like this for now
+          `*:${fontSans.className}`
         ),
         dropdown_month: 'text-sm font-medium',
         dropdown_year: 'text-sm font-medium',

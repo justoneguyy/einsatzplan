@@ -2,48 +2,59 @@
 
 import { DragHandleDots2Icon } from '@radix-ui/react-icons'
 import {
+  useReactTable,
   ColumnDef,
+  flexRender,
   SortingState,
   VisibilityState,
-  flexRender,
   getCoreRowModel,
   getSortedRowModel,
-  useReactTable,
+  getFilteredRowModel,
 } from '@tanstack/react-table'
 
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
 import { useState } from 'react'
-import { EmployeeDataTableToolbar } from './employee-date-table-toolbar'
-import { DataTableFacetedFilterProps } from '../ui/data-table-faceted-filter'
 import { Button } from '../ui/button'
+import {
+  DataTableToolbarProps,
+  EmployeeDataTableToolbar,
+} from './employee-date-table-toolbar'
 
 interface DataTableProps<TData, TValue>
-  extends DataTableFacetedFilterProps<TData, TValue> {
+  extends DataTableToolbarProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
+// TODO: if performance is bad, add memoization
 export function EmployeeDataTable<TData, TValue>({
   columns,
   data,
+  roleOptions,
+  groupOptions,
   column,
-  title,
-  options,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [filter, setFilter] = useState('')
 
   const table = useReactTable({
     data,
     columns,
+    defaultColumn: {
+      minSize: 200,
+      maxSize: 800,
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       columnVisibility,
@@ -51,16 +62,12 @@ export function EmployeeDataTable<TData, TValue>({
         pageIndex: 0,
         pageSize: data.length,
       },
-    },
-    defaultColumn: {
-      minSize: 200,
-      maxSize: 800,
+      globalFilter: filter,
     },
     columnResizeMode: 'onChange',
     onSortingChange: setSorting,
+    onGlobalFilterChange: setFilter,
     onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
@@ -68,8 +75,10 @@ export function EmployeeDataTable<TData, TValue>({
       <EmployeeDataTableToolbar
         table={table}
         column={column}
-        title={title}
-        options={options}
+        roleOptions={roleOptions}
+        groupOptions={groupOptions}
+        filter={filter}
+        setFilter={setFilter}
       />
       <div className='rounded-md border'>
         <Table className='w-full'>

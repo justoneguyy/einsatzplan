@@ -1,5 +1,6 @@
 import { getEmployees } from '@/actions/get-employee'
-import { getRoles } from '@/actions/get-roles'
+import { getRoles } from '@/actions/get-role'
+import { EmployeeOptions } from '@/components/table/data/employee-options'
 import { EmployeeColumns } from '@/components/table/employee-columns'
 import { EmployeeDataTable } from '@/components/table/employee-data-table'
 import { Separator } from '@/ui/separator'
@@ -7,12 +8,7 @@ import { Separator } from '@/ui/separator'
 export default async function SettingsEmployeeAdministrationPage() {
   const employees = await getEmployees()
 
-  const roles = await getRoles()
-
-  const roleOptions = roles.map((role) => ({
-    value: role.id,
-    label: role.name,
-  }))
+  const { roleOptions, groupOptions } = await EmployeeOptions()
 
   return (
     <div className='space-y-6'>
@@ -27,7 +23,8 @@ export default async function SettingsEmployeeAdministrationPage() {
       <EmployeeDataTable
         columns={EmployeeColumns}
         data={employees}
-        options={roleOptions}
+        roleOptions={roleOptions}
+        groupOptions={groupOptions}
       />
     </div>
   )

@@ -1,12 +1,8 @@
-// import { Column, Table } from '@tanstack/react-table'
-
-// export interface TanstackTableProps<TData> {
-//   table: Table<TData>
-// }
-
-// export interface TanstackColumnProps<TData, TValue> {
-//   column?: Column<TData, TValue>
-// }
+export interface Option {
+  label: string
+  value: string
+  icon?: React.ComponentType<{ className?: string }>
+}
 
 export type Assignment = {
   timeFrom: string

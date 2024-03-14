@@ -1,17 +1,17 @@
-'use client'
-
 import { Input } from '@/ui/input'
-import { Table } from '@tanstack/react-table'
+import { ColumnDef, Table } from '@tanstack/react-table'
 
-interface DataTableSearchbarProps<TData> {
-  table: Table<TData>
+export interface DataTableSearchbarProps {
   title?: string
+  filter?: string
+  setFilter?: (value: string) => void
 }
 
-export function DataTableSearchbar<TData>({
-  table,
+export function DataTableSearchbar({
   title,
-}: DataTableSearchbarProps<TData>) {
+  filter,
+  setFilter,
+}: DataTableSearchbarProps) {
   const placeholder = title + ' filtern...'
   const placeholderDefault = 'Suchen...'
 
@@ -19,10 +19,8 @@ export function DataTableSearchbar<TData>({
     <div>
       <Input
         placeholder={title ? placeholder : placeholderDefault}
-        value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
-        onChange={(event) =>
-          table.getColumn('title')?.setFilterValue(event.target.value)
-        }
+        value={filter || ''}
+        onChange={(e) => setFilter!(e.target.value)}
         className='h-8 w-[150px] lg:w-[250px]'
       />
     </div>

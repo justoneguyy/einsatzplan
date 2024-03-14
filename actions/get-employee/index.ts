@@ -9,7 +9,5 @@ export async function getEmployees() {
     },
   })
 
-  console.log(employees)
-
   return employees
 }
