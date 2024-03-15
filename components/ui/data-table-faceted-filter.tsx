@@ -23,12 +23,7 @@ import { Option } from '@/lib/types'
 export interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
   title?: string
-  // options?: TOption[]
-  options?: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+  options: Option[]
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
@@ -64,7 +59,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </Badge>
                 ) : (
                   options
-                    ?.filter((option) => selectedValues.has(option.value))
+                    .filter((option) => selectedValues.has(option.value))
                     .map((option) => (
                       <Badge
                         variant='secondary'
@@ -86,7 +81,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options?.map((option) => {
+              {options.map((option) => {
                 const isSelected = selectedValues.has(option.value)
                 return (
                   <CommandItem

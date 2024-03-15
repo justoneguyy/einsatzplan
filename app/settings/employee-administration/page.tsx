@@ -1,5 +1,7 @@
 import { getEmployees } from '@/actions/get-employee'
+import { getGroups } from '@/actions/get-group'
 import { getRoles } from '@/actions/get-role'
+import EmployeeForm from '@/components/form/employee-form'
 import { EmployeeOptions } from '@/components/table/data/employee-options'
 import { EmployeeColumns } from '@/components/table/employee-columns'
 import { EmployeeDataTable } from '@/components/table/employee-data-table'
@@ -9,6 +11,9 @@ export default async function SettingsEmployeeAdministrationPage() {
   const employees = await getEmployees()
 
   const { roleOptions, groupOptions } = await EmployeeOptions()
+
+  const roles = await getRoles()
+  const groups = await getGroups()
 
   return (
     <div className='space-y-6'>
@@ -26,6 +31,7 @@ export default async function SettingsEmployeeAdministrationPage() {
         roleOptions={roleOptions}
         groupOptions={groupOptions}
       />
+      <EmployeeForm roles={roles} groups={groups} />
     </div>
   )
 }

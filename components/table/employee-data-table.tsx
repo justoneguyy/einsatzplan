@@ -22,15 +22,14 @@ import {
 } from '@/components/ui/table'
 import { useState } from 'react'
 import { Button } from '../ui/button'
-import {
-  DataTableToolbarProps,
-  EmployeeDataTableToolbar,
-} from './employee-date-table-toolbar'
+import { EmployeeDataTableToolbar } from './employee-date-table-toolbar'
+import { Option } from '@/lib/types'
 
-interface DataTableProps<TData, TValue>
-  extends DataTableToolbarProps<TData, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  roleOptions: Option[]
+  groupOptions: Option[]
 }
 
 // TODO: if performance is bad, add memoization
@@ -39,7 +38,6 @@ export function EmployeeDataTable<TData, TValue>({
   data,
   roleOptions,
   groupOptions,
-  column,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -74,7 +72,6 @@ export function EmployeeDataTable<TData, TValue>({
     <div className='max-w-full space-y-2'>
       <EmployeeDataTableToolbar
         table={table}
-        column={column}
         roleOptions={roleOptions}
         groupOptions={groupOptions}
         filter={filter}
@@ -94,7 +91,7 @@ export function EmployeeDataTable<TData, TValue>({
                         position: 'relative',
                         width: `calc(var(--header-${header?.id}-size) * 1px)`,
                       }}
-                      className='border-b border-r pl-4 text-center last:border-r-0'
+                      className='border-b border-l pl-3 text-center first:border-l-0 last:border-l-0'
                     >
                       {header.isPlaceholder
                         ? null
@@ -134,7 +131,7 @@ export function EmployeeDataTable<TData, TValue>({
                       <TableCell
                         key={cell.id}
                         style={{ width: cell.column.getSize() }}
-                        className='border-r last:border-r-0'
+                        className='border-l first:border-l-0 last:border-l-0'
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

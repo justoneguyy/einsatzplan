@@ -1,0 +1,132 @@
+[
+  {
+    "username": "ole.holthus",
+    "firstName": "Ole",
+    "lastName": "Holthus",
+    "initials": "OH",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "justin.hoffmann",
+    "firstName": "Justin",
+    "lastName": "Hoffmann",
+    "initials": "JH",
+    "profilePicture": "/public/images/enton.png",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "moritz.koerner",
+    "firstName": "Moritz",
+    "lastName": "Körner",
+    "initials": "MK",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "christopher.spencer",
+    "firstName": "Christopher",
+    "lastName": "Spencer",
+    "initials": "CS",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "Max.zuern",
+    "firstName": "Max",
+    "lastName": "Zürn",
+    "initials": "MZ",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "dominik.kaczmarzik",
+    "firstName": "Dominik",
+    "lastName": "Kaczmarzik",
+    "initials": "DK",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "florian.mennicken",
+    "firstName": "Florian",
+    "lastName": "Mennicken",
+    "initials": "FM",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "anton.muench",
+    "firstName": "Anton",
+    "lastName": "Münch",
+    "initials": "AM",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "denis.reinke",
+    "firstName": "Denis",
+    "lastName": "Reinke",
+    "initials": "DR",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "jonas.schlake",
+    "firstName": "Jonas",
+    "lastName": "Schlake",
+    "initials": "JS",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d79"
+    }
+  },
+  {
+    "username": "soeren.seefeld",
+    "firstName": "Sören",
+    "lastName": "Seefeld",
+    "initials": "SS",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  },
+  {
+    "username": "andre.von-seggern",
+    "firstName": "André",
+    "lastName": "von Seggern",
+    "initials": "AvS",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d79"
+    }
+  },
+  {
+    "username": "fabio.wittenberg",
+    "firstName": "Fabio",
+    "lastName": "Wittenberg",
+    "initials": "FW",
+    "profilePicture": "",
+    "roleId": {
+      "$oid": "65efbccc22a31df727dd3d7a"
+    }
+  }
+]

@@ -85,6 +85,22 @@ export function DataTableColumnHeaderAscDescReset<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            variant='highlight'
+            size='sm'
+            className='-ml-3 flex h-8 items-center gap-1 px-2 text-sm'
+          >
+            <span className='group group-hover:text-primary group-hover:shadow-sm'>
+              {title}
+            </span>
+            {column.getIsSorted() === 'desc' ? (
+              <ArrowDownIcon className='group h-4 w-4 text-muted-foreground/70 group-hover:text-primary group-hover:shadow-sm' />
+            ) : column.getIsSorted() === 'asc' ? (
+              <ArrowUpIcon className='group h-4 w-4 text-muted-foreground/70 group-hover:text-primary group-hover:shadow-sm' />
+            ) : (
+              <CaretSortIcon className='group h-4 w-4 text-muted-foreground/70 group-hover:text-primary group-hover:shadow-sm' />
+            )}
+          </Button>
+          {/* <Button
             variant='ghost'
             size='sm'
             className='-ml-3 h-8 text-sm data-[state=open]:bg-accent'
@@ -97,7 +113,7 @@ export function DataTableColumnHeaderAscDescReset<TData, TValue>({
             ) : (
               <CaretSortIcon className='ml-2 h-4 w-4' />
             )}
-          </Button>
+          </Button> */}
         </DropdownMenuTrigger>
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
@@ -127,7 +143,7 @@ export function DataTableColumnHeaderHide<TData, TValue>({
     <Button
       variant='highlight'
       size='sm'
-      className='-ml-3 flex h-8 items-center gap-2 text-sm'
+      className='-ml-3 flex h-8 items-center gap-2 px-2 text-sm'
       onClick={() => column.toggleVisibility(false)}
     >
       <span className='group group-hover:text-primary group-hover:shadow-sm'>

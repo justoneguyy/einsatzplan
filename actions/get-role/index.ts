@@ -1,8 +1,9 @@
 'use server'
 
 import db from '@/lib/db'
+import { cache } from 'react'
 
-export async function getRoles() {
+export const getRoles = cache(async function () {
   const roles = await db.role.findMany({
     orderBy: {
       name: 'asc',
@@ -10,4 +11,17 @@ export async function getRoles() {
   })
 
   return roles
-}
+})
+// export const getRoles = cache(async function () {
+//   try {
+//     const roles = await db.role.findMany({
+//       orderBy: {
+//         name: 'asc',
+//       },
+//     })
+
+//     return roles
+//   } catch (error) {
+//     return error
+//   }
+// })

@@ -20,6 +20,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useState } from 'react'
+import { TaskDataTableToolbar } from './task-data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -36,6 +37,12 @@ export function TaskDataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    defaultColumn: {
+      minSize: 200,
+      maxSize: 800,
+    },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
       columnVisibility,
@@ -44,20 +51,14 @@ export function TaskDataTable<TData, TValue>({
         pageSize: data.length,
       },
     },
-    defaultColumn: {
-      minSize: 200,
-      maxSize: 800,
-    },
     columnResizeMode: 'onChange',
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
     <div className='max-w-full space-y-2'>
-      {/* {toolbar && <DataTableToolbar table={table} showFilter />} */}
+      <TaskDataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table className='w-full'>
           <TableHeader>
@@ -72,7 +73,7 @@ export function TaskDataTable<TData, TValue>({
                         position: 'relative',
                         width: `calc(var(--header-${header?.id}-size) * 1px)`,
                       }}
-                      className='border-b border-r pl-4 text-center last:border-r-0'
+                      className='border-b border-r pl-4 last:border-r-0'
                     >
                       {header.isPlaceholder
                         ? null

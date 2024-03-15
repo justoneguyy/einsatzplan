@@ -14,6 +14,7 @@
 - change metadata in layouts for each site
 - create error pages
 - change scrollbar
+- remove console.logs
 
 ## einsatzplan
 

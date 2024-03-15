@@ -32,9 +32,9 @@ export const TaskColumns: ColumnDef<Task>[] = [
     minSize: 150,
     maxSize: 250,
   },
-  // ger names because I can only seem to access the column.accessorKey in view-options
   {
     accessorKey: 'montag',
+    meta: 'Montag',
     header: 'Montag',
     cell: ({ row }) => {
       return (
@@ -45,32 +45,38 @@ export const TaskColumns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: 'dienstag',
+    meta: 'Dienstag',
     header: 'Dienstag',
     enableHiding: false,
   },
   {
     accessorKey: 'mittwoch',
+    meta: 'Mittwoch',
     header: 'Mittwoch',
     enableHiding: false,
   },
   {
     accessorKey: 'donnerstag',
+    meta: 'Donnerstag',
     header: 'Donnerstag',
     enableHiding: false,
   },
   {
     accessorKey: 'freitag',
+    meta: 'Freitag',
     header: 'Freitag',
     enableHiding: false,
   },
   {
     accessorKey: 'samstag',
+    meta: 'Samstag',
     header: ({ column }) => (
       <DataTableColumnHeaderHide column={column} title='Samstag' />
     ),
   },
   {
     accessorKey: 'sonntag',
+    meta: 'Sonntag',
     header: ({ column }) => (
       <DataTableColumnHeaderHide column={column} title='Sonntag' />
     ),

@@ -14,6 +14,12 @@ export async function EmployeeOptions() {
   const roleOptions = roles.map((role) => ({
     value: role.id,
     label: role.name,
+    // icon:
+    //   role.name === 'user'
+    //     ? QuestionMarkCircledIcon
+    //     : role.name === 'admin'
+    //       ? CircleIcon
+    //       : undefined,
   }))
 
   const groups = await getGroups()
@@ -26,6 +32,7 @@ export async function EmployeeOptions() {
   return { roleOptions, groupOptions }
 }
 
+// TODO: add icons
 // export const roles = [
 //   {
 //     value: 'user',
