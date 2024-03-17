@@ -1,15 +1,13 @@
 'use client'
 
-import * as React from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { DateRange, DayPicker } from 'react-day-picker'
+import * as React from 'react'
+import { DayPicker } from 'react-day-picker'
 
 import { cn } from '@/lib/utils'
+import { fontSans } from '@/styles/font'
 import { buttonVariants } from '@/ui/button'
 import { de } from 'date-fns/locale'
-import { Select } from './select'
-import { GeistSans } from 'geist/font/sans'
-import { fontMono, fontSans } from '@/styles/font'
 
 // function CustomDropdown({ children, ...props }) {
 //   return (

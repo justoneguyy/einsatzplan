@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { timeHHmmRegex } from '@/lib/regex'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -27,16 +28,15 @@ const vacationFormSchema = z.object({
   dateFrom: z.date({ required_error: 'Das Startdatum ist erforderlich' }),
   dateTo: z.date({ required_error: 'Das Enddatum ist erforderlich' }),
   // TODO: is this needed or just "Ganztags" / "Halbtags"?
-  // regex == HH:mm
   timeFrom: z
     .string()
-    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
+    .regex(timeHHmmRegex, {
       message: 'Bitte gib eine valide Uhrzeit ein.',
     })
     .optional(),
   timeTo: z
     .string()
-    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
+    .regex(timeHHmmRegex, {
       message: 'Bitte gib eine valide Uhrzeit ein.',
     })
     .optional(),

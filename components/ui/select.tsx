@@ -13,6 +13,23 @@ import { cn } from '@/lib/utils'
 
 const Select = SelectPrimitive.Root
 
+const SelectWithRef = React.forwardRef<
+  HTMLSelectElement,
+  React.ComponentProps<typeof Select>
+>(({ children, ...props }, ref) => (
+  <Select {...props}>
+    <select ref={ref} className='hidden' hidden>
+      {React.Children.map(children, (child) =>
+        React.isValidElement(child) && child.type === SelectPrimitive.Item
+          ? React.cloneElement(child)
+          : child
+      )}
+    </select>
+    {children}
+  </Select>
+))
+SelectWithRef.displayName = 'SelectWithRef'
+
 const SelectGroup = SelectPrimitive.Group
 
 const SelectValue = SelectPrimitive.Value
@@ -156,6 +173,7 @@ SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
 export {
   Select,
+  SelectWithRef,
   SelectGroup,
   SelectValue,
   SelectTrigger,

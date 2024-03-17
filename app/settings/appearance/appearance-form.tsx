@@ -17,8 +17,9 @@ import {
   FormMessage,
 } from '@/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/ui/radio-group'
-import { toast } from '@/ui/use-toast'
 import { useTheme } from 'next-themes'
+import { toast } from 'sonner'
+import { CustomToast } from '@/components/ui/toaster'
 
 const appearanceFormSchema = z.object({
   theme: z.enum(['light', 'dark'], {
@@ -46,14 +47,10 @@ export function AppearanceForm() {
   })
 
   function onSubmit(data: AppearanceFormValues) {
-    toast({
-      title: 'Du hast du folgenden Einstellungen gewählt:',
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    CustomToast({
+      title: '',
+      description: '',
+    })()
   }
 
   return (
@@ -142,18 +139,18 @@ export function AppearanceForm() {
                       />
                     </FormControl>
                     <div className='items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground'>
-                      <div className='space-y-2 rounded-sm bg-slate-950 p-2'>
-                        <div className='space-y-2 rounded-md bg-slate-800 p-2 shadow-sm'>
-                          <div className='h-2 w-[80px] rounded-lg bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
+                      <div className='bg-slate-950 space-y-2 rounded-sm p-2'>
+                        <div className='bg-slate-800 space-y-2 rounded-md p-2 shadow-sm'>
+                          <div className='bg-slate-400 h-2 w-[80px] rounded-lg' />
+                          <div className='bg-slate-400 h-2 w-[100px] rounded-lg' />
                         </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm'>
-                          <div className='h-4 w-4 rounded-full bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
+                        <div className='bg-slate-800 flex items-center space-x-2 rounded-md p-2 shadow-sm'>
+                          <div className='bg-slate-400 h-4 w-4 rounded-full' />
+                          <div className='bg-slate-400 h-2 w-[100px] rounded-lg' />
                         </div>
-                        <div className='flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm'>
-                          <div className='h-4 w-4 rounded-full bg-slate-400' />
-                          <div className='h-2 w-[100px] rounded-lg bg-slate-400' />
+                        <div className='bg-slate-800 flex items-center space-x-2 rounded-md p-2 shadow-sm'>
+                          <div className='bg-slate-400 h-4 w-4 rounded-full' />
+                          <div className='bg-slate-400 h-2 w-[100px] rounded-lg' />
                         </div>
                       </div>
                     </div>

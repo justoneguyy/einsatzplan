@@ -1,35 +1,72 @@
-"use client"
+'use client'
 
-import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-} from "@/components/ui/toast"
-import { useToast } from "@/components/ui/use-toast"
+import { useTheme } from 'next-themes'
+import { Toaster as Sonner, ToastT, toast } from 'sonner'
+import { Button } from './button'
+import { XIcon } from 'lucide-react'
+import { Card, CardDescription, CardHeader, CardTitle } from './card'
 
-export function Toaster() {
-  const { toasts } = useToast()
+type ToasterProps = React.ComponentProps<typeof Sonner>
+
+const Toaster = ({ ...props }: ToasterProps) => {
+  const { theme = 'system' } = useTheme()
 
   return (
-    <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
-        return (
-          <Toast key={id} {...props}>
-            <div className="grid gap-1">
-              {title && <ToastTitle>{title}</ToastTitle>}
-              {description && (
-                <ToastDescription>{description}</ToastDescription>
-              )}
-            </div>
-            {action}
-            <ToastClose />
-          </Toast>
-        )
-      })}
-      <ToastViewport />
-    </ToastProvider>
+    <Sonner
+      theme={theme as ToasterProps['theme']}
+      className='toaster group'
+      toastOptions={{
+        classNames: {
+          toast:
+            'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',
+          description: 'group-[.toast]:text-muted-foreground',
+          actionButton:
+            'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
+          cancelButton:
+            'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
+        },
+      }}
+      {...props}
+    />
   )
 }
+
+export { Toaster }
+
+type ToastProps = Omit<ToastT, 'id'>
+
+interface CustomToastProps extends ToastProps {
+  title: string
+  description: string
+}
+
+const CustomToast = ({
+  title,
+  description,
+  duration = 5000,
+  ...props
+}: CustomToastProps) => {
+  return () =>
+    toast.custom(
+      (t) => (
+        <Card size='md'>
+          <CardHeader className='relative p-4'>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+            <Button
+              variant='highlight'
+              className='absolute right-0 top-0'
+              onClick={() => toast.dismiss(t)}
+            >
+              <XIcon className='h-4 w-4' />
+            </Button>
+          </CardHeader>
+        </Card>
+      ),
+      {
+        ...props,
+      }
+    )
+}
+
+export { CustomToast }

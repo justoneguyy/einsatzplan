@@ -27,6 +27,7 @@ import Link from 'next/link'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { timeHHmmRegex } from '@/lib/regex'
 
 // TODO: adjust min, max
 const taskFormSchema = z.object({
@@ -48,16 +49,15 @@ const taskFormSchema = z.object({
   // idk yet if I just want have one date or a date range
   dateFrom: z.date({ required_error: 'Das Startdatum ist erforderlich' }),
   dateTo: z.date({ required_error: 'Das Enddatum ist erforderlich' }),
-  // regex == HH:mm
   timeFrom: z
     .string()
-    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
+    .regex(timeHHmmRegex, {
       message: 'Bitte gib eine valide Uhrzeit ein.',
     })
     .optional(),
   timeTo: z
     .string()
-    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, {
+    .regex(timeHHmmRegex, {
       message: 'Bitte gib eine valide Uhrzeit ein.',
     })
     .optional(),

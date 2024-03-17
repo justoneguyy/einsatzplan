@@ -6,7 +6,7 @@ import { Task } from './data/schema'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
-} from '../ui/data-table-column-header'
+} from './ui/data-table-column-header'
 import { CellEmployee, CellWeekday } from './task-cells'
 
 // TODO: set fixed/min width for the specific columns

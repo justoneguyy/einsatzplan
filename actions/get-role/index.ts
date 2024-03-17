@@ -12,6 +12,7 @@ export const getRoles = cache(async function () {
 
   return roles
 })
+
 // export const getRoles = cache(async function () {
 //   try {
 //     const roles = await db.role.findMany({

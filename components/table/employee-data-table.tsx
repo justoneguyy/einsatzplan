@@ -24,12 +24,17 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import { EmployeeDataTableToolbar } from './employee-date-table-toolbar'
 import { Option } from '@/lib/types'
+import { EmployeeDialog } from '../dialog/employee-dialog'
+import { RolesType } from '@/actions/get-role/type'
+import { GroupsType } from '@/actions/get-group/types'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   roleOptions: Option[]
   groupOptions: Option[]
+  roles: RolesType
+  groups: GroupsType
 }
 
 // TODO: if performance is bad, add memoization
@@ -38,6 +43,8 @@ export function EmployeeDataTable<TData, TValue>({
   data,
   roleOptions,
   groupOptions,
+  roles,
+  groups,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -68,6 +75,7 @@ export function EmployeeDataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
   })
 
+  // think about removing the vertical border
   return (
     <div className='max-w-full space-y-2'>
       <EmployeeDataTableToolbar
@@ -148,7 +156,7 @@ export function EmployeeDataTable<TData, TValue>({
       </div>
       {/* modal or add table row? */}
       <div className='flex justify-end'>
-        <Button variant='outline'>Mitarbeiter hinzugefügen</Button>
+        <EmployeeDialog roles={roles} groups={groups} />
       </div>
     </div>
   )

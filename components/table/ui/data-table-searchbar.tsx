@@ -1,5 +1,4 @@
 import { Input } from '@/ui/input'
-import { ColumnDef, Table } from '@tanstack/react-table'
 
 export interface DataTableSearchbarProps {
   title?: string

@@ -1,4 +1,4 @@
-import { DataTableFilter } from '../ui/data-table-filter'
+import { DataTableFilter } from './ui/data-table-filter'
 import { Table } from '@tanstack/react-table'
 
 interface DataTableToolbarProps<TData> {

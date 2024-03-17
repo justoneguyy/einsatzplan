@@ -3,7 +3,7 @@ import '@/styles/globals.css'
 import { cn } from '@/lib/utils'
 import { SiteHeader } from '@/components/site-header'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster2 } from '@/components/ui/toaster2'
+import { Toaster } from '@/components/ui/toaster'
 import { fontSans } from '@/styles/font'
 
 // TODO: replace later on with config/site.ts
@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <Toaster2 />
+          <Toaster expand />
         </ThemeProvider>
       </body>
     </html>

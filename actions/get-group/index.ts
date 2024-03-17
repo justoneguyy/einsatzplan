@@ -12,6 +12,7 @@ export const getGroups = cache(async function () {
 
   return groups
 })
+
 // export const getGroups = cache(async function () {
 //   try {
 //     const groups = await db.group.findMany({

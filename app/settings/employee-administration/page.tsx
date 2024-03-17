@@ -1,12 +1,14 @@
 import { getEmployees } from '@/actions/get-employee'
 import { getGroups } from '@/actions/get-group'
 import { getRoles } from '@/actions/get-role'
+import { EmployeeDialog } from '@/components/dialog/employee-dialog'
 import EmployeeForm from '@/components/form/employee-form'
 import { EmployeeOptions } from '@/components/table/data/employee-options'
 import { EmployeeColumns } from '@/components/table/employee-columns'
 import { EmployeeDataTable } from '@/components/table/employee-data-table'
 import { Separator } from '@/ui/separator'
 
+// it seems that the groups and roles are not correctly implemented (cant be searched and sorted)
 export default async function SettingsEmployeeAdministrationPage() {
   const employees = await getEmployees()
 
@@ -30,8 +32,9 @@ export default async function SettingsEmployeeAdministrationPage() {
         data={employees}
         roleOptions={roleOptions}
         groupOptions={groupOptions}
+        roles={roles}
+        groups={groups}
       />
-      <EmployeeForm roles={roles} groups={groups} />
     </div>
   )
 }

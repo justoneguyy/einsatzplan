@@ -3,6 +3,7 @@
 - todos
 - mobile version
 - zod
+- add more refinement checks to zod if bored
 - unused imports, empty Classnames
 - refactor imports to not use relative paths
 - html best practices (handling tags and attributes e.g. dont use div all the time)
@@ -15,6 +16,7 @@
 - create error pages
 - change scrollbar
 - remove console.logs
+- save states in localstorage or database? (e.g. when hiding a column from the table)
 
 ## einsatzplan
 

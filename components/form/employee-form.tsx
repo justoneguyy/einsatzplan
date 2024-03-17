@@ -1,142 +1,117 @@
 'use client'
 
 import { createEmployee } from '@/actions/create-employee'
+import { GroupsType } from '@/actions/get-group/types'
+import { RolesType } from '@/actions/get-role/type'
 import { useAction } from '@/lib/hooks/useAction'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { toast } from 'sonner'
+import { useState } from 'react'
+import { Button } from '../ui/button'
+import { CustomToast } from '../ui/toaster'
+import { FormInput } from './ui/form-input'
+import FormSelect from './ui/form-select'
+import { FormSubmit } from './ui/form-submit'
+import FormSelectMultiple from './ui/form-select-multiple'
 
-function EmployeeForm({ roles, groups }: { roles: any[]; groups: any[] }) {
-  const router = useRouter()
+interface EmployeeFormProps {
+  roles: RolesType
+  groups: GroupsType
+  onCreate: () => void
+  onCancel: () => void
+}
 
-  const [username, setUsername] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [initials, setInitials] = useState('')
-  const [profilePicture, setProfilePicture] = useState('')
+// maybe change zod mode to insta check
+function EmployeeForm({
+  roles,
+  groups,
+  onCreate,
+  onCancel,
+}: EmployeeFormProps) {
   const [roleId, setRoleId] = useState('')
-  const [groupId, setGroupId] = useState('')
 
   const { execute, fieldErrors } = useAction(createEmployee, {
-    onSuccess: () => {
-      // TODO: make toast clickable so it goes away
-      toast('Mitarbeiter erstellt', {
-        description: 'Der Mitarbeiter wurde erfolgreich erstellt.',
-        duration: 5000,
-      })
-      router.push('/settings/employee-administration')
+    onSuccess: (employee) => {
+      CustomToast({
+        title: `Mitarbeiter ${employee.firstName} ${employee.lastName} erstellt`,
+        description: `Der Mitarbeiter ${employee.firstName} ${employee.lastName} wurde erfolgreich erstellt.`,
+      })()
+      onCreate()
     },
     onError: (error) => {
-      toast('Der Mitarbeiter konnte nicht erstellt werden', {
+      CustomToast({
+        title: `Mitarbeiter konnte nicht erstellt werden`,
         description: error,
-        duration: 5000,
-      })
+        duration: 15000,
+      })()
     },
   })
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault() // Prevent the form from submitting normally
-    const formData = new FormData(event.currentTarget)
-
-    const username = formData.get('username') as string
+  // TODO: consider using entries method: https://developer.mozilla.org/en-US/docs/Web/API/FormData/entries
+  const onSubmit = (formData: FormData) => {
     const firstName = formData.get('firstName') as string
     const lastName = formData.get('lastName') as string
-    const initials = formData.get('initials') as string
-    const profilePicture = formData.get('profilePicture') as string
     const roleId = formData.get('roleId') as string
-    const groupId = formData.get('groupId') as string
+    const formGroupIds = formData.getAll('groupId') as string[]
+
+    const formattedFirstName =
+      firstName.charAt(0).toUpperCase() + firstName.slice(1)
+    const formattedLastName =
+      lastName.charAt(0).toUpperCase() + lastName.slice(1)
+
+    const username = firstName.toLowerCase() + '.' + lastName.toLowerCase()
+    const initials = formattedFirstName.charAt(0) + formattedLastName.charAt(0)
 
     console.log(formData)
 
     execute({
       username,
-      firstName,
-      lastName,
+      firstName: formattedFirstName,
+      lastName: formattedLastName,
       initials,
-      profilePicture,
       roleId,
-      groupId,
+      groupIds: formGroupIds,
     })
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form action={onSubmit} className='space-y-4'>
       <div className='flex flex-col space-y-2'>
-        <label>
-          Username:
-          <input
-            name='username'
-            type='text'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <label>
-          First Name:
-          <input
-            name='firstName'
-            type='text'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            name='lastName'
-            type='text'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </label>
-        <label>
-          Initials:
-          <input
-            name='initials'
-            type='text'
-            value={initials}
-            onChange={(e) => setInitials(e.target.value)}
-          />
-        </label>
-        <label>
-          Profile Picture:
-          <input
-            name='profilePicture'
-            type='text'
-            value={profilePicture}
-            onChange={(e) => setProfilePicture(e.target.value)}
-          />
-        </label>
-        <label>
-          Role:
-          <select
-            name='roleId'
-            value={roleId}
-            onChange={(e) => setRoleId(e.target.value)}
-          >
-            {roles.map((role) => (
-              <option key={role.id} value={role.id}>
-                {role.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Group:
-          <select
-            name='groupId'
-            value={groupId}
-            onChange={(e) => setGroupId(e.target.value)}
-          >
-            {groups.map((group) => (
-              <option key={group.id} value={group.id}>
-                {group.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FormInput
+          id='firstName'
+          label='Vorname'
+          type='text'
+          errors={fieldErrors}
+        />
+        <FormInput
+          id='lastName'
+          label='Nachname'
+          type='text'
+          errors={fieldErrors}
+        />
+        <FormSelect
+          id='roleId'
+          label='Rolle'
+          placeholder='Wähle eine Rolle aus'
+          options={roles}
+          value={roleId}
+          onValueChange={setRoleId}
+          errors={fieldErrors}
+        />
+        <FormSelectMultiple
+          id='groupId'
+          name='groupId'
+          label='Gruppe'
+          placeholder='Wähle eine Gruppe aus'
+          options={groups}
+          errors={fieldErrors}
+        />
       </div>
-      <button type='submit'>Create Employee</button>
+      <div className='!mt-8 flex justify-end space-x-3'>
+        <Button type='button' onClick={onCancel}>
+          Abbrechen
+        </Button>
+        <FormSubmit>Anlegen</FormSubmit>
+      </div>
     </form>
   )
 }

@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
-} from '../ui/data-table-column-header'
+} from './ui/data-table-column-header'
 import { GetEmployeeType } from '@/actions/get-employee/schema'
 import { EmployeeDataTableRowActions } from './employee-data-table-row-actions'
 
