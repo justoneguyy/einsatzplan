@@ -20,6 +20,7 @@ export const getEmployees = cache(async function () {
 
   return employees
 })
+
 // export const getEmployees = cache(async function () {
 //   try {
 //     const employees = await db.employee.findMany({

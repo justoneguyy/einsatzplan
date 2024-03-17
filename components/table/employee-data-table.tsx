@@ -154,7 +154,6 @@ export function EmployeeDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* modal or add table row? */}
       <div className='flex justify-end'>
         <EmployeeDialog roles={roles} groups={groups} />
       </div>

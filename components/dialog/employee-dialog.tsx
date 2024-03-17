@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from '@/ui/dialog'
 import { useState } from 'react'
-import EmployeeForm from '../form/employee-form'
+import EmployeeCreateForm from '../form/employee-create-form'
 
 interface EmployeeDialogProps {
   roles: RolesType
@@ -38,7 +38,7 @@ export function EmployeeDialog({ roles, groups }: EmployeeDialogProps) {
         <DialogDescription>
           Hier können Mitarbeiter hinzugefügt werden.
         </DialogDescription>
-        <EmployeeForm
+        <EmployeeCreateForm
           roles={roles}
           groups={groups}
           onCreate={() => setOpen(false)}

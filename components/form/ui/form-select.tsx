@@ -16,6 +16,7 @@ export interface FormSelectProps {
   placeholder: string
   options: { id: string; name: string }[]
   value: string
+  defaultValue?: string
   onValueChange: (value: string) => void
   errors?: Record<string, string[] | undefined>
 }
@@ -23,9 +24,10 @@ export interface FormSelectProps {
 const FormSelect: React.FC<FormSelectProps> = ({
   id,
   label,
+  placeholder,
   options,
   value,
-  placeholder,
+  defaultValue = '',
   onValueChange,
   errors,
 }) => (
@@ -36,9 +38,13 @@ const FormSelect: React.FC<FormSelectProps> = ({
           {label}
         </Label>
       ) : null}
-      <Select value={value} onValueChange={onValueChange}>
+      <Select
+        value={value}
+        defaultValue={defaultValue}
+        onValueChange={onValueChange}
+      >
         <SelectTrigger>
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder} defaultValue={defaultValue} />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

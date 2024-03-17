@@ -20,10 +20,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id,
       },
     })
-  } catch (error) {
-    return {
-      error: 'Der Mitarbeiter konnte nicht gelöscht werden',
-    }
+  } catch (e: any) {
+    return { error: e.message }
   }
 
   revalidatePath('/settings/employee-administration')

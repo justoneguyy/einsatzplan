@@ -37,8 +37,6 @@ export default function CreateDialog() {
           <DialogItem
             title='Aufgabe'
             icon={<CheckCircledIcon className='mr-2 h-4 w-4' />}
-            open={open}
-            onOpenChange={setOpen}
           >
             <DialogHeader>
               <DialogTitle>Neue Aufgabe</DialogTitle>
@@ -55,8 +53,6 @@ export default function CreateDialog() {
           <DialogItem
             title='Rufbereitschaft'
             icon={<AlertCircle className='mr-2 h-4 w-4' />}
-            open={open}
-            onOpenChange={setOpen}
           >
             <DialogHeader>
               <DialogTitle>Neue Rufbereitschaft</DialogTitle>
@@ -73,8 +69,6 @@ export default function CreateDialog() {
           <DialogItem
             title='Urlaubeintrag'
             icon={<Palmtree className='mr-2 h-4 w-4' />}
-            open={open}
-            onOpenChange={setOpen}
           >
             <DialogHeader>
               <DialogTitle>Neuer Urlaubeintrag</DialogTitle>
@@ -92,3 +86,38 @@ export default function CreateDialog() {
     )
   }
 }
+
+// interface DialogItemProps {
+//   children: ReactNode
+//   onSelect?: () => void
+//   forwardedRef?: Ref<HTMLDivElement>
+//   title: string
+//   icon: ReactElement
+// }
+
+// const DialogItem: React.FC<DialogItemProps> = ({
+//   children,
+//   onSelect,
+//   forwardedRef,
+//   title,
+//   icon,
+// }) => {
+//   return (
+//     <Dialog>
+//       <DialogTrigger asChild>
+//         <DropdownMenuItem
+//           ref={forwardedRef}
+//           className='DropdownMenuItem'
+//           onSelect={(event) => {
+//             event.preventDefault()
+//             onSelect && onSelect()
+//           }}
+//         >
+//           {icon}
+//           <span>{title}</span>
+//         </DropdownMenuItem>
+//       </DialogTrigger>
+//       <DialogContent>{children}</DialogContent>
+//     </Dialog>
+//   )
+// }

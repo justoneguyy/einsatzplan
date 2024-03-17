@@ -31,16 +31,21 @@ export function EmployeeDataTableToolbar<TData>({
           filter={filter}
           setFilter={setFilter}
         />
-        <DataTableFacetedFilter
-          column={table.getColumn('role')}
-          title='Rolle'
-          options={roleOptions}
-        />
-        <DataTableFacetedFilter
-          column={table.getColumn('groups')}
-          title='Gruppe'
-          options={groupOptions}
-        />
+        {/* TODO: the FacetedFilter currently do not work (when a value is selected, no value is actually passed) fix this */}
+        {/* {table.getColumn('role') && (
+          <DataTableFacetedFilter
+            column={table.getColumn('role')}
+            title='Rolle'
+            options={roleOptions}
+          />
+        )}
+        {table.getColumn('groups') && (
+          <DataTableFacetedFilter
+            column={table.getColumn('groups')}
+            title='Gruppe'
+            options={groupOptions}
+          />
+        )} */}
         {isFiltered && (
           <Button
             variant='ghost'

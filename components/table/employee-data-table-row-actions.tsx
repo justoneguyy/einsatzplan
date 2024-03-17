@@ -20,8 +20,12 @@ import {
   DialogTitle,
 } from '../ui/dialog'
 import { CustomToast } from '../ui/toaster'
+import EmployeeEditForm, {
+  EmployeeEditFormProps,
+} from '../form/employee-edit-form'
 
-interface DataTableRowActionsProps {
+export interface DataTableRowActionsProps
+  extends Omit<EmployeeEditFormProps, 'onCreate' | 'onCancel'> {
   id: string
   firstName: string
   lastName: string
@@ -29,6 +33,7 @@ interface DataTableRowActionsProps {
 
 export function EmployeeDataTableRowActions({
   id,
+  employee,
   firstName,
   lastName,
 }: DataTableRowActionsProps) {
@@ -65,22 +70,30 @@ export function EmployeeDataTableRowActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className=''>
-        <DialogItem title='Bearbeiten' open={open} onOpenChange={setOpen}>
+        {/* TODO: add form for this */}
+        <DialogItem title='Bearbeiten'>
           <DialogHeader className='space-y-2'>
-            <DialogTitle>as</DialogTitle>
+            <DialogTitle>Mitarbeiter</DialogTitle>
             <DialogDescription>
-              Sicher dass der Mitarbeiter {firstName} {lastName} geloescht
-              werden soll?
+              {firstName} {lastName}
             </DialogDescription>
           </DialogHeader>
+          <EmployeeEditForm
+            employee={employee}
+            onCreate={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
+          />
         </DialogItem>
 
-        <DialogItem title='Loeschen' open={open} onOpenChange={setOpen}>
+        <DialogItem title='Loeschen'>
           <DialogHeader className='space-y-2'>
             <DialogTitle>Warnung</DialogTitle>
             <DialogDescription>
-              Sicher dass der Mitarbeiter {firstName} {lastName} geloescht
-              werden soll?
+              Sicher dass der Mitarbeiter{' '}
+              <span className='text-accent-foreground'>
+                {firstName} {lastName}
+              </span>{' '}
+              geloescht werden soll?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
