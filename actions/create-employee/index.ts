@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 
 import db from '@/lib/db'
-import { Employee } from '@prisma/client'
 
 import { createSafeAction } from '@/lib/helper/create-safe-action'
 import { InputType, ReturnType } from './types'

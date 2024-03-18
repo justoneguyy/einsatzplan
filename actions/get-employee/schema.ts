@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
 const GetEmployees = z.object({
-  id: z.string(),
   username: z.string(),
   firstName: z.string(),
   lastName: z.string(),

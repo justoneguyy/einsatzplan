@@ -2,30 +2,25 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Task } from './data/schema'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
 } from './ui/data-table-column-header'
 import { CellEmployee, CellWeekday } from './task-cells'
+import { Task } from '@prisma/client'
+import { TasksType } from '@/actions/get-task/types'
 
 // TODO: set fixed/min width for the specific columns
 export const TaskColumns: ColumnDef<Task>[] = [
   {
-    accessorKey: 'assignedEmployeeName',
+    accessorKey: 'employees',
     header: ({ column }) => (
       // TODO: maybe change to sorting on click (no dropdown)
       <DataTableColumnHeaderAscDescReset column={column} title='Mitarbeiter' />
     ),
-    cell: ({ row }) => {
-      return (
-        // TOOD: in real db change this to e.g.
-        <CellEmployee
-          assignedEmployeeName={row.getValue('assignedEmployeeName')}
-          // onCall={row.getValue('onCall')}
-        />
-      )
-    },
+    // cell: ({ row }) => {
+    //   return <CellEmployee assignedEmployeeName={row.getValue('')} />
+    // },
     enableHiding: false,
     enableResizing: true,
     // TODO: change minSize (should only show the avatar (and the indicator) when <md)
