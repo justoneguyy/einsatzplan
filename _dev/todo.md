@@ -17,6 +17,10 @@
 - change scrollbar
 - remove console.logs
 - save states in localstorage or database? (e.g. when hiding a column from the table)
+- better error handling
+- berufsschuletage handling (die tage sollten bei den azubis auswählbar sein (und auch bis wann oder automatisch bis zu den naechsten sommerferien))
+- feiertage fetchen per api
+- save the state of the calendar (daily, weekly, monthly) in localstorage
 
 ## einsatzplan
 

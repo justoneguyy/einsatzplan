@@ -2,18 +2,11 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { GetEmployeeType } from '@/actions/get-employee/schema'
-import { GroupsType } from '@/actions/get-group/types'
-import { RolesType } from '@/actions/get-role/type'
 import { EmployeeDataTableRowActions } from './employee-data-table-row-actions'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
 } from './ui/data-table-column-header'
-
-interface EmployeeColumnProps {
-  roles: RolesType
-  groups: GroupsType
-}
 
 // TODO: set fixed/min width for the specific columns
 export const EmployeeColumns: ColumnDef<GetEmployeeType>[] = [
@@ -52,9 +45,11 @@ export const EmployeeColumns: ColumnDef<GetEmployeeType>[] = [
             .join(' ')
         },
         meta: 'Gruppe',
-        header: ({ column }) => (
-          <DataTableColumnHeaderAscDescReset column={column} title='Gruppen' />
-        ),
+        // TODO: currently the groups are not sorted asc. when fixed, change it to below header
+        // header: ({ column }) => (
+        //   <DataTableColumnHeaderAscDescReset column={column} title='Gruppen' />
+        // ),
+        header: () => <span className='flex'>Gruppe</span>,
         cell: ({ row }) => {
           const groupNames = row.original.groups.map(
             (employeeGroup) => employeeGroup.group.name

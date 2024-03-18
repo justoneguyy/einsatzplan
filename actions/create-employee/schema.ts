@@ -1,6 +1,9 @@
 import { z } from 'zod'
 
-import { lettersAnyLangRegex } from '@/lib/regex'
+import {
+  lettersAnyLangRegex,
+  lettersAnyLangWithSpaceRegex,
+} from '@/lib/helper/regex'
 
 export const CreateEmployee = z.object({
   username: z.string(),
@@ -17,7 +20,7 @@ export const CreateEmployee = z.object({
       required_error: 'Der Nachname ist erforderlich',
       invalid_type_error: 'Der Nachname muss ein Text sein',
     })
-    .refine((value) => lettersAnyLangRegex.test(value), {
+    .refine((value) => lettersAnyLangWithSpaceRegex.test(value), {
       message: 'Der Nachname darf nur Buchstaben enthalten',
     }),
   initials: z.string(),

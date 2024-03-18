@@ -12,17 +12,3 @@ export const getRoles = cache(async function () {
 
   return roles
 })
-
-// export const getRoles = cache(async function () {
-//   try {
-//     const roles = await db.role.findMany({
-//       orderBy: {
-//         name: 'asc',
-//       },
-//     })
-
-//     return roles
-//   } catch (error) {
-//     return error
-//   }
-// })

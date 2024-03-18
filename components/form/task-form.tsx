@@ -27,7 +27,7 @@ import Link from 'next/link'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { timeHHmmRegex } from '@/lib/regex'
+import { timeHHmmRegex } from '@/lib/helper/regex'
 
 // TODO: adjust min, max
 const taskFormSchema = z.object({

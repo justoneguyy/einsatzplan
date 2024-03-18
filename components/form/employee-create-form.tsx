@@ -12,6 +12,12 @@ import { FormInput } from './ui/form-input'
 import FormSelect from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import FormSelectMultiple from './ui/form-select-multiple'
+import {
+  formatFirstName,
+  formatLastName,
+  generateInitials,
+  generateUsername,
+} from '@/lib/helper/format'
 
 interface EmployeeCreateFormProps {
   roles: RolesType
@@ -54,15 +60,10 @@ function EmployeeCreateForm({
     const roleId = formData.get('roleId') as string
     const formGroupIds = formData.getAll('groupId') as string[]
 
-    // TODO: add validation for a lastName which contains a space (e.g. if double lastName von user)
-
-    const formattedFirstName =
-      firstName.charAt(0).toUpperCase() + firstName.slice(1)
-    const formattedLastName =
-      lastName.charAt(0).toUpperCase() + lastName.slice(1)
-
-    const username = firstName.toLowerCase() + '.' + lastName.toLowerCase()
-    const initials = formattedFirstName.charAt(0) + formattedLastName.charAt(0)
+    const formattedFirstName = formatFirstName(firstName)
+    const formattedLastName = formatLastName(lastName)
+    const username = generateUsername(firstName, lastName)
+    const initials = generateInitials(formattedFirstName, formattedLastName)
 
     execute({
       username,

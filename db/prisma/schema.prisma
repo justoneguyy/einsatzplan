@@ -62,17 +62,19 @@ model Role {
   employees   Employee[]
 }
 
-enum GroupNames {
-  Anwendungsentwickler
-  Systemintegrator
-  Auszubildener
-  Rufbereitschaft
-}
+// do not use enums at the current time because of not being able to actually remap them for the application. more on this: https://github.com/prisma/prisma/issues/8446
+// enum GroupNames {
+//   Anwendungsentwickler
+//   Systemintegrator
+//   Auszubildener
+//   Umschueler            @map("Umschüler")
+//   Rufbereitschaft
+// }
 
 // groups are other than roles, used to group employees in order to filter(...) them
 model Group {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  name            GroupNames
+  name            String
   description     String?
 
   // a group can have multiple employees and an employee can be in multiple groups

@@ -64,6 +64,8 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
     }
   }, [values, onValuesChange])
 
+  // TODO: maybe make the select scrollable
+  // TODO: think about adding select groups
   return (
     <div className='space-y-2'>
       <div className='space-y-1'>

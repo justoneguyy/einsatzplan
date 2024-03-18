@@ -12,6 +12,14 @@
     "description": "Gruppe für Auszubildene"
   },
   {
+    "name": "Umschüler",
+    "description": "Gruppe für Umschüler"
+  },
+  {
+    "name": "Praktikant",
+    "description": "Gruppe für Praktikanten"
+  },
+  {
     "name": "Rufbereitschaft",
     "description": "Gruppe für Rufbereitschaft"
   }

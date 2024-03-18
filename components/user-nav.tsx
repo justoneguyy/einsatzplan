@@ -1,6 +1,12 @@
 'use client'
 
-import { ExitIcon, LaptopIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import {
+  ExitIcon,
+  LaptopIcon,
+  MoonIcon,
+  PersonIcon,
+  SunIcon,
+} from '@radix-ui/react-icons'
 import { Settings } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
@@ -64,9 +70,9 @@ export function UserNav() {
           </MenubarLabel>
           <MenubarSeparator />
           {/* TODO: either fix this or remove it */}
-          <MenubarSub>
+          {/* TOOD: change based on status */}
+          {/* <MenubarSub>
             <MenubarSubTrigger>
-              {/* TOOD: change based on status */}
               <span className='mr-3 h-3 w-3 rounded-full bg-green-500' />
               <p>Status</p>
             </MenubarSubTrigger>
@@ -79,18 +85,21 @@ export function UserNav() {
                 <span className='mr-3 h-3 w-3 rounded-full bg-red-500' />
                 <span>Nicht stoeren</span>
               </MenubarItem>
-              {/* TODO: this should be shown but shouldnt be clickable (vacation, at-school & sick) */}
-              {/* <MenubarItem>
-              <span className='mr-3 h-3 w-3 rounded-full bg-black' />
-                <p>Urlaub</p>
-              </MenubarItem> */}
             </MenubarSubContent>
-          </MenubarSub>
+          </MenubarSub> */}
+          {/* TODO: currently if you click on this link, the menubar is still shown -- fix this */}
+          {/* TODO: only render for admins (later on this might be in settings page itself) */}
           <MenubarItem className='cursor-pointer'>
-            {/* TODO: currently if you click on this link, the menubar is still shown -- fix this */}
+            <PersonIcon className='mr-2 h-4 w-4' />
+            <Link href='/settings/employee-administration'>
+              Mitarbeiterverwaltung
+            </Link>
+          </MenubarItem>
+          {/* TODO: maybe add a settings page later. */}
+          {/* <MenubarItem className='cursor-pointer'>
             <Settings className='mr-2 h-4 w-4' />
             <Link href='/settings'>Einstellungen</Link>
-          </MenubarItem>
+          </MenubarItem> */}
           <MenubarSub>
             <MenubarSubTrigger>
               <SunIcon className='mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
