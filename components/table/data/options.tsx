@@ -1,7 +1,7 @@
 import { getGroups } from '@/actions/get-group'
 import { getRoles } from '@/actions/get-role'
 
-export async function EmployeeOptions() {
+export async function Options() {
   const roles = await getRoles()
 
   const roleOptions = roles.map((role) => ({

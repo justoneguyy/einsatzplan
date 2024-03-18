@@ -28,6 +28,7 @@ function EmployeeCreateForm({
   onCancel,
 }: EmployeeCreateFormProps) {
   const [roleId, setRoleId] = useState('')
+  const [groupIds, setGroupIds] = useState<string[]>([])
 
   const { execute, fieldErrors } = useAction(createEmployee, {
     onSuccess: (employee) => {
@@ -63,8 +64,6 @@ function EmployeeCreateForm({
     const username = firstName.toLowerCase() + '.' + lastName.toLowerCase()
     const initials = formattedFirstName.charAt(0) + formattedLastName.charAt(0)
 
-    console.log(formData)
-
     execute({
       username,
       firstName: formattedFirstName,
@@ -82,12 +81,14 @@ function EmployeeCreateForm({
           id='firstName'
           label='Vorname'
           type='text'
+          autocomplete='given-name'
           errors={fieldErrors}
         />
         <FormInput
           id='lastName'
           label='Nachname'
           type='text'
+          autocomplete='family-name'
           errors={fieldErrors}
         />
         <FormSelect
@@ -100,10 +101,13 @@ function EmployeeCreateForm({
           errors={fieldErrors}
         />
         <FormSelectMultiple
+          deleteButton
           id='groupId'
           name='groupId'
           label='Gruppe'
           placeholder='Wähle eine Gruppe aus'
+          values={groupIds}
+          onValuesChange={setGroupIds}
           options={groups}
           errors={fieldErrors}
         />

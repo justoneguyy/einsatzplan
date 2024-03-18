@@ -1,15 +1,14 @@
 'use client'
 import { ColumnDef } from '@tanstack/react-table'
 
+import { GetEmployeeType } from '@/actions/get-employee/schema'
+import { GroupsType } from '@/actions/get-group/types'
+import { RolesType } from '@/actions/get-role/type'
+import { EmployeeDataTableRowActions } from './employee-data-table-row-actions'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
 } from './ui/data-table-column-header'
-import { GetEmployeeType } from '@/actions/get-employee/schema'
-import { EmployeeDataTableRowActions } from './employee-data-table-row-actions'
-import { RolesType } from '@/actions/get-role/type'
-import { GroupsType } from '@/actions/get-group/types'
-import { EmployeeRowActionsCell } from './employee-cells'
 
 interface EmployeeColumnProps {
   roles: RolesType
@@ -61,8 +60,9 @@ export const EmployeeColumns: ColumnDef<GetEmployeeType>[] = [
             (employeeGroup) => employeeGroup.group.name
           )
 
+          // TODO: refine/style this
           return (
-            <div className='flex w-[100px] items-center'>
+            <div className='flex flex-col'>
               {groupNames.map((name, index) => (
                 <span key={index}>{name}</span>
               ))}
@@ -120,14 +120,8 @@ export const EmployeeColumns: ColumnDef<GetEmployeeType>[] = [
     id: 'actions',
     cell: ({ row }) => {
       return (
-        // <EmployeeRowActionsCell
-        //   id={row.getValue('id')}
-        //   employee={row.original}
-        //   firstName={row.getValue('firstName')}
-        //   lastName={row.getValue('lastName')}
-        // />
         <EmployeeDataTableRowActions
-          id={row.getValue('id')}
+          id={row.original.id}
           employee={row.original}
           firstName={row.getValue('firstName')}
           lastName={row.getValue('lastName')}

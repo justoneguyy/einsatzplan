@@ -17,33 +17,52 @@ import { FormSelectProps } from './form-select'
 interface FormSelectMultipleProps
   extends Omit<FormSelectProps, 'value' | 'onValueChange'> {
   name: string
+  values: string[]
+  onValuesChange: (values: string[]) => void
+  deleteButton?: boolean
 }
 
+// TODO: change it, so only the remaining values get shown in the select
 const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
   id,
   name,
   label,
+  values,
+  onValuesChange,
   options,
   placeholder,
   errors,
+  deleteButton,
 }) => {
-  const [values, setValues] = useState([''])
+  const remainingOptions = options.filter(
+    (option) =>
+      !values.includes(option.id) ||
+      (values.includes(option.id) &&
+        values.indexOf(option.id) ===
+          values.indexOf(values.find((val) => val === option.id) || ''))
+  )
 
   const handleValueChange = (index: number, value: string) => {
     const newValues = [...values]
     newValues[index] = value
-    setValues(newValues)
+    onValuesChange(newValues)
   }
 
   const handleAdd = () => {
-    setValues([...values, ''])
+    onValuesChange([...values, ''])
   }
 
   const handleDelete = (index: number) => {
     const newValues = [...values]
     newValues.splice(index, 1)
-    setValues(newValues)
+    onValuesChange(newValues)
   }
+
+  useEffect(() => {
+    if (values.length === 0) {
+      onValuesChange([''])
+    }
+  }, [values, onValuesChange])
 
   return (
     <div className='space-y-2'>
@@ -65,11 +84,12 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>
                   <SelectContent>
-                    {options.map((option) => (
+                    {remainingOptions.map((option) => (
                       <SelectItem
                         id={option.id}
                         key={option.id}
                         value={option.id}
+                        disabled={values.includes(option.id)}
                       >
                         {option.name}
                       </SelectItem>
@@ -77,9 +97,8 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
                   </SelectContent>
                 </Select>
                 <input hidden id={id} name={id} value={value} readOnly />
-                {/* TOOD: validation not working why so ever. fix this */}
                 <FormErrors id={id} errors={errors} />
-                {index > 0 && (
+                {deleteButton && (
                   <Button
                     type='button'
                     variant='outline'

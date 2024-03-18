@@ -4,11 +4,7 @@ import db from '@/lib/db'
 import { cache } from 'react'
 
 export const getGroups = cache(async function () {
-  const groups = await db.group.findMany({
-    orderBy: {
-      name: 'asc',
-    },
-  })
+  const groups = await db.group.findMany({})
 
   return groups
 })

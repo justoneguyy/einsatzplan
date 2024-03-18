@@ -1,46 +1,40 @@
 'use client'
 
-import { GroupsType } from '@/actions/get-group/types'
-import { RolesType } from '@/actions/get-role/type'
+import { GetEmployeeType } from '@/actions/get-employee/schema'
+import { updateEmployee } from '@/actions/update-employee'
 import { useAction } from '@/lib/hooks/useAction'
-import { ElementRef, useEffect, useRef, useState } from 'react'
+import { useGroupContext } from '@/lib/provider/group-provider'
+import { useRoleContext } from '@/lib/provider/role-provider'
+import { useState } from 'react'
 import { Button } from '../ui/button'
 import { CustomToast } from '../ui/toaster'
 import { FormInput } from './ui/form-input'
 import FormSelect from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import FormSelectMultiple from './ui/form-select-multiple'
-import { updateEmployee } from '@/actions/update-employee'
-import { Employee, Group, Role } from '@prisma/client'
-import { getRoles } from '@/actions/get-role'
-import { getGroups } from '@/actions/get-group'
 
 export interface EmployeeEditFormProps {
-  employee: Employee
-  // roles: RolesType
-  // groups: GroupsType
+  employee: GetEmployeeType
   onCreate: () => void
   onCancel: () => void
 }
 
 // maybe change zod mode to insta check
+// TODO: make this form more dynamic & sharable. e.g. this can be shared with employee-create-form
 function EmployeeEditForm({
   employee,
   onCreate,
   onCancel,
 }: EmployeeEditFormProps) {
-  const [firstName, setFirstName] = useState(employee.firstName)
-  const [lastName, setLastName] = useState(employee.lastName)
+  const firstName = employee.firstName
+  const lastName = employee.lastName
   const [roleId, setRoleId] = useState(employee.roleId)
+  const [groupIds, setGroupIds] = useState(
+    employee.groups.map((group) => group.group.id)
+  )
 
-  // TODO: somehow call this from within the server.
-  // const [roles, setRoles] = useState<Role[]>()
-  // const [groups, setGroups] = useState<Group[]>()
-
-  // useEffect(() => {
-  //   getRoles().then((data) => setRoles(data))
-  //   getGroups().then((data) => setGroups(data))
-  // }, [])
+  const { _roles } = useRoleContext()
+  const { _groups } = useGroupContext()
 
   const { execute, fieldErrors } = useAction(updateEmployee, {
     onSuccess: (employee) => {
@@ -49,8 +43,6 @@ function EmployeeEditForm({
         description: `Der Mitarbeiter ${employee.firstName} ${employee.lastName} wurde erfolgreich bearbeitet.`,
       })()
       onCreate()
-      setFirstName(employee.firstName)
-      setLastName(employee.lastName)
     },
     onError: (error) => {
       CustomToast({
@@ -60,10 +52,6 @@ function EmployeeEditForm({
       })()
     },
   })
-
-  const formRef = useRef<ElementRef<'form'>>(null)
-  const inputRef = useRef<ElementRef<'input'>>(null)
-  const [isEditing, setIsEditing] = useState(false)
 
   // TODO: consider using entries method: https://developer.mozilla.org/en-US/docs/Web/API/FormData/entries
   const onSubmit = (formData: FormData) => {
@@ -81,8 +69,6 @@ function EmployeeEditForm({
 
     const username = firstName.toLowerCase() + '.' + lastName.toLowerCase()
     const initials = formattedFirstName.charAt(0) + formattedLastName.charAt(0)
-
-    console.log(formData)
 
     execute({
       id: employee.id,
@@ -103,6 +89,7 @@ function EmployeeEditForm({
           defaultValue={firstName}
           label='Vorname'
           type='text'
+          autocomplete='given-name'
           errors={fieldErrors}
         />
         <FormInput
@@ -110,24 +97,28 @@ function EmployeeEditForm({
           defaultValue={lastName}
           label='Nachname'
           type='text'
+          autocomplete='family-name'
           errors={fieldErrors}
         />
         <FormSelect
           id='roleId'
           label='Rolle'
           placeholder='Wähle eine Rolle aus'
-          options={roles}
+          options={_roles}
           value={roleId}
           defaultValue={roleId}
           onValueChange={setRoleId}
           errors={fieldErrors}
         />
         <FormSelectMultiple
+          deleteButton
           id='groupId'
           name='groupId'
           label='Gruppe'
           placeholder='Wähle eine Gruppe aus'
-          options={groups}
+          values={groupIds}
+          onValuesChange={setGroupIds}
+          options={_groups}
           errors={fieldErrors}
         />
       </div>

@@ -37,7 +37,7 @@ export function EmployeeDataTableRowActions({
   firstName,
   lastName,
 }: DataTableRowActionsProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
 
   const { execute, isLoading } = useAction(deleteEmployee, {
     onSuccess: () => {
@@ -70,7 +70,6 @@ export function EmployeeDataTableRowActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className=''>
-        {/* TODO: add form for this */}
         <DialogItem title='Bearbeiten'>
           <DialogHeader className='space-y-2'>
             <DialogTitle>Mitarbeiter</DialogTitle>
@@ -78,6 +77,7 @@ export function EmployeeDataTableRowActions({
               {firstName} {lastName}
             </DialogDescription>
           </DialogHeader>
+          {/* TODO: currently this is not working. without single dialogs it would work tho. find a workaround for it (one solution would be to use the DialogClose as you can see in the beneath DialogItem.) */}
           <EmployeeEditForm
             employee={employee}
             onCreate={() => setOpen(false)}
@@ -102,6 +102,7 @@ export function EmployeeDataTableRowActions({
                 Abbrechen
               </Button>
             </DialogClose>
+            {/* the onDelete also doesnt get (sometimes) triggered TODO: fix this */}
             <Button size='sm' onClick={onDelete} disabled={isLoading}>
               Bestaetigen
             </Button>

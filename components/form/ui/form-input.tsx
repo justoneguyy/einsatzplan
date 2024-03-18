@@ -18,6 +18,7 @@ interface FormInputProps {
   className?: string
   defaultValue?: string
   onBlur?: () => void
+  autocomplete?: string
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -33,6 +34,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       className,
       defaultValue = '',
       onBlur,
+      autocomplete,
     },
     ref
   ) => {
@@ -47,6 +49,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             </Label>
           ) : null}
           <Input
+            autoComplete={autocomplete}
             onBlur={onBlur}
             defaultValue={defaultValue}
             ref={ref}

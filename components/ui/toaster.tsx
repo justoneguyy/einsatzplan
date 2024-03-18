@@ -43,7 +43,7 @@ interface CustomToastProps extends ToastProps {
 const CustomToast = ({
   title,
   description,
-  duration = 5000,
+  duration = 10000,
   ...props
 }: CustomToastProps) => {
   return () =>

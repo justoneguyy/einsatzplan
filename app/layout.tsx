@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import '@/styles/globals.css'
 import { cn } from '@/lib/utils'
 import { SiteHeader } from '@/components/site-header'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/lib/provider/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { fontSans } from '@/styles/font'
 
