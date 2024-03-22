@@ -7,6 +7,7 @@ import {
   VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
@@ -33,6 +34,7 @@ export function TaskDataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [filter, setFilter] = useState('')
 
   const table = useReactTable({
     data,
@@ -43,6 +45,7 @@ export function TaskDataTable<TData, TValue>({
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       columnVisibility,
@@ -50,14 +53,17 @@ export function TaskDataTable<TData, TValue>({
         pageIndex: 0,
         pageSize: data.length,
       },
+      globalFilter: filter,
     },
     columnResizeMode: 'onChange',
     onSortingChange: setSorting,
+    onGlobalFilterChange: setFilter,
     onColumnVisibilityChange: setColumnVisibility,
   })
 
   return (
     <div className='max-w-full space-y-2'>
+      {/* TODO: think about adding search etc. */}
       <TaskDataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table className='w-full'>

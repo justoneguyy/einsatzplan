@@ -13,9 +13,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   // TODO: add auth check
 
   const {
-    username,
     firstName,
     lastName,
+    email,
     initials,
     profilePicture,
     roleId,
@@ -27,9 +27,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   try {
     employee = await db.employee.create({
       data: {
-        username,
         firstName,
         lastName,
+        email,
         initials,
         profilePicture,
         role: {

@@ -1,5 +1,7 @@
 'use client'
 
+import { EmployeesTypeName } from '@/actions/get-employee/types'
+import TaskForm from '@/components/form/task-create-form'
 import { Button } from '@/components/ui/button'
 import {
   DialogDescription,
@@ -15,12 +17,19 @@ import {
 import { CheckCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { AlertCircle, Palmtree } from 'lucide-react'
 import { useState } from 'react'
-import { OnCallForm } from '../form/onCall-form'
-import { TaskForm } from '../form/task-form'
 import { VacationForm } from '../form/vacation-form'
 import { DialogItem } from './ui/dialog-item'
+import OnCallForm from '../form/onCall-form'
 
-export default function CreateDialog() {
+interface CreateDialogProps {
+  employees: EmployeesTypeName
+  employeesOnCallService: EmployeesTypeName
+}
+
+export default function CreateDialog({
+  employees,
+  employeesOnCallService,
+}: CreateDialogProps) {
   const [open, setOpen] = useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
@@ -45,6 +54,7 @@ export default function CreateDialog() {
               </DialogDescription>
             </DialogHeader>
             <TaskForm
+              employees={employees}
               onCancel={() => setOpen(false)}
               onCreate={() => setOpen(false)}
             />
@@ -61,6 +71,7 @@ export default function CreateDialog() {
               </DialogDescription>
             </DialogHeader>
             <OnCallForm
+              employees={employeesOnCallService}
               onCancel={() => setOpen(false)}
               onCreate={() => setOpen(false)}
             />

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Verfügbar",
+    "description": "",
+    "color": "green"
+  },
+  {
+    "name": "Nicht stören",
+    "description": "",
+    "color": "red"
+  },
+  {
+    "name": "Offline",
+    "description": "",
+    "color": "white"
+  },
+  {
+    "name": "Urlaub",
+    "description": "",
+    "color": "white"
+  },
+  {
+    "name": "Berufsschule",
+    "description": "",
+    "color": "white"
+  },
+  {
+    "name": "krank",
+    "description": "",
+    "color": "white"
+  }
+]

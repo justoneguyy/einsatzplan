@@ -20,7 +20,7 @@ import {
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
-import { TaskForm } from '../form/task-form'
+import { TaskFormT } from '../form/task-form'
 
 export default function NewTaskDialog() {
   const [open, setOpen] = useState(false)
@@ -42,7 +42,7 @@ export default function NewTaskDialog() {
               Hier kann eine neue Aufgabe erstellt werden.
             </DialogDescription>
           </DialogHeader>
-          <TaskForm
+          <TaskFormT
             onCancel={() => setOpen(false)}
             onCreate={() => setOpen(false)}
           />
@@ -67,7 +67,7 @@ export default function NewTaskDialog() {
             Hier kann eine neue Aufgabe erstellt werden.
           </DrawerDescription>
         </DrawerHeader>
-        <TaskForm
+        <TaskFormT
           onCancel={() => setOpen(false)}
           onCreate={() => setOpen(false)}
         />

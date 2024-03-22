@@ -102,6 +102,13 @@ export const EmployeeColumns: ColumnDef<GetEmployeeType>[] = [
         ),
       },
       {
+        accessorKey: 'email',
+        meta: 'E-Mail',
+        header: ({ column }) => (
+          <DataTableColumnHeaderHide column={column} title='E-Mail' />
+        ),
+      },
+      {
         accessorKey: 'initials',
         meta: 'Initialien',
         header: ({ column }) => (

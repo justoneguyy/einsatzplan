@@ -37,7 +37,7 @@ type ToastProps = Omit<ToastT, 'id'>
 
 interface CustomToastProps extends ToastProps {
   title: string
-  description: string
+  description?: string
 }
 
 const CustomToast = ({

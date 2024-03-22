@@ -5,7 +5,7 @@ import { GroupsType } from '@/actions/get-group/types'
 import { RolesType } from '@/actions/get-role/type'
 import { useAction } from '@/lib/hooks/useAction'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { CustomToast } from '../ui/toaster'
 import { FormInput } from './ui/form-input'
@@ -15,6 +15,7 @@ import FormSelectMultiple from './ui/form-select-multiple'
 import {
   formatFirstName,
   formatLastName,
+  generateEmail,
   generateInitials,
   generateUsername,
 } from '@/lib/helper/format'
@@ -35,6 +36,17 @@ function EmployeeCreateForm({
 }: EmployeeCreateFormProps) {
   const [roleId, setRoleId] = useState('')
   const [groupIds, setGroupIds] = useState<string[]>([])
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+
+  // TOOD: add username
+  useEffect(() => {
+    setEmail(generateEmail(firstName, lastName))
+    setUsername(generateUsername(firstName, lastName))
+  }, [firstName, lastName])
 
   const { execute, fieldErrors } = useAction(createEmployee, {
     onSuccess: (employee) => {
@@ -62,11 +74,12 @@ function EmployeeCreateForm({
 
     const formattedFirstName = formatFirstName(firstName)
     const formattedLastName = formatLastName(lastName)
-    const username = generateUsername(firstName, lastName)
     const initials = generateInitials(formattedFirstName, formattedLastName)
+    // const username = generateUsername(firstName, lastName)
 
     execute({
-      username,
+      // username,
+      email,
       firstName: formattedFirstName,
       lastName: formattedLastName,
       initials,
@@ -83,6 +96,7 @@ function EmployeeCreateForm({
           label='Vorname'
           type='text'
           autocomplete='given-name'
+          onChange={(e) => setFirstName(e.target.value)}
           errors={fieldErrors}
         />
         <FormInput
@@ -90,6 +104,25 @@ function EmployeeCreateForm({
           label='Nachname'
           type='text'
           autocomplete='family-name'
+          onChange={(e) => setLastName(e.target.value)}
+          errors={fieldErrors}
+        />
+        <FormInput
+          id='username'
+          label='Benutzername'
+          type='text'
+          autocomplete='username'
+          value={username}
+          disabled
+          errors={fieldErrors}
+        />
+        <FormInput
+          id='email'
+          label='E-Mail'
+          type='email'
+          autocomplete='email'
+          value={email}
+          disabled
           errors={fieldErrors}
         />
         <FormSelect

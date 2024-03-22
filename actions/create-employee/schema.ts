@@ -6,7 +6,6 @@ import {
 } from '@/lib/helper/regex'
 
 export const CreateEmployee = z.object({
-  username: z.string(),
   firstName: z
     .string({
       required_error: 'Der Vorname ist erforderlich',
@@ -23,6 +22,7 @@ export const CreateEmployee = z.object({
     .refine((value) => lettersAnyLangWithSpaceRegex.test(value), {
       message: 'Der Nachname darf nur Buchstaben enthalten',
     }),
+  email: z.string(),
   initials: z.string(),
   profilePicture: z.string().optional(),
   roleId: z

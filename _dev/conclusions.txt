@@ -64,3 +64,21 @@ Authentication:
         - The firstname and lastname are being validated with zod and a regex as refinement.
         - The email will be automatically put together as described above but if it mismatches with the actual one it can be edited. zod and a regex will also be of help here.
         - password: dont know yet. probably some complex regex but maybe it shouldnt be too strict because of the other default settings from other services we use. security doesnt play a huge role here.
+
+
+
+New Task:
+    - Title
+    - Switch "Ganztaetig"
+        - by default disabled
+        - if the switch is enabled, show time to choose from right beneath
+        - if the switch is disabled, hide the times and only show the dates
+    - Dates beneath the switch but to the left of time
+    - add persons dropdown
+    - add tickets
+
+    - ?description
+    - ?add location of the task (or should that just be in the title/description?)
+
+    - later on add a button where you can repeat the tasks (weekly etc.)
+

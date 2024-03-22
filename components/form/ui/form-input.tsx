@@ -16,7 +16,9 @@ interface FormInputProps {
   disabled?: boolean
   errors?: Record<string, string[] | undefined>
   className?: string
+  value?: string
   defaultValue?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: () => void
   autocomplete?: string
 }
@@ -32,7 +34,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       disabled,
       errors,
       className,
+      value,
       defaultValue = '',
+      onChange,
       onBlur,
       autocomplete,
     },
@@ -51,7 +55,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
           <Input
             autoComplete={autocomplete}
             onBlur={onBlur}
+            value={value}
             defaultValue={defaultValue}
+            onChange={onChange}
             ref={ref}
             required={required}
             name={id}
@@ -59,7 +65,10 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             placeholder={placeholder}
             type={type}
             disabled={pending || disabled}
-            className={cn('h-7 px-2 py-1 text-sm', className)}
+            className={cn(
+              'h-7 px-2 py-1 text-sm disabled:opacity-100',
+              className
+            )}
             aria-describedby={`${id}-error`}
           />
         </div>

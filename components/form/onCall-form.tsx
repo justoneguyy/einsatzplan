@@ -1,105 +1,72 @@
 'use client'
 
-import { employees } from '@/_dev/mockdata/constants'
-import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
+import { createTask } from '@/actions/create-task'
+import { EmployeesTypeName } from '@/actions/get-employee/types'
+import { useAction } from '@/lib/hooks/useAction'
+import { useState } from 'react'
+import { Button } from '../ui/button'
+import { CustomToast } from '../ui/toaster'
+import { FormInput } from './ui/form-input'
+import FormSelectMultiple from './ui/form-select-multiple'
+import { FormSubmit } from './ui/form-submit'
+import FormSelect from './ui/form-select'
 
-const onCallFormSchema = z.object({
-  employee: z.string({ required_error: 'Bitte gib einen Mitarbeiter ein.' }),
-  dateFrom: z.date({ required_error: 'Das Startdatum ist erforderlich' }),
-  dateTo: z.date({ required_error: 'Das Enddatum ist erforderlich' }),
-})
-
-type OnCallFormValues = z.infer<typeof onCallFormSchema>
-
-const defaultValues: Partial<OnCallFormValues> = {
-  dateFrom: new Date(),
-  dateTo: new Date(),
+interface OnCallFormProps {
+  employees: EmployeesTypeName
+  onCreate: () => void
+  onCancel: () => void
 }
 
-export function OnCallForm({
-  onCancel,
-  onCreate,
-}: {
-  onCancel?: () => void
-  onCreate?: () => void
-}) {
-  const form = useForm<OnCallFormValues>({
-    resolver: zodResolver(onCallFormSchema),
-    defaultValues,
-    mode: 'onChange',
+function OnCallForm({ employees, onCreate, onCancel }: OnCallFormProps) {
+  const [employeeId, setEmployeeId] = useState('')
+
+  const { execute, fieldErrors } = useAction(createTask, {
+    onSuccess: (task) => {
+      CustomToast({
+        title: `Aufgabe ${task.title} erstellt`,
+      })()
+      onCreate()
+    },
+    onError: (error) => {
+      CustomToast({
+        title: `Die Aufgabe konnte nicht erstellt werden`,
+        description: error,
+        duration: 15000,
+      })()
+    },
   })
 
-  function onSubmit(data: OnCallFormValues) {
-    toast('Rufbereitschaft erstellt', {
-      description: 'Die Rufbereitschaft wurde erfolgreich erstellt.',
-      duration: 5000,
-    })
-  }
+  // const onSubmit = (formData: FormData) => {
+  //   const employeeId = formData.get('employeeId') as string
+
+  //   execute({
+  //     employeeId,
+  //   })
+  // }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-4 p-4 md:p-0'
-      >
-        <FormField
-          control={form.control}
-          name='employee'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mitarbeiter</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder='Mitarbeiter auswaehlen' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {employees.map((employee) => (
-                      <SelectItem key={employee.id} value={employee.name}>
-                        {employee.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+    <form className='space-y-4'>
+      {/* <form action={onSubmit} className='space-y-4'> */}
+      {/* TOOD: add date range */}
+      <div className='flex flex-col space-y-2'>
+        <FormSelect
+          id='employeeId'
+          label='Mitarbeiter'
+          placeholder='Wähle einen Mitarbeiter aus'
+          options={employees}
+          value={employeeId}
+          onValueChange={setEmployeeId}
+          errors={fieldErrors}
         />
-        <div className='!mt-8 flex justify-end space-x-3'>
-          <Button type='button' variant='outline' onClick={onCancel}>
-            Abbrechen
-          </Button>
-          {/* close on Click? */}
-          <Button type='submit' onClick={onCreate}>
-            Erstellen
-          </Button>
-        </div>
-      </form>
-    </Form>
+      </div>
+      <div className='!mt-8 flex justify-end space-x-3'>
+        <Button type='button' onClick={onCancel}>
+          Abbrechen
+        </Button>
+        <FormSubmit>Anlegen</FormSubmit>
+      </div>
+    </form>
   )
 }
+
+export default OnCallForm

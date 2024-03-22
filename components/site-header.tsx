@@ -1,3 +1,8 @@
+import {
+  getEmployees,
+  getEmployeesName,
+  getEmployeesOnCallService,
+} from '@/actions/get-employee'
 import { CalendarWeek } from '@/components/calendar-week'
 import CreateDialog from '@/components/dialog/create-dialog'
 import { UserNav } from '@/components/user-nav'
@@ -30,7 +35,9 @@ export function SiteHeader() {
   )
 }
 
-export function SiteHeaderDashboard() {
+export async function SiteHeaderDashboard() {
+  const employees = await getEmployeesName()
+  const employeesOnCallService = await getEmployeesOnCallService()
   const role: string = 'admin'
 
   // admin layout
@@ -53,7 +60,10 @@ export function SiteHeaderDashboard() {
                 <CalendarWeek />
               </div>
               <div>
-                <CreateDialog />
+                <CreateDialog
+                  employees={employees}
+                  employeesOnCallService={employeesOnCallService}
+                />
               </div>
             </div>
           </section>

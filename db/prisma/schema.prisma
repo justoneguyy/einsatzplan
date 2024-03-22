@@ -7,60 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// might need to split this up into an additional profile model
+// TODO: maybe separate this into an additional profile model
 model Employee {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  username        String    // default (of firstName + '.' + lastName) cant be set at this stage
   firstName       String
   lastName        String
   initials        String    // used when the profilePicture is not set
+  email           String
   profilePicture  String?
 
-  //// relations
-  // One-to-Many
+  account         Account?
   roleId          String    @db.ObjectId
   role            Role      @relation(fields: [roleId], references: [id])
-  // Many-to-Many
   groups          EmployeeGroup[]
   tasks           EmployeeTask[]
-  // TODO: we will later define a audit log model to track all kinds of changes
-  // task_createdBy  Task[]    @relation("task_createdBy")
-  // task_updatedBy  Task[]    @relation("task_updatedBy")
+  availabilityId  String?        @db.ObjectId
+  availability    Availability?  @relation(fields: [availabilityId], references: [id])
 }
 
-model Task {
-  id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  description   String?
-  dateFrom      DateTime
-  dateTil       DateTime
-  timeFrom      String?
-  timeTil       String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  // TODO: we will later define a audit log model to track all kinds of changes
-  // createdById   String      @db.ObjectId
-  // createdBy     Employee    @relation("task_createdBy", fields: [createdById], references: [id])
-  // updatedById   String      @db.ObjectId
-  // updatedBy     Employee    @relation("task_updatedBy", fields: [updatedById], references: [id])
-
-  // a task can be assigned to multiple employees and an employee can be assigned to multiple tasks
-  employees EmployeeTask[]
+// maybe use a boolean instead
+enum AccountStatusNames {
+  active
+  inactive
 }
+
+model Account {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  username    String
+  password    String
+  status      AccountStatusNames
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  employeeId  String    @unique @db.ObjectId
+}
+
 
 enum RoleNames {
   user
   admin
 }
 
-// roles are used to define the permissions of the user
 model Role {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        RoleNames
   description String?
 
-  // a role can be given to multiple employees
   employees   Employee[]
 }
 
@@ -73,29 +66,12 @@ model Role {
 //   Rufbereitschaft
 // }
 
-// groups are other than roles, used to group employees in order to filter(...) them
 model Group {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   name            String
   description     String?
 
-  // a group can have multiple employees and an employee can be in multiple groups
   employeeGroups  EmployeeGroup[]
-}
-
-// TODO: i probably shouldnt use intermediary models since these only lead to more complexity and I dont even know if these work in mongodb.
-
-// intermediary models
-model EmployeeTask {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-
-  employeeId  String    @db.ObjectId
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  taskId      String    @db.ObjectId
-  task        Task      @relation(fields: [taskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@unique([employeeId, taskId])
 }
 
 model EmployeeGroup {
@@ -110,5 +86,37 @@ model EmployeeGroup {
   @@unique([employeeId, groupId])
 }
 
+model Task {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  title         String
+  description   String?
+  dateFrom      DateTime
+  dateTil       DateTime
+  timeFrom      String?
+  timeTil       String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-// audit log model?
+  employees EmployeeTask[]
+}
+
+model EmployeeTask {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+
+  employeeId  String    @db.ObjectId
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  taskId      String    @db.ObjectId
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([employeeId, taskId])
+}
+
+model Availability {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  color       String
+
+  employees   Employee[]
+}

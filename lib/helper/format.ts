@@ -29,7 +29,19 @@ export function generateUsername(firstName: string, lastName: string): string {
   const formattedLastName = lastNameParts
     .map((part) => removeAccents(part.toLowerCase()))
     .join('-')
-  return removeAccents(firstName.toLowerCase()) + '.' + formattedLastName
+  const formattedFirstName = removeAccents(firstName.toLowerCase())
+
+  return formattedFirstName && formattedLastName
+    ? formattedFirstName + '.' + formattedLastName
+    : formattedFirstName + formattedLastName
+}
+
+export function generateEmail(firstName: string, lastName: string) {
+  const username = generateUsername(firstName, lastName)
+  const domain = 'uhlhorn.de'
+  const email = `${username}@${domain}`
+
+  return email
 }
 
 export function generateInitials(firstName: string, lastName: string): string {
