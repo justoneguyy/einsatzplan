@@ -1,61 +1,49 @@
-import * as React from 'react'
-
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
-import { UsersIcon } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip'
+import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
 
-import { Assignment, Employee } from '@/lib/types'
+import { EmployeeProps, TaskProps } from '@/lib/types'
 import { Badge } from './ui/badge'
+import { useEmployeeContext } from '@/lib/provider/employee-provider'
 
-interface AssignmentCardProps {
-  employee?: Employee
+interface AssignmentCardProps extends TaskProps {
+  firstName: string[]
+  lastName: string[]
 }
 
-// TODO: add dynamic data
-export function AssignmentCard({ employee }: AssignmentCardProps) {
+export function AssignmentCard({
+  id,
+  title,
+  description,
+  dateFrom,
+  dateTil,
+  timeFrom,
+  timeTil,
+  firstName,
+  lastName,
+}: AssignmentCardProps) {
   return (
     <Card className='rounded-md'>
-      <CardContent className='p-2'>
+      <CardContent className='flex h-14 min-h-14 flex-col p-2'>
         <div className='relative text-muted-foreground'>
-          <p className='flex items-center gap-1 text-xs'>
-            {/* {employee.assignments} */}
-            8:00
-            <ArrowRightIcon />
-            {/* {assignment.timeTil} */}
-            10:00
-          </p>
+          {timeFrom && timeTil && (
+            <span className='mb-1 flex items-center gap-1 text-xs'>
+              {timeFrom}
+              <ArrowRightIcon />
+              {timeTil}
+            </span>
+          )}
           <TooltipProvider delayDuration={0}>
-            {/* idk if I wanna keep it like this */}
             <Tooltip>
-              {/* <Tooltip open={true}> */}
               <TooltipTrigger asChild>
-                <span className='absolute right-2 top-0 h-2 w-2'>
-                  {/* conditionally render. if 1 user is assigned render the PersonIcon, otherwise the UsersIcon */}
+                <span className='absolute right-2 top-0'>
                   <PersonIcon className='h-4 w-4' />
-                  {/* <UsersIcon className='h-4 w-4' /> */}
                 </span>
               </TooltipTrigger>
               <TooltipContent usePortal={true} className='bg-transparent p-0'>
@@ -66,14 +54,19 @@ export function AssignmentCard({ employee }: AssignmentCardProps) {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className='flex justify-start px-4'>
-                    <Badge className=''>Johne Doe</Badge>
+                    <Badge className=''>
+                      {/* TODO: either pass every employee which also has this task or remove it */}
+                      {firstName} {lastName}
+                    </Badge>
                   </CardContent>
                 </Card>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p>Coden</p>
+        <div className='flex grow items-center'>
+          <Label className='cursor-pointer leading-tight'>{title}</Label>
+        </div>
       </CardContent>
     </Card>
   )

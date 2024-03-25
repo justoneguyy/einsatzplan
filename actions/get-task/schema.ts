@@ -4,9 +4,9 @@ const getTasks = z.object({
   title: z.string(),
   description: z.string().nullable(),
   dateFrom: z.date(),
-  dateTill: z.date(),
+  dateTil: z.date(),
   timeFrom: z.string().nullable(),
-  timeTill: z.string().nullable(),
+  timeTil: z.string().nullable(),
   employees: z.array(
     z.object({
       id: z.string(),
@@ -31,9 +31,9 @@ const GetTask = z.object({
   title: z.string(),
   description: z.string().nullable(),
   dateFrom: z.date(),
-  dateTill: z.date(),
+  dateTil: z.date(),
   timeFrom: z.string().nullable(),
-  timeTill: z.string().nullable(),
+  timeTil: z.string().nullable(),
   employees: z.array(
     z.object({
       task: z.object({

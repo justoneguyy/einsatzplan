@@ -118,6 +118,7 @@ export function TaskDataTable<TData, TValue>({
                     return (
                       <TableCell
                         key={cell.id}
+                        // TODO: somehow the width is still not equally distributed. fix this
                         style={{ width: cell.column.getSize() }}
                         className='border-r last:border-r-0'
                       >

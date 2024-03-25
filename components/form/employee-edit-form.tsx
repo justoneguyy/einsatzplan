@@ -18,20 +18,16 @@ import {
   generateInitials,
   generateUsername,
 } from '@/lib/helper/format'
+import { DialogClose } from '../dialog/ui/dialog-cancel'
 
 export interface EmployeeEditFormProps {
   employee: GetEmployeeType
   onCreate: () => void
-  onCancel: () => void
 }
 
 // maybe change zod mode to insta check
 // TODO: make this form more dynamic & sharable. e.g. this can be shared with employee-create-form
-function EmployeeEditForm({
-  employee,
-  onCreate,
-  onCancel,
-}: EmployeeEditFormProps) {
+function EmployeeEditForm({ employee, onCreate }: EmployeeEditFormProps) {
   const firstName = employee.firstName
   const lastName = employee.lastName
   const [roleId, setRoleId] = useState(employee.roleId)
@@ -124,9 +120,7 @@ function EmployeeEditForm({
         />
       </div>
       <div className='!mt-8 flex justify-end space-x-3'>
-        <Button type='button' onClick={onCancel}>
-          Abbrechen
-        </Button>
+        <DialogClose />
         <FormSubmit>Updaten</FormSubmit>
       </div>
     </form>

@@ -14,42 +14,44 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
-export function DatePickerWithRange({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  })
+interface DatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
+  date: DateRange | undefined
+  setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
+}
+
+export function DatePicker({ date, setDate, className }: DatePickerProps) {
+  const dateFormat = 'dd.MM.yyyy'
 
   return (
     <div className={cn('grid gap-2', className)}>
-      <Popover>
+      <Popover modal={true}>
         <PopoverTrigger asChild>
           <Button
             id='date'
             variant={'outline'}
             className={cn(
-              'w-[300px] justify-start text-left font-normal',
+              'h-8 justify-start text-sm disabled:opacity-100',
               !date && 'text-muted-foreground'
             )}
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
             {date?.from ? (
-              date.to ? (
+              date.to &&
+              format(date.from, dateFormat) !== format(date.to, dateFormat) ? (
                 <>
-                  {format(date.from, 'LLL dd, y')} -{' '}
-                  {format(date.to, 'LLL dd, y')}
+                  {format(date.from, dateFormat)} -{' '}
+                  {format(date.to, dateFormat)}
                 </>
               ) : (
-                format(date.from, 'LLL dd, y')
+                format(date.from, dateFormat)
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Waehle ein Datum aus</span>
             )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='start'>
+          {/* TODO: maybe change this to include years like in the weekCalendar */}
           <Calendar
             initialFocus
             mode='range'

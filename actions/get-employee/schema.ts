@@ -71,14 +71,6 @@ const GetEmployeeTask = z.object({
     })
   ),
   availabilityId: z.string().nullable(),
-  availability: z
-    .object({
-      id: z.string(),
-      name: z.string(),
-      description: z.string().nullable(),
-      color: z.string(),
-    })
-    .nullable(),
 })
 
 export type GetEmployeeTaskType = z.infer<typeof GetEmployeeTask>

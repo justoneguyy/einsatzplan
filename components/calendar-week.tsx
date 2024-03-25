@@ -2,7 +2,7 @@
 
 import { HTMLAttributes, useState } from 'react'
 import { startOfWeek, endOfWeek, addDays, format, getWeek } from 'date-fns'
-import { Calendar } from './ui/calendar'
+import { CalendarCustom } from './ui/calendar'
 import { setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
@@ -143,7 +143,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
           {/* TODO: maybe make it wider to add more space */}
-          <Calendar
+          <CalendarCustom
             classNames={{
               caption_label: 'hidden',
             }}

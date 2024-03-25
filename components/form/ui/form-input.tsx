@@ -65,10 +65,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             placeholder={placeholder}
             type={type}
             disabled={pending || disabled}
-            className={cn(
-              'h-7 px-2 py-1 text-sm disabled:opacity-100',
-              className
-            )}
+            className={cn('h-8 text-sm disabled:opacity-100', className)}
             aria-describedby={`${id}-error`}
           />
         </div>

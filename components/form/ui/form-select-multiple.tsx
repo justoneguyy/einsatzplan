@@ -82,7 +82,7 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
                   value={value}
                   onValueChange={(value) => handleValueChange(index, value)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className='h-8'>
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>
                   <SelectContent>
@@ -104,7 +104,7 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
                   <Button
                     type='button'
                     variant='outline'
-                    className='ml-3'
+                    className='ml-3 h-8'
                     onClick={() => handleDelete(index)}
                   >
                     Löschen
@@ -113,7 +113,7 @@ const FormSelectMultiple: React.FC<FormSelectMultipleProps> = ({
               </div>
             </React.Fragment>
           ))}
-          <Button type='button' variant='outline' onClick={handleAdd}>
+          <Button type='button' variant='outline' size='sm' onClick={handleAdd}>
             {label} hinzufügen
           </Button>
         </div>

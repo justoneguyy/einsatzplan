@@ -41,6 +41,10 @@ export const getEmployeesWithTasks = cache(async function () {
     },
   })
 
+  // for (let employee of employees) {
+  //   employee.tasks.sort((a, b) => a.timeFrom.localeCompare(b.timeFrom));
+  // }
+
   return employees
 })
 

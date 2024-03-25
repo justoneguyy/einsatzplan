@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { DialogClose } from '../dialog/ui/dialog-cancel'
 
 const vacationFormSchema = z.object({
   employee: z.string({ required_error: 'Bitte gib einen Mitarbeiter ein.' }),
@@ -105,10 +106,7 @@ export function VacationForm({
           )}
         />
         <div className='!mt-8 flex justify-end space-x-3'>
-          <Button type='button' variant='outline' onClick={onCancel}>
-            Abbrechen
-          </Button>
-          {/* close on Click? */}
+          <DialogClose />
           <Button type='submit' onClick={onCreate}>
             Erstellen
           </Button>

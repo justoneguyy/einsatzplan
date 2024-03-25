@@ -1,14 +1,19 @@
 import { AssignmentCard } from '@/components/assignment-card'
-import TaskDialog from '@/components/dialog/task-dialog'
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
+import { EmployeeProps, TaskProps } from '@/lib/types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
-import { Employee, Task } from '@prisma/client'
+import { Employee } from '@prisma/client'
+import { TaskDialog } from '../dialog/task-dialog'
+import { GetTaskType } from '@/actions/get-task/schema'
+import { getEmployeesName } from '@/actions/get-employee'
+import EmployeeProvider from '@/lib/provider/employee-provider'
 
+// TODO: make this more elegant
 type EmployeeCellProps = Omit<
   Employee,
   | 'id'
@@ -74,25 +79,65 @@ export const CellEmployee = ({
   )
 }
 
-export const CellWeekday = ({
-  id,
-  title,
-  description,
-  dateFrom,
-  dateTil,
-  timeFrom,
-  timeTil,
-}: Task) => {
+interface TaskCellProps {
+  tasks: GetTaskType[]
+}
+
+export const CellWeekday = ({ tasks }: TaskCellProps) => {
+  const sortedTasks = sortTasks(tasks)
+
   return (
-    <Carousel className=''>
+    <Carousel>
       <CarouselContent className='-ml-3 cursor-pointer'>
-        <CarouselItem key={id} className='basis-10/12 rounded-md pl-3'>
-          {/* TODO: maybe these cards should just be quickly editable? dont know yet */}
-          <TaskDialog>
-            <AssignmentCard />
-          </TaskDialog>
-        </CarouselItem>
+        {sortedTasks.map((task) => (
+          // TODO: rotate the carousel items according to the current time
+          <CarouselItem key={task.id} className='basis-10/12 rounded-md pl-3'>
+            <TaskDialog task={task}>
+              <AssignmentCard
+                id={task.id}
+                title={task.title}
+                description={task.description}
+                dateFrom={task.dateFrom}
+                dateTil={task.dateTil}
+                timeFrom={task.timeFrom}
+                timeTil={task.timeTil}
+                firstName={task.employees.map(
+                  (employee) => employee.task.firstName
+                )}
+                lastName={task.employees.map(
+                  (employee) => employee.task.lastName
+                )}
+              />
+            </TaskDialog>
+          </CarouselItem>
+        ))}
       </CarouselContent>
     </Carousel>
   )
+}
+
+function sortTasks(tasks: GetTaskType[]): GetTaskType[] {
+  // Filter tasks with both timeFrom and timeTil defined
+  const tasksWithTime = tasks.filter((task) => task.timeFrom && task.timeTil)
+  // Sort tasks by their timeFrom and timeTil values
+  tasksWithTime.sort((a, b) => {
+    // Convert timeFrom and timeTil to Date objects for comparison
+    const timeAFrom = new Date(a.timeFrom!)
+    const timeBFrom = new Date(b.timeFrom!)
+    const timeATil = new Date(a.timeTil!)
+    const timeBTil = new Date(b.timeTil!)
+
+    // Compare timeFrom and timeTil of tasks
+    if (timeAFrom < timeBFrom && timeATil < timeBTil) return -1
+    if (timeAFrom > timeBFrom && timeATil > timeBTil) return 1
+    return 0
+  })
+
+  // Concatenate sorted tasks with tasks without timeFrom and timeTil
+  const sortedTasks = [
+    ...tasksWithTime,
+    ...tasks.filter((task) => !task.timeFrom || !task.timeTil),
+  ]
+
+  return sortedTasks
 }

@@ -19,12 +19,12 @@ import {
   generateInitials,
   generateUsername,
 } from '@/lib/helper/format'
+import { DialogClose } from '../dialog/ui/dialog-cancel'
 
 interface EmployeeCreateFormProps {
   roles: RolesType
   groups: GroupsType
   onCreate: () => void
-  onCancel: () => void
 }
 
 // maybe change zod mode to insta check
@@ -32,7 +32,6 @@ function EmployeeCreateForm({
   roles,
   groups,
   onCreate,
-  onCancel,
 }: EmployeeCreateFormProps) {
   const [roleId, setRoleId] = useState('')
   const [groupIds, setGroupIds] = useState<string[]>([])
@@ -147,9 +146,10 @@ function EmployeeCreateForm({
         />
       </div>
       <div className='!mt-8 flex justify-end space-x-3'>
-        <Button type='button' onClick={onCancel}>
+        {/* <Button type='button' onClick={onCancel}>
           Abbrechen
-        </Button>
+        </Button> */}
+        <DialogClose />
         <FormSubmit>Anlegen</FormSubmit>
       </div>
     </form>

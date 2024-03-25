@@ -11,7 +11,7 @@ export const GroupContext = createContext<GroupContextProps>({
   _groups: [],
 })
 
-interface RoleProviderProps {
+interface GroupProviderProps {
   _groups: GroupsType
   children: React.ReactNode
 }
@@ -19,7 +19,7 @@ interface RoleProviderProps {
 export default function GroupProvider({
   _groups,
   children,
-}: RoleProviderProps) {
+}: GroupProviderProps) {
   return (
     <GroupContext.Provider value={{ _groups }}>
       {children}

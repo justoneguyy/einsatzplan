@@ -1,8 +1,7 @@
 'use client'
 
-import { EmployeesTypeName } from '@/actions/get-employee/types'
-import TaskForm from '@/components/form/task-create-form'
-import { Button } from '@/components/ui/button'
+import { useRef, useState } from 'react'
+
 import {
   DialogDescription,
   DialogHeader,
@@ -16,36 +15,67 @@ import {
 } from '@/ui/dropdown-menu'
 import { CheckCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { AlertCircle, Palmtree } from 'lucide-react'
-import { useState } from 'react'
-import { VacationForm } from '../form/vacation-form'
+import { Button } from '../ui/button'
 import { DialogItem } from './ui/dialog-item'
+import TaskCreateForm from '../form/task-create-form'
+import { EmployeesTypeName } from '@/actions/get-employee/types'
 import OnCallForm from '../form/onCall-form'
+import { VacationForm } from '../form/vacation-form'
 
-interface CreateDialogProps {
+interface ActionsDialogProps {
   employees: EmployeesTypeName
   employeesOnCallService: EmployeesTypeName
 }
 
-export default function CreateDialog({
+export default function ActionsDialog({
   employees,
   employeesOnCallService,
-}: CreateDialogProps) {
+}: ActionsDialogProps) {
   const [open, setOpen] = useState(false)
+
   const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [hasOpenDialog, setHasOpenDialog] = useState(false)
+  const dropdownTriggerRef = useRef(null)
+  const focusRef = useRef<HTMLButtonElement | null>(null)
+
+  function handleDialogItemSelect() {
+    focusRef.current = dropdownTriggerRef.current
+  }
+
+  function handleDialogItemOpenChange(open: any) {
+    setHasOpenDialog(open)
+    if (open === false) {
+      setDropdownOpen(false)
+    }
+  }
 
   if (isDesktop) {
     return (
-      <DropdownMenu>
+      <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant='outline'>
+          <Button variant='outline' ref={dropdownTriggerRef}>
             <PlusCircledIcon className='mr-2 h-4 w-4' />
             Neu
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='start'>
+        <DropdownMenuContent
+          // align='start'
+          hidden={hasOpenDialog}
+          onCloseAutoFocus={(event) => {
+            if (focusRef.current) {
+              focusRef.current.focus()
+              focusRef.current = null
+              event.preventDefault()
+            }
+          }}
+        >
           <DialogItem
             title='Aufgabe'
             icon={<CheckCircledIcon className='mr-2 h-4 w-4' />}
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
           >
             <DialogHeader>
               <DialogTitle>Neue Aufgabe</DialogTitle>
@@ -53,9 +83,8 @@ export default function CreateDialog({
                 Hier kann eine neue Aufgabe erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <TaskForm
+            <TaskCreateForm
               employees={employees}
-              onCancel={() => setOpen(false)}
               onCreate={() => setOpen(false)}
             />
           </DialogItem>
@@ -63,6 +92,8 @@ export default function CreateDialog({
           <DialogItem
             title='Rufbereitschaft'
             icon={<AlertCircle className='mr-2 h-4 w-4' />}
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
           >
             <DialogHeader>
               <DialogTitle>Neue Rufbereitschaft</DialogTitle>
@@ -72,7 +103,6 @@ export default function CreateDialog({
             </DialogHeader>
             <OnCallForm
               employees={employeesOnCallService}
-              onCancel={() => setOpen(false)}
               onCreate={() => setOpen(false)}
             />
           </DialogItem>
@@ -80,6 +110,8 @@ export default function CreateDialog({
           <DialogItem
             title='Urlaubeintrag'
             icon={<Palmtree className='mr-2 h-4 w-4' />}
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
           >
             <DialogHeader>
               <DialogTitle>Neuer Urlaubeintrag</DialogTitle>
@@ -87,48 +119,10 @@ export default function CreateDialog({
                 Hier kann eine neuer Urlaubseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <VacationForm
-              onCancel={() => setOpen(false)}
-              onCreate={() => setOpen(false)}
-            />
+            <VacationForm onCreate={() => setOpen(false)} />
           </DialogItem>
         </DropdownMenuContent>
       </DropdownMenu>
     )
   }
 }
-
-// interface DialogItemProps {
-//   children: ReactNode
-//   onSelect?: () => void
-//   forwardedRef?: Ref<HTMLDivElement>
-//   title: string
-//   icon: ReactElement
-// }
-
-// const DialogItem: React.FC<DialogItemProps> = ({
-//   children,
-//   onSelect,
-//   forwardedRef,
-//   title,
-//   icon,
-// }) => {
-//   return (
-//     <Dialog>
-//       <DialogTrigger asChild>
-//         <DropdownMenuItem
-//           ref={forwardedRef}
-//           className='DropdownMenuItem'
-//           onSelect={(event) => {
-//             event.preventDefault()
-//             onSelect && onSelect()
-//           }}
-//         >
-//           {icon}
-//           <span>{title}</span>
-//         </DropdownMenuItem>
-//       </DialogTrigger>
-//       <DialogContent>{children}</DialogContent>
-//     </Dialog>
-//   )
-// }

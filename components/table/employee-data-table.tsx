@@ -24,7 +24,7 @@ import { useState } from 'react'
 import { Button } from '../ui/button'
 import { EmployeeDataTableToolbar } from './employee-date-table-toolbar'
 import { Option } from '@/lib/types'
-import { EmployeeDialog } from '../dialog/employee-dialog'
+import { EmployeeCreateDialog } from '../dialog/employee-create-dialog'
 import { RolesType } from '@/actions/get-role/type'
 import { GroupsType } from '@/actions/get-group/types'
 
@@ -155,7 +155,7 @@ export function EmployeeDataTable<TData, TValue>({
         </Table>
       </div>
       <div className='flex justify-end'>
-        <EmployeeDialog roles={roles} groups={groups} />
+        <EmployeeCreateDialog roles={roles} groups={groups} />
       </div>
     </div>
   )

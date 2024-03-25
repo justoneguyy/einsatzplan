@@ -5,7 +5,6 @@ import { RolesType } from '@/actions/get-role/type'
 import { Button } from '@/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -15,12 +14,15 @@ import {
 import { useState } from 'react'
 import EmployeeCreateForm from '../form/employee-create-form'
 
-interface EmployeeDialogProps {
+interface EmployeeCreateDialogProps {
   roles: RolesType
   groups: GroupsType
 }
 
-export function EmployeeDialog({ roles, groups }: EmployeeDialogProps) {
+export function EmployeeCreateDialog({
+  roles,
+  groups,
+}: EmployeeCreateDialogProps) {
   const [open, setOpen] = useState<boolean>(false)
 
   // TODO: add mobil variant (make use of useMediaQuery)
@@ -33,7 +35,6 @@ export function EmployeeDialog({ roles, groups }: EmployeeDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Neuer Mitarbeiter</DialogTitle>
-          <DialogClose />
         </DialogHeader>
         <DialogDescription>
           Hier können Mitarbeiter hinzugefügt werden.
@@ -42,7 +43,6 @@ export function EmployeeDialog({ roles, groups }: EmployeeDialogProps) {
           roles={roles}
           groups={groups}
           onCreate={() => setOpen(false)}
-          onCancel={() => setOpen(false)}
         />
       </DialogContent>
     </Dialog>

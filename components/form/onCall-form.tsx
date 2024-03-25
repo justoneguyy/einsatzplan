@@ -10,14 +10,14 @@ import { FormInput } from './ui/form-input'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import FormSelect from './ui/form-select'
+import { DialogClose } from '../dialog/ui/dialog-cancel'
 
 interface OnCallFormProps {
   employees: EmployeesTypeName
   onCreate: () => void
-  onCancel: () => void
 }
 
-function OnCallForm({ employees, onCreate, onCancel }: OnCallFormProps) {
+function OnCallForm({ employees, onCreate }: OnCallFormProps) {
   const [employeeId, setEmployeeId] = useState('')
 
   const { execute, fieldErrors } = useAction(createTask, {
@@ -60,9 +60,7 @@ function OnCallForm({ employees, onCreate, onCancel }: OnCallFormProps) {
         />
       </div>
       <div className='!mt-8 flex justify-end space-x-3'>
-        <Button type='button' onClick={onCancel}>
-          Abbrechen
-        </Button>
+        <DialogClose />
         <FormSubmit>Anlegen</FormSubmit>
       </div>
     </form>

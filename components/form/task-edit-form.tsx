@@ -1,39 +1,45 @@
 'use client'
 
-import { createTask } from '@/actions/create-task'
-import { EmployeesTypeName } from '@/actions/get-employee/types'
 import { useAction } from '@/lib/hooks/useAction'
-import { addDays, format } from 'date-fns'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
-import { DatePicker } from '../date-picker'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
-import { Label } from '../ui/label'
-import { Switch } from '../ui/switch'
 import { CustomToast } from '../ui/toaster'
+import { FormDatePicker } from './ui/form-date-picker'
 import { FormInput } from './ui/form-input'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
-import { FormDatePicker } from './ui/form-date-picker'
+import { updateTask } from '@/actions/update-task'
+import { GetTaskType } from '@/actions/get-task/schema'
+import { useEmployeeContext } from '@/lib/provider/employee-provider'
 
-interface TaskCreateFormProps {
-  employees: EmployeesTypeName
+interface TaskEditFormProps {
+  task: GetTaskType
   onCreate: () => void
 }
 
 // maybe change zod mode to insta check
-function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
+function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
+  const title = task.title
+  const description = task.description
+  const [employeeIds, setEmployeeIds] = useState(
+    task.employees.map((employee) => employee.task.id)
+  )
+  const timeFrom = task.timeFrom
+  const timeTil = task.timeTil
+
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
+    from: task.dateFrom,
+    to: task.dateTil,
   })
 
-  const [employeeIds, setEmployeeIds] = useState<string[]>([])
+  const { _employees } = useEmployeeContext()
+
   // TODO: add later on
   // const [urlIds, setUrlIds] = useState<string[]>([])
 
   // TODO: the toast seems to be messed up because of the dialog. fix this.
-  const { execute, fieldErrors } = useAction(createTask, {
+  const { execute, fieldErrors } = useAction(updateTask, {
     onSuccess: (task) => {
       CustomToast({
         title: `Aufgabe ${task.title} erstellt`,
@@ -59,10 +65,6 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
     // const formUrlIds = formData.getAll('urlId') as string[]
 
     if (!date?.from || !date?.to) {
-      // CustomToast({
-      //   title: 'Datum fehlt',
-      //   description: 'Bitte wähle ein Datum aus',
-      // })()
       return
     }
 
@@ -70,6 +72,7 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
     const dateTil = date.to
 
     execute({
+      id: task.id,
       title,
       description,
       dateFrom,
@@ -83,7 +86,13 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
   return (
     <form action={onSubmit} className='space-y-4'>
       <div className='flex flex-col space-y-2'>
-        <FormInput id='title' label='Titel' type='text' errors={fieldErrors} />
+        <FormInput
+          id='title'
+          defaultValue={title}
+          label='Titel'
+          type='text'
+          errors={fieldErrors}
+        />
         {/* <FormInput
           id='description'
           label='Beschreibung'
@@ -98,29 +107,33 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
           errors={fieldErrors}
         />
         {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
-        <div className='flex justify-between gap-3'>
-          <FormInput
-            id='timeFrom'
-            label='Zeit von'
-            type='text'
-            errors={fieldErrors}
-          />
-          <FormInput
-            id='timeTil'
-            label='Zeit bis'
-            type='text'
-            errors={fieldErrors}
-          />
-        </div>
+        {timeFrom && timeTil && (
+          <div className='flex justify-between gap-3'>
+            <FormInput
+              id='timeFrom'
+              defaultValue={timeFrom}
+              label='Zeit von'
+              type='text'
+              errors={fieldErrors}
+            />
+            <FormInput
+              id='timeTil'
+              defaultValue={timeTil}
+              label='Zeit bis'
+              type='text'
+              errors={fieldErrors}
+            />
+          </div>
+        )}
         <FormSelectMultiple
           deleteButton
           id='employeeId'
           name='employeeId'
           label='Mitarbeiter'
           placeholder='Wähle einen Mitarbeiter aus'
+          options={_employees}
           values={employeeIds}
           onValuesChange={setEmployeeIds}
-          options={employees}
           errors={fieldErrors}
         />
       </div>
@@ -132,4 +145,4 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
   )
 }
 
-export default TaskCreateForm
+export default TaskEditForm

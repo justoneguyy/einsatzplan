@@ -1,13 +1,12 @@
 import {
-  getEmployees,
   getEmployeesName,
   getEmployeesOnCallService,
 } from '@/actions/get-employee'
 import { CalendarWeek } from '@/components/calendar-week'
-import CreateDialog from '@/components/dialog/create-dialog'
 import { UserNav } from '@/components/user-nav'
 import Link from 'next/link'
 import { Button } from './ui/button'
+import ActionsDialog from './dialog/actions-dialog'
 
 // TODO: prob gonna change this to someting more intuitive
 // TODO: also, maybe dont use two functions but render these based on route. dont know if that is possible & more perfomant
@@ -60,7 +59,7 @@ export async function SiteHeaderDashboard() {
                 <CalendarWeek />
               </div>
               <div>
-                <CreateDialog
+                <ActionsDialog
                   employees={employees}
                   employeesOnCallService={employeesOnCallService}
                 />

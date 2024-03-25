@@ -10,10 +10,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { DialogItem } from '../dialog/ui/dialog-item'
 import {
-  DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -23,6 +22,8 @@ import { CustomToast } from '../ui/toaster'
 import EmployeeEditForm, {
   EmployeeEditFormProps,
 } from '../form/employee-edit-form'
+import { DialogClose } from '../dialog/ui/dialog-cancel'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 
 export interface DataTableRowActionsProps
   extends Omit<EmployeeEditFormProps, 'onCreate' | 'onCancel'> {
@@ -37,7 +38,25 @@ export function EmployeeDataTableRowActions({
   firstName,
   lastName,
 }: DataTableRowActionsProps) {
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState(false)
+
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [hasOpenDialog, setHasOpenDialog] = useState(false)
+  const dropdownTriggerRef = useRef(null)
+  const focusRef = useRef<HTMLButtonElement | null>(null)
+
+  function handleDialogItemSelect() {
+    focusRef.current = dropdownTriggerRef.current
+  }
+
+  function handleDialogItemOpenChange(open: any) {
+    setHasOpenDialog(open)
+    if (open === false) {
+      setDropdownOpen(false)
+    }
+  }
 
   const { execute, isLoading } = useAction(deleteEmployee, {
     onSuccess: () => {
@@ -56,36 +75,52 @@ export function EmployeeDataTableRowActions({
 
   const onDelete = () => {
     execute({ id })
-    setOpen(false)
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
         <Button
+          ref={dropdownTriggerRef}
           variant='ghost'
           className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
         >
           <DotsHorizontalIcon className='h-4 w-4' />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className=''>
-        <DialogItem title='Bearbeiten'>
+      <DropdownMenuContent
+        align='end'
+        hidden={hasOpenDialog}
+        onCloseAutoFocus={(event) => {
+          if (focusRef.current) {
+            focusRef.current.focus()
+            focusRef.current = null
+            event.preventDefault()
+          }
+        }}
+      >
+        <DialogItem
+          title='Bearbeiten'
+          onSelect={handleDialogItemSelect}
+          onOpenChange={handleDialogItemOpenChange}
+        >
           <DialogHeader className='space-y-2'>
             <DialogTitle>Mitarbeiter</DialogTitle>
             <DialogDescription>
               {firstName} {lastName}
             </DialogDescription>
           </DialogHeader>
-          {/* TODO: currently this is not working. without single dialogs it would work tho. find a workaround for it (one solution would be to use the DialogClose as you can see in the beneath DialogItem.) */}
           <EmployeeEditForm
             employee={employee}
             onCreate={() => setOpen(false)}
-            onCancel={() => setOpen(false)}
           />
         </DialogItem>
 
-        <DialogItem title='Loeschen'>
+        <DialogItem
+          title='Loeschen'
+          onSelect={handleDialogItemSelect}
+          onOpenChange={handleDialogItemOpenChange}
+        >
           <DialogHeader className='space-y-2'>
             <DialogTitle>Warnung</DialogTitle>
             <DialogDescription>
@@ -97,19 +132,12 @@ export function EmployeeDataTableRowActions({
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type='button' size='sm' onClick={() => setOpen(false)}>
-                Abbrechen
-              </Button>
-            </DialogClose>
-            {/* the onDelete also doesnt get (sometimes) triggered TODO: fix this */}
-            <Button size='sm' onClick={onDelete} disabled={isLoading}>
+            <DialogClose />
+            <Button onClick={onDelete} disabled={isLoading}>
               Bestaetigen
             </Button>
           </DialogFooter>
         </DialogItem>
-
-        {/* add copy button? */}
       </DropdownMenuContent>
     </DropdownMenu>
   )
