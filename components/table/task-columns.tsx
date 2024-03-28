@@ -2,174 +2,193 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
+import { GetEmployeeTaskType } from '@/actions/get-employee/schema'
+import { CellEmployee, CellWeekday } from './task-cells'
 import {
   DataTableColumnHeaderAscDescReset,
   DataTableColumnHeaderHide,
 } from './ui/data-table-column-header'
-import { TasksType } from '@/actions/get-task/types'
+import {
+  eachDayOfInterval,
+  endOfWeek,
+  format,
+  setDefaultOptions,
+  startOfWeek,
+} from 'date-fns'
+import { de } from 'date-fns/locale'
+import { weekdays, weekdaysDE } from '@/_dev/mockdata/constants'
+
+setDefaultOptions({
+  locale: de,
+  weekStartsOn: 1,
+})
+
+const now = new Date()
+const start = startOfWeek(now)
+const end = endOfWeek(now)
+
+const weekInterval = { start, end }
+const daysOfWeek = eachDayOfInterval(weekInterval)
+
+const customHeader = (title: string) => {
+  return ({ column }: any) => (
+    <DataTableColumnHeaderHide column={column} title={title} />
+  )
+}
 
 // TODO: set fixed/min width for the specific columns
-export const TaskColumns: ColumnDef<TasksType>[] = [
-  // export const TaskColumns: ColumnDef<GetEmployeeTaskType, GetTaskType>[] = [
+export const TaskColumns: ColumnDef<GetEmployeeTaskType>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => (
       // TODO: maybe change to sorting on click (no dropdown)
       <DataTableColumnHeaderAscDescReset column={column} title='Mitarbeiter' />
     ),
-    // cell: ({ row }) => {
-    //   return (
-    //     <CellEmployee
-    //       firstName=
-    //       lastName=
-    //       initials=
-    //       profilePicture=
-    //     />
-    //   )
-    // },
+    cell: ({ row }) => {
+      return (
+        <CellEmployee
+          firstName={row.original.firstName}
+          lastName={row.original.lastName}
+          initials={row.original.initials}
+          profilePicture={row.original.profilePicture}
+        />
+      )
+    },
     enableHiding: false,
     enableResizing: true,
     // TODO: change minSize (should only show the avatar (and the indicator) when <md)
     minSize: 200,
     maxSize: 250,
   },
-  {
-    accessorKey: 'monday',
-    meta: 'Montag',
-    header: 'Montag',
-    // cell: ({ row }) => {
-    //   return (
-    //     <CellWeekday
-    //       tasks={row.original.tasks.filter(
-    //         (item) => item.task.dateFrom.getDay() === 1)}
-    //     />
-    //   )
-    // },
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'tueday',
-    meta: 'Dienstag',
-    header: 'Dienstag',
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'wednesday',
-    meta: 'Mittwoch',
-    header: 'Mittwoch',
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'thursday',
-    meta: 'Donnerstag',
-    header: 'Donnerstag',
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'friday',
-    meta: 'Freitag',
-    header: 'Freitag',
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'saturday',
-    meta: 'Samstag',
-    header: ({ column }) => (
-      <DataTableColumnHeaderHide column={column} title='Samstag' />
-    ),
-  },
-  {
-    accessorKey: 'sunday',
-    meta: 'Sonntag',
-    header: ({ column }) => (
-      <DataTableColumnHeaderHide column={column} title='Sonntag' />
-    ),
-  },
+  ...daysOfWeek.map((day, index) => {
+    const formattedDay = format(day, 'EEEE, dd.MM.yyyy')
+    const isWeekend =
+      weekdaysDE[index] === 'Samstag' || weekdaysDE[index] === 'Sonntag'
+    return {
+      accessorKey: weekdays[index],
+      meta: weekdaysDE[index],
+      header: isWeekend ? customHeader(formattedDay) : formattedDay,
+      // cell: ({ row }: any) => <CellWeekday tasks={row.original.tasks} />,
+      cell: ({ row }: any) => {
+        const tasksForTheDay = row.original.tasks.filter((task: any) => {
+          return day >= task.task.dateFrom && day <= task.task.dateTil
+        })
+        return <CellWeekday tasks={tasksForTheDay} />
+      },
+      enableHiding: isWeekend,
+    }
+  }),
 ]
-// 'use client'
-
-// import { ColumnDef } from '@tanstack/react-table'
-
-// import {
-//   DataTableColumnHeaderAscDescReset,
-//   DataTableColumnHeaderHide,
-// } from './ui/data-table-column-header'
-
-// // TODO: set fixed/min width for the specific columns
-// export const TaskColumns: ColumnDef<??>[] = [
-//   // export const TaskColumns: ColumnDef<GetEmployeeTaskType, GetTaskType>[] = [
-//   {
-//     accessorKey: 'id',
-//     header: ({ column }) => (
-//       // TODO: maybe change to sorting on click (no dropdown)
-//       <DataTableColumnHeaderAscDescReset column={column} title='Mitarbeiter' />
-//     ),
-//     // cell: ({ row }) => {
-//     //   return (
-//     //     <CellEmployee
-//     //       firstName={row.original.firstName}
-//     //       lastName={row.original.lastName}
-//     //       initials={row.original.initials}
-//     //       profilePicture={row.original.profilePicture}
-//     //     />
-//     //   )
-//     // },
-//     enableHiding: false,
-//     enableResizing: true,
-//     // TODO: change minSize (should only show the avatar (and the indicator) when <md)
-//     minSize: 200,
-//     maxSize: 250,
+// {
+//   accessorKey: 'monday',
+//   meta: 'Montag',
+//   header: format(daysOfWeek[0], 'EEEE, dd.MM.yyyy'),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[0] >= task.task.dateFrom &&
+//         daysOfWeek[0] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'monday',
-//     meta: 'Montag',
-//     header: 'Montag',
-//     // cell: ({ row }) => {
-//     //   return (
-//     //     <CellWeekday
-//     //       tasks={row.original.tasks.filter(
-//     //         (item) => item.task.dateFrom.getDay() === 1)}
-//     //     />
-//     //   )
-//     // },
-//     enableHiding: false,
+//   enableHiding: false,
+// },
+// {
+//   accessorKey: 'tuesday',
+//   meta: 'Dienstag',
+//   header: format(daysOfWeek[1], 'EEEE, dd.MM.yyyy'),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[1] >= task.task.dateFrom &&
+//         daysOfWeek[1] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'tueday',
-//     meta: 'Dienstag',
-//     header: 'Dienstag',
-//     enableHiding: false,
+//   enableHiding: false,
+// },
+// {
+//   accessorKey: 'wednesday',
+//   meta: 'Mittwoch',
+//   header: format(daysOfWeek[2], 'EEEE, dd.MM.yyyy'),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[2] >= task.task.dateFrom &&
+//         daysOfWeek[2] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'wednesday',
-//     meta: 'Mittwoch',
-//     header: 'Mittwoch',
-//     enableHiding: false,
+//   enableHiding: false,
+// },
+// {
+//   accessorKey: 'thursday',
+//   meta: 'Donnerstag',
+//   header: format(daysOfWeek[3], 'EEEE, dd.MM.yyyy'),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[3] >= task.task.dateFrom &&
+//         daysOfWeek[3] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'thursday',
-//     meta: 'Donnerstag',
-//     header: 'Donnerstag',
-//     enableHiding: false,
+//   enableHiding: false,
+// },
+// {
+//   accessorKey: 'friday',
+//   meta: 'Freitag',
+//   header: format(daysOfWeek[4], 'EEEE, dd.MM.yyyy'),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[4] >= task.task.dateFrom &&
+//         daysOfWeek[4] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'friday',
-//     meta: 'Freitag',
-//     header: 'Freitag',
-//     enableHiding: false,
+//   enableHiding: false,
+// },
+// {
+//   accessorKey: 'saturday',
+//   meta: 'Samstag',
+//   header: ({ column }) => (
+//     <DataTableColumnHeaderHide
+//       column={column}
+//       title={format(daysOfWeek[5], 'EEEE, dd.MM.yyyy')}
+//     />
+//   ),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[5] >= task.task.dateFrom &&
+//         daysOfWeek[5] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'saturday',
-//     meta: 'Samstag',
-//     header: ({ column }) => (
-//       <DataTableColumnHeaderHide column={column} title='Samstag' />
-//     ),
+// },
+// {
+//   accessorKey: 'sunday',
+//   meta: 'Sonntag',
+//   header: ({ column }) => (
+//     <DataTableColumnHeaderHide
+//       column={column}
+//       title={format(daysOfWeek[6], 'EEEE, dd.MM.yyyy')}
+//     />
+//   ),
+//   cell: ({ row }) => {
+//     const tasksForTheDay = row.original.tasks.filter((task) => {
+//       return (
+//         daysOfWeek[6] >= task.task.dateFrom &&
+//         daysOfWeek[6] <= task.task.dateTil
+//       )
+//     })
+//     return <CellWeekday tasks={tasksForTheDay} />
 //   },
-//   {
-//     accessorKey: 'sunday',
-//     meta: 'Sonntag',
-//     header: ({ column }) => (
-//       <DataTableColumnHeaderHide column={column} title='Sonntag' />
-//     ),
-//   },
-// ]
+// },

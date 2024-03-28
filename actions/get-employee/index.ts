@@ -32,18 +32,47 @@ export const getEmployeesWithTasks = cache(async function () {
       },
       tasks: {
         include: {
-          task: true,
+          task: {
+            select: {
+              id: true,
+              title: true,
+              description: true,
+              dateFrom: true,
+              dateTil: true,
+              timeFrom: true,
+              timeTil: true,
+            },
+          },
+          employee: true,
         },
       },
+      // tasks: {
+      //   select: {
+      //     task: {
+      //       select: {
+      //         id: true,
+      //         title: true,
+      //         description: true,
+      //         dateFrom: true,
+      //         dateTil: true,
+      //         timeFrom: true,
+      //         timeTil: true,
+      //       },
+      //     },
+      //     employee: true,
+      //   },
+      // },
     },
     orderBy: {
       firstName: 'asc',
     },
   })
 
-  // for (let employee of employees) {
-  //   employee.tasks.sort((a, b) => a.timeFrom.localeCompare(b.timeFrom));
-  // }
+  // employees.forEach((employee) => {
+  //   console.log(employee.tasks)
+  // })
+
+  // console.log(employees)
 
   return employees
 })

@@ -11,10 +11,11 @@ import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
 import { EmployeeProps, TaskProps } from '@/lib/types'
 import { Badge } from './ui/badge'
 import { useEmployeeContext } from '@/lib/provider/employee-provider'
+import { format } from 'date-fns'
 
 interface AssignmentCardProps extends TaskProps {
-  firstName: string[]
-  lastName: string[]
+  firstName?: string[]
+  lastName?: string[]
 }
 
 export function AssignmentCard({
@@ -28,6 +29,9 @@ export function AssignmentCard({
   firstName,
   lastName,
 }: AssignmentCardProps) {
+  const formattedDateFrom = format(dateFrom, 'dd.MM.yyyy')
+  const formattedDateTil = format(dateTil, 'dd.MM.yyyy')
+
   return (
     <Card className='rounded-md'>
       <CardContent className='flex h-14 min-h-14 flex-col p-2'>
@@ -55,7 +59,6 @@ export function AssignmentCard({
                   </CardHeader>
                   <CardContent className='flex justify-start px-4'>
                     <Badge className=''>
-                      {/* TODO: either pass every employee which also has this task or remove it */}
                       {firstName} {lastName}
                     </Badge>
                   </CardContent>
@@ -65,7 +68,10 @@ export function AssignmentCard({
           </TooltipProvider>
         </div>
         <div className='flex grow items-center'>
-          <Label className='cursor-pointer leading-tight'>{title}</Label>
+          <Label className='cursor-pointer leading-tight'>
+            {formattedDateFrom} - {formattedDateTil}
+          </Label>
+          {/* <Label className='cursor-pointer leading-tight'>{title}</Label> */}
         </div>
       </CardContent>
     </Card>

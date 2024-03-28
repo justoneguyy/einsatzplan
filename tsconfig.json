@@ -29,7 +29,8 @@
     ".next/types/**/*.ts",
     // TODO: remove later on
     "components/cal.jsx",
-    "/app/test/page.jsx"
+    "/app/test/page.jsx",
+    "app/test/table/grid-test.jsx"
   ],
   "exclude": ["node_modules"]
 }

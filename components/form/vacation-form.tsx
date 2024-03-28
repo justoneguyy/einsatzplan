@@ -1,6 +1,5 @@
 'use client'
 
-import { employees } from '@/_dev/mockdata/constants'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -93,11 +92,11 @@ export function VacationForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {employees.map((employee) => (
+                    {/* {employees.map((employee) => (
                       <SelectItem key={employee.id} value={employee.name}>
                         {employee.name}
                       </SelectItem>
-                    ))}
+                    ))} */}
                   </SelectContent>
                 </Select>
               </FormControl>

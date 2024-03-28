@@ -43,6 +43,7 @@ const GetEmployeeTask = z.object({
   email: z.string(),
   profilePicture: z.string().nullable(),
   roleId: z.string(),
+  availabilityId: z.string().nullable(),
   role: z.object({
     id: z.string(),
     name: z.string(),
@@ -59,6 +60,19 @@ const GetEmployeeTask = z.object({
   ),
   tasks: z.array(
     z.object({
+      id: z.string(),
+      employeeId: z.string(),
+      taskId: z.string(),
+      employee: z.object({
+        id: z.string(),
+        firstName: z.string(),
+        lastName: z.string(),
+        initials: z.string(),
+        email: z.string(),
+        profilePicture: z.string().nullable(),
+        roleId: z.string(),
+        availabilityId: z.string().nullable(),
+      }),
       task: z.object({
         id: z.string(),
         title: z.string(),
@@ -70,7 +84,6 @@ const GetEmployeeTask = z.object({
       }),
     })
   ),
-  availabilityId: z.string().nullable(),
 })
 
 export type GetEmployeeTaskType = z.infer<typeof GetEmployeeTask>
