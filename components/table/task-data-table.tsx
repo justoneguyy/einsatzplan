@@ -21,6 +21,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useState } from 'react'
+import { CalendarWeek } from '../calendar-week'
 import { TaskDataTableToolbar } from './task-data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
@@ -63,7 +64,6 @@ export function TaskDataTable<TData, TValue>({
 
   return (
     <div className='max-w-full space-y-2'>
-      {/* TODO: think about adding search etc. */}
       <TaskDataTableToolbar table={table} />
       <div className='rounded-md border'>
         <Table className='w-full'>
@@ -119,6 +119,7 @@ export function TaskDataTable<TData, TValue>({
                       <TableCell
                         key={cell.id}
                         // TODO: somehow the width is still not equally distributed. fix this
+                        // TOOD: the height should also be fixed. currently when no data is passed, the row isnt as high as if data is passed
                         style={{ width: cell.column.getSize() }}
                         className='border-r last:border-r-0'
                       >

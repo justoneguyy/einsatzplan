@@ -1,7 +1,14 @@
 'use client'
 
-import { HTMLAttributes, useState } from 'react'
-import { startOfWeek, endOfWeek, addDays, format, getWeek } from 'date-fns'
+import { HTMLAttributes, useCallback, useState } from 'react'
+import {
+  startOfWeek,
+  endOfWeek,
+  addDays,
+  format,
+  getWeek,
+  eachDayOfInterval,
+} from 'date-fns'
 import { CalendarCustom } from './ui/calendar'
 import { setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
@@ -13,7 +20,13 @@ import {
 } from '@radix-ui/react-icons'
 import { Button, buttonVariants } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { CaptionLabel } from 'react-day-picker'
+import {
+  parseAsIsoDateTime,
+  parseAsTimestamp,
+  useQueryState,
+  useQueryStates,
+} from 'nuqs'
+import { searchParams } from '@/lib/params/searchparams'
 
 setDefaultOptions({
   locale: de,
@@ -38,46 +51,60 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
   const currentYear = new Date().getFullYear()
   const fromYear = currentYear - 2
   const toYear = currentYear + 2
-
-  const getWeekDays = (weekStart: Date): Date[] => {
-    const days: Date[] = [weekStart]
-    for (let i = 1; i < 7; i += 1) {
-      days.push(addDays(weekStart, i))
-    }
-    return days
-  }
-
-  const getWeekRange = (date: Date): DateRange => {
-    return {
-      from: startOfWeek(date),
-      to: endOfWeek(date),
-    }
-  }
-
   const [hoverRange, setHoverRange] = useState<DateRange | undefined>(undefined)
 
-  const [selectedDays, setSelectedDays] = useState<Date[]>(
-    getWeekDays(getWeekRange(new Date()).from)
+  const getWeekDays = () => {
+    const weekInterval = getWeekRange()
+    const daysOfWeek = eachDayOfInterval({
+      start: weekInterval.from,
+      end: weekInterval.to,
+    })
+    return daysOfWeek
+  }
+
+  const getWeekRange = () => {
+    const now = new Date()
+    const start = startOfWeek(now)
+    const end = endOfWeek(now)
+
+    return {
+      from: start,
+      to: end,
+    }
+  }
+
+  const [dateWeek, setDateWeek] = useQueryStates(
+    {
+      dateFrom: searchParams.dateFrom,
+      dateTo: searchParams.dateTo,
+    },
+    {
+      history: 'push',
+      shallow: false, // Send updates to the server
+    }
   )
 
+  const { dateFrom, dateTo } = dateWeek
+
   const goToNextWeek = () => {
-    const currentWeekStart = selectedDays[0]
-    const nextWeekStart = addDays(currentWeekStart, 7)
-    setSelectedDays(getWeekDays(getWeekRange(nextWeekStart).from))
+    setDateWeek({ dateFrom: addDays(dateFrom, 7), dateTo: addDays(dateTo, 7) })
   }
 
   const goToPreviousWeek = () => {
-    const currentWeekStart = selectedDays[0]
-    const previousWeekStart = addDays(currentWeekStart, -7)
-    setSelectedDays(getWeekDays(getWeekRange(previousWeekStart).from))
+    setDateWeek({
+      dateFrom: addDays(dateFrom, -7),
+      dateTo: addDays(dateTo, -7),
+    })
   }
 
   const handleDayChange = (date: Date) => {
-    setSelectedDays(getWeekDays(getWeekRange(date).from))
+    const start = startOfWeek(date)
+    const end = endOfWeek(date)
+    setDateWeek({ dateFrom: start, dateTo: end })
   }
 
-  const handleDayEnter = (date: Date) => {
-    setHoverRange(getWeekRange(date))
+  const handleDayEnter = () => {
+    setHoverRange(getWeekRange())
   }
 
   const handleDayLeave = () => {
@@ -89,21 +116,21 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
     days: Date[],
     e: React.MouseEvent
   ) => {
-    setSelectedDays(days)
+    setDateWeek({ dateFrom: days[0], dateTo: days[6] })
   }
 
-  const daysAreSelected = selectedDays.length > 0
+  const daysAreSelected = dateFrom && dateTo
 
   const modifiers: Modifiers = {
     hoverRange: hoverRange,
     selectedRange: daysAreSelected && {
-      from: selectedDays[0],
-      to: selectedDays[6],
+      from: dateFrom,
+      to: dateTo,
     },
     hoverRangeStart: hoverRange && hoverRange.from,
     hoverRangeEnd: hoverRange && hoverRange.to,
-    selectedRangeStart: daysAreSelected && selectedDays[0],
-    selectedRangeEnd: daysAreSelected && selectedDays[6],
+    selectedRangeStart: daysAreSelected && dateFrom,
+    selectedRangeEnd: daysAreSelected && dateTo,
   }
 
   return (
@@ -126,23 +153,17 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           >
             <CalendarIcon className='mr-2 h-4 w-4' />
             {/* TODO: might need to prettify/format this (should the year be added here?) */}
-            {selectedDays.length === 7 && (
+            {dateFrom && dateTo && (
               <p>
-                KW {getWeek(selectedDays[0])},{' '}
-                {format(selectedDays[0], 'dd.MM')} -{' '}
-                {format(selectedDays[6], 'dd.MM')}
+                KW {getWeek(dateFrom)}, {format(dateFrom, 'dd.MM')} -{' '}
+                {format(dateTo, 'dd.MM')}
               </p>
-              // with year
-              // <p>
-              //   KW {getWeek(selectedDays[0])},{' '}
-              //   {format(selectedDays[0], 'dd.MM.yyyy')} -{' '}
-              //   {format(selectedDays[6], 'dd.MM.yyyy')}
-              // </p>
             )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
           {/* TODO: maybe make it wider to add more space */}
+          {/* TODO: currently the calendar always opens up with the current date (today) as default. even if we ware in a different month. change this */}
           <CalendarCustom
             classNames={{
               caption_label: 'hidden',
@@ -150,14 +171,14 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
             captionLayout='dropdown-buttons'
             fromYear={fromYear}
             toYear={toYear}
-            selected={selectedDays}
+            selected={eachDayOfInterval({ start: dateFrom, end: dateTo })}
             showWeekNumber
             modifiers={modifiers}
-            // TODO: close popover on day click? -- get feedback on this
+            // TODO: close popover on day/week click? -- get feedback on this
             onDayClick={handleDayChange}
+            onWeekNumberClick={handleWeekClick}
             onDayMouseEnter={handleDayEnter}
             onDayMouseLeave={handleDayLeave}
-            onWeekNumberClick={handleWeekClick}
           />
         </PopoverContent>
       </Popover>

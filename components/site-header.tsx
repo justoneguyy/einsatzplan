@@ -5,8 +5,9 @@ import {
 import { CalendarWeek } from '@/components/calendar-week'
 import { UserNav } from '@/components/user-nav'
 import Link from 'next/link'
-import { Button } from './ui/button'
 import ActionsDialog from './dialog/actions-dialog'
+import { TodayButton } from './today-button'
+import { Button } from './ui/button'
 
 // TODO: prob gonna change this to someting more intuitive
 // TODO: also, maybe dont use two functions but render these based on route. dont know if that is possible & more perfomant
@@ -37,6 +38,7 @@ export function SiteHeader() {
 export async function SiteHeaderDashboard() {
   const employees = await getEmployeesName()
   const employeesOnCallService = await getEmployeesOnCallService()
+
   const role: string = 'admin'
 
   // admin layout
@@ -53,7 +55,7 @@ export async function SiteHeaderDashboard() {
             <div className='grid grid-cols-3 items-center gap-32'>
               <div className='justify-self-end'>
                 {/* TODO: maybe rename, not sure yet */}
-                <Button variant='outline'>Heute</Button>
+                <TodayButton />
               </div>
               <div>
                 <CalendarWeek />

@@ -15,6 +15,22 @@ import EmployeeProvider from '@/lib/provider/employee-provider'
 import { GetEmployeeTaskType } from '@/actions/get-employee/schema'
 import { useEffect, useState } from 'react'
 import { getTaskWithEmployees } from '@/actions/get-task'
+import {
+  eachDayOfInterval,
+  endOfDay,
+  endOfWeek,
+  isWithinInterval,
+  setDefaultOptions,
+  startOfDay,
+  startOfWeek,
+} from 'date-fns'
+import { de } from 'date-fns/locale'
+import { useWeekInterval } from '@/lib/hooks/useWeekInterval'
+
+setDefaultOptions({
+  locale: de,
+  weekStartsOn: 1,
+})
 
 // TODO: make this more elegant
 type EmployeeCellProps = Omit<
@@ -82,19 +98,34 @@ export const CellEmployee = ({
   )
 }
 
+setDefaultOptions({
+  locale: de,
+  weekStartsOn: 1,
+})
+
 interface TaskCellProps {
   tasks: GetEmployeeTaskType['tasks']
+  index: number
 }
 
-export const CellWeekday = ({ tasks }: TaskCellProps) => {
-  // const sortedTasks = sortTasks(tasks)
+export const CellWeekday = ({ tasks, index }: TaskCellProps) => {
+  const daysOfWeek = useWeekInterval()
+  const day = daysOfWeek[index]
+
+  const tasksForDay = tasks.filter((task) => {
+    const taskStartDate = new Date(task.task.dateFrom)
+    const taskEndDate = new Date(task.task.dateTil)
+
+    return isWithinInterval(day, { start: taskStartDate, end: taskEndDate })
+  })
 
   return (
     <Carousel>
       <CarouselContent className='-ml-3 cursor-pointer'>
-        {tasks.map((i) => (
+        {tasksForDay.map((i) => (
           // TODO: rotate the carousel items according to the current time
           <CarouselItem key={i.task.id} className='basis-10/12 rounded-md pl-3'>
+            {/* TODO: pass all of the employees which have the same task (need to aggregate them or use task.getUnique where... call) */}
             {/* <TaskDialog task={task}> */}
             <AssignmentCard
               id={i.task.id}
@@ -113,6 +144,7 @@ export const CellWeekday = ({ tasks }: TaskCellProps) => {
   )
 }
 
+// TODO: use this to order the tasks depending on their time (maybe we should do this in the actual call, dont know yet)
 function sortTasks(tasks: GetTaskType[]): GetTaskType[] {
   // Filter tasks with both timeFrom and timeTil defined
   const tasksWithTime = tasks.filter((task) => task.timeFrom && task.timeTil)
@@ -138,65 +170,3 @@ function sortTasks(tasks: GetTaskType[]): GetTaskType[] {
 
   return sortedTasks
 }
-// interface TaskCellProps {
-//   tasks: GetTaskType[]
-// }
-
-// export const CellWeekday = ({ tasks }: TaskCellProps) => {
-//   const sortedTasks = sortTasks(tasks)
-
-//   return (
-//     <Carousel>
-//       <CarouselContent className='-ml-3 cursor-pointer'>
-//         {sortedTasks.map((task) => (
-//           // TODO: rotate the carousel items according to the current time
-//           <CarouselItem key={task.id} className='basis-10/12 rounded-md pl-3'>
-//             <TaskDialog task={task}>
-//               <AssignmentCard
-//                 id={task.id}
-//                 title={task.title}
-//                 description={task.description}
-//                 dateFrom={task.dateFrom}
-//                 dateTil={task.dateTil}
-//                 timeFrom={task.timeFrom}
-//                 timeTil={task.timeTil}
-//                 // firstName={task.employees.map(
-//                 //   (employee) => employee.task.firstName
-//                 // )}
-//                 // lastName={task.employees.map(
-//                 //   (employee) => employee.task.lastName
-//                 // )}
-//               />
-//             </TaskDialog>
-//           </CarouselItem>
-//         ))}
-//       </CarouselContent>
-//     </Carousel>
-//   )
-// }
-
-// function sortTasks(tasks: GetTaskType[]): GetTaskType[] {
-//   // Filter tasks with both timeFrom and timeTil defined
-//   const tasksWithTime = tasks.filter((task) => task.timeFrom && task.timeTil)
-//   // Sort tasks by their timeFrom and timeTil values
-//   tasksWithTime.sort((a, b) => {
-//     // Convert timeFrom and timeTil to Date objects for comparison
-//     const timeAFrom = new Date(a.timeFrom!)
-//     const timeBFrom = new Date(b.timeFrom!)
-//     const timeATil = new Date(a.timeTil!)
-//     const timeBTil = new Date(b.timeTil!)
-
-//     // Compare timeFrom and timeTil of tasks
-//     if (timeAFrom < timeBFrom && timeATil < timeBTil) return -1
-//     if (timeAFrom > timeBFrom && timeATil > timeBTil) return 1
-//     return 0
-//   })
-
-//   // Concatenate sorted tasks with tasks without timeFrom and timeTil
-//   const sortedTasks = [
-//     ...tasksWithTime,
-//     ...tasks.filter((task) => !task.timeFrom || !task.timeTil),
-//   ]
-
-//   return sortedTasks
-// }

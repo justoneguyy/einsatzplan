@@ -23,10 +23,11 @@ interface TaskCreateFormProps {
 
 // maybe change zod mode to insta check
 function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  })
+  const [date, setDate] = useState<DateRange | undefined>()
+  // const [date, setDate] = useState<DateRange | undefined>({
+  //   from: new Date(),
+  //   to: new Date(),
+  // })
 
   const [employeeIds, setEmployeeIds] = useState<string[]>([])
   // TODO: add later on
