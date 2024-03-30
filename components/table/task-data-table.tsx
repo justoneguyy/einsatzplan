@@ -64,7 +64,11 @@ export function TaskDataTable<TData, TValue>({
 
   return (
     <div className='max-w-full space-y-2'>
-      <TaskDataTableToolbar table={table} />
+      <TaskDataTableToolbar
+        table={table}
+        filter={filter}
+        setFilter={setFilter}
+      />
       <div className='rounded-md border'>
         <Table className='w-full'>
           <TableHeader>

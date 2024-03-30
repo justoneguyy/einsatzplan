@@ -95,6 +95,9 @@ const config = {
         '2xl': '1400px',
       },
     },
+    backgroundImage: {
+      'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+    },
     extend: {
       boxShadow: {
         inset: 'inset 0 0 0 1px hsl(var(--border))',

@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 
 import { FormErrors } from './form-errors'
+import { Separator } from '@/components/ui/separator'
 
 interface FormInputProps {
   id: string
@@ -21,9 +22,42 @@ interface FormInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: () => void
   autocomplete?: string
+  separator?: boolean
+  separatorSide?: 'left' | 'right'
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
+  (props, ref) => {
+    const { pending } = useFormStatus()
+    const { separator, separatorSide } = props
+
+    return (
+      <>
+        {separator ? (
+          <div className='flex gap-8'>
+            {separatorSide === 'left' && (
+              <div className='pb-1 pt-2'>
+                <Separator orientation='vertical' />
+              </div>
+            )}
+            <FormInputContent {...props} ref={ref} />
+            {separatorSide === 'right' && (
+              <div className='pb-1 pt-2'>
+                <Separator orientation='vertical' />
+              </div>
+            )}
+          </div>
+        ) : (
+          <FormInputContent {...props} ref={ref} />
+        )}
+      </>
+    )
+  }
+)
+
+FormInput.displayName = 'FormInput'
+
+const FormInputContent = forwardRef<HTMLInputElement, FormInputProps>(
   (
     {
       id,
@@ -35,23 +69,21 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       errors,
       className,
       value,
-      defaultValue = '',
+      defaultValue,
       onChange,
       onBlur,
       autocomplete,
     },
     ref
   ) => {
-    const { pending } = useFormStatus()
-
     return (
       <div className='space-y-2'>
         <div className='space-y-1'>
-          {label ? (
+          {label && (
             <Label htmlFor={id} className='text-xs font-semibold'>
               {label}
             </Label>
-          ) : null}
+          )}
           <Input
             autoComplete={autocomplete}
             onBlur={onBlur}
@@ -64,7 +96,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             id={id}
             placeholder={placeholder}
             type={type}
-            disabled={pending || disabled}
+            disabled={disabled}
             className={cn('h-8 text-sm disabled:opacity-100', className)}
             aria-describedby={`${id}-error`}
           />
@@ -74,5 +106,3 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     )
   }
 )
-
-FormInput.displayName = 'FormInput'

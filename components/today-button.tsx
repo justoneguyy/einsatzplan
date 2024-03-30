@@ -26,6 +26,7 @@ export function TodayButton() {
 
   return (
     <Button onClick={handleDayChange} variant='outline'>
+      {/* TODO: maybe rename (e.g. 'Diese Woche') */}
       Heute
     </Button>
   )

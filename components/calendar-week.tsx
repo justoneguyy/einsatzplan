@@ -1,32 +1,27 @@
 'use client'
 
-import { HTMLAttributes, useCallback, useState } from 'react'
-import {
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  format,
-  getWeek,
-  eachDayOfInterval,
-} from 'date-fns'
-import { CalendarCustom } from './ui/calendar'
-import { setDefaultOptions } from 'date-fns'
-import { de } from 'date-fns/locale'
+import { searchParams } from '@/lib/params/searchparams'
 import { cn } from '@/lib/utils'
 import {
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@radix-ui/react-icons'
-import { Button, buttonVariants } from './ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import {
-  parseAsIsoDateTime,
-  parseAsTimestamp,
-  useQueryState,
-  useQueryStates,
-} from 'nuqs'
-import { searchParams } from '@/lib/params/searchparams'
+  addDays,
+  eachDayOfInterval,
+  endOfWeek,
+  format,
+  getWeek,
+  setDefaultOptions,
+  startOfWeek,
+} from 'date-fns'
+import { de } from 'date-fns/locale'
+import { useQueryStates } from 'nuqs'
+import { HTMLAttributes, useState } from 'react'
+import { Button, buttonVariants } from './ui/button'
+import { CalendarCustom } from './ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 setDefaultOptions({
   locale: de,
@@ -52,15 +47,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
   const fromYear = currentYear - 2
   const toYear = currentYear + 2
   const [hoverRange, setHoverRange] = useState<DateRange | undefined>(undefined)
-
-  const getWeekDays = () => {
-    const weekInterval = getWeekRange()
-    const daysOfWeek = eachDayOfInterval({
-      start: weekInterval.from,
-      end: weekInterval.to,
-    })
-    return daysOfWeek
-  }
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false) // remove this state if the calendar shouldnt be closed on click
 
   const getWeekRange = () => {
     const now = new Date()
@@ -101,6 +88,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
     const start = startOfWeek(date)
     const end = endOfWeek(date)
     setDateWeek({ dateFrom: start, dateTo: end })
+    setIsCalendarOpen(false)
   }
 
   const handleDayEnter = () => {
@@ -117,6 +105,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
     e: React.MouseEvent
   ) => {
     setDateWeek({ dateFrom: days[0], dateTo: days[6] })
+    setIsCalendarOpen(false)
   }
 
   const daysAreSelected = dateFrom && dateTo
@@ -144,7 +133,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
       >
         <ChevronLeftIcon className='h-4 w-4' />
       </button>
-      <Popover>
+      <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
         <PopoverTrigger asChild>
           <Button
             id='date'
@@ -162,8 +151,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
-          {/* TODO: maybe make it wider to add more space */}
-          {/* TODO: currently the calendar always opens up with the current date (today) as default. even if we ware in a different month. change this */}
+          {/* TODO: think about adding presets (this week, next week ...) */}
           <CalendarCustom
             classNames={{
               caption_label: 'hidden',
@@ -172,6 +160,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
             fromYear={fromYear}
             toYear={toYear}
             selected={eachDayOfInterval({ start: dateFrom, end: dateTo })}
+            defaultMonth={dateFrom}
             showWeekNumber
             modifiers={modifiers}
             // TODO: close popover on day/week click? -- get feedback on this

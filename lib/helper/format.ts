@@ -39,7 +39,7 @@ export function generateUsername(firstName: string, lastName: string): string {
 export function generateEmail(firstName: string, lastName: string) {
   const username = generateUsername(firstName, lastName)
   const domain = 'uhlhorn.de'
-  const email = `${username}@${domain}`
+  const email = firstName && lastName ? `${username}@${domain}` : username
 
   return email
 }

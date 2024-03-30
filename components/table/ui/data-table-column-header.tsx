@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-interface DataTableColumnHeaderProps<TData, TValue>
+export interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
   title: string
@@ -71,6 +71,7 @@ export function DataTableColumnHeaderAscDescHide<TData, TValue>({
   )
 }
 
+// TODO: this currently does not correctly sort the column. fix this or remove it.
 export function DataTableColumnHeaderAscDescReset<TData, TValue>({
   column,
   title,

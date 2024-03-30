@@ -36,12 +36,11 @@ function EmployeeCreateForm({
   const [roleId, setRoleId] = useState('')
   const [groupIds, setGroupIds] = useState<string[]>([])
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
 
-  // TOOD: add username
   useEffect(() => {
     setEmail(generateEmail(firstName, lastName))
     setUsername(generateUsername(firstName, lastName))

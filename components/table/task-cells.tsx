@@ -1,4 +1,4 @@
-import { AssignmentCard } from '@/components/assignment-card'
+import { AssignmentCard } from '@/components/card/assignment-card'
 import {
   Carousel,
   CarouselContent,

@@ -3,18 +3,15 @@
 import { createTask } from '@/actions/create-task'
 import { EmployeesTypeName } from '@/actions/get-employee/types'
 import { useAction } from '@/lib/hooks/useAction'
-import { addDays, format } from 'date-fns'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
-import { DatePicker } from '../date-picker'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
-import { Label } from '../ui/label'
-import { Switch } from '../ui/switch'
 import { CustomToast } from '../ui/toaster'
+import { FormDatePicker } from './ui/form-date-picker'
 import { FormInput } from './ui/form-input'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
-import { FormDatePicker } from './ui/form-date-picker'
+import { FormSwitch } from './ui/form-switch'
 
 interface TaskCreateFormProps {
   employees: EmployeesTypeName
@@ -24,11 +21,7 @@ interface TaskCreateFormProps {
 // maybe change zod mode to insta check
 function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
   const [date, setDate] = useState<DateRange | undefined>()
-  // const [date, setDate] = useState<DateRange | undefined>({
-  //   from: new Date(),
-  //   to: new Date(),
-  // })
-
+  const [isAllDay, setIsAllDay] = useState(false)
   const [employeeIds, setEmployeeIds] = useState<string[]>([])
   // TODO: add later on
   // const [urlIds, setUrlIds] = useState<string[]>([])
@@ -98,20 +91,36 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
           setDate={setDate}
           errors={fieldErrors}
         />
-        {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
-        <div className='flex justify-between gap-3'>
-          <FormInput
-            id='timeFrom'
-            label='Zeit von'
-            type='text'
+        <div className='flex justify-between gap-8'>
+          <FormSwitch
+            className=''
+            id='isAllDay'
+            label='Ganztägig'
+            checked={isAllDay}
+            onCheckedChange={setIsAllDay}
             errors={fieldErrors}
           />
-          <FormInput
-            id='timeTil'
-            label='Zeit bis'
-            type='text'
-            errors={fieldErrors}
-          />
+          {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
+          <div className='flex gap-4'>
+            <FormInput
+              id='timeFrom'
+              label='Zeit von'
+              type='text'
+              placeholder='08:00'
+              disabled={isAllDay}
+              errors={fieldErrors}
+              // separator
+              // separatorSide='left'
+            />
+            <FormInput
+              id='timeTil'
+              label='Zeit bis'
+              type='text'
+              placeholder='10:00'
+              disabled={isAllDay}
+              errors={fieldErrors}
+            />
+          </div>
         </div>
         <FormSelectMultiple
           deleteButton

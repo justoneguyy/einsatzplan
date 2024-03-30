@@ -46,7 +46,7 @@ export function EmployeeDataTableToolbar<TData>({
             options={groupOptions}
           />
         )} */}
-        {isFiltered && (
+        {/* {isFiltered && (
           <Button
             variant='ghost'
             onClick={() => table.resetColumnFilters()}
@@ -55,7 +55,7 @@ export function EmployeeDataTableToolbar<TData>({
             Reset
             <Cross2Icon className='ml-2 h-4 w-4' />
           </Button>
-        )}
+        )} */}
       </div>
       <DataTableFilter table={table} />
     </div>

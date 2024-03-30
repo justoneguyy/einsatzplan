@@ -11,6 +11,7 @@ export const FormSubmit = ({
   className,
   onClick,
   variant = 'default',
+  size = 'default',
 }: FormSubmitProps) => {
   const { pending } = useFormStatus()
 
@@ -19,7 +20,7 @@ export const FormSubmit = ({
       type='submit'
       disabled={pending || disabled}
       variant={variant}
-      size='default'
+      size={size}
       className={cn(className)}
     >
       {children}
