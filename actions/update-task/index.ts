@@ -12,23 +12,16 @@ import { UpdateTask } from './schema'
 const handler = async (data: InputType): Promise<ReturnType> => {
   // TODO: add auth check
 
-  const {
-    title,
-    description,
-    dateFrom,
-    dateTil,
-    timeFrom,
-    timeTil,
-    employeeIds,
-  } = data
+  const { title, description, dateFrom, dateTil, timeFrom, timeTil, userIds } =
+    data
 
   let task
 
   // workaround so that updating groups work. This is currently the only way to update many-to-many relationships in a context of explicit models
   try {
-    await db.employeeTask.deleteMany({
+    await db.userTask.deleteMany({
       where: {
-        employeeId: data.id,
+        userId: data.id,
       },
     })
 
@@ -44,11 +37,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           dateTil,
           timeFrom,
           timeTil,
-          employees: {
-            create: employeeIds.map((employeeId) => ({
-              employee: {
+          users: {
+            create: userIds.map((userId) => ({
+              user: {
                 connect: {
-                  id: employeeId,
+                  id: userId,
                 },
               },
             })),

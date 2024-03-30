@@ -23,7 +23,13 @@ export const RegisterSchema = z.object({
   email: z.string().email({
     message: 'Die E-Mail-Adresse ist erforderlich',
   }),
-  password: z.string().min(6, {
+  password: z.string().min(8, {
     message: 'Das Passwort muss mindestens 8 Zeichen lang sein',
+  }),
+})
+
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: 'Die E-Mail-Adresse ist erforderlich',
   }),
 })

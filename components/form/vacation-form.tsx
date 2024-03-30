@@ -24,7 +24,7 @@ import { z } from 'zod'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
 
 const vacationFormSchema = z.object({
-  employee: z.string({ required_error: 'Bitte gib einen Mitarbeiter ein.' }),
+  user: z.string({ required_error: 'Bitte gib einen Mitarbeiter ein.' }),
   dateFrom: z.date({ required_error: 'Das Startdatum ist erforderlich' }),
   dateTo: z.date({ required_error: 'Das Enddatum ist erforderlich' }),
   // TODO: is this needed or just "Ganztags" / "Halbtags"?
@@ -77,7 +77,7 @@ export function VacationForm({
       >
         <FormField
           control={form.control}
-          name='employee'
+          name='user'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Mitarbeiter</FormLabel>
@@ -92,9 +92,9 @@ export function VacationForm({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* {employees.map((employee) => (
-                      <SelectItem key={employee.id} value={employee.name}>
-                        {employee.name}
+                    {/* {users.map((user) => (
+                      <SelectItem key={user.id} value={user.name}>
+                        {user.name}
                       </SelectItem>
                     ))} */}
                   </SelectContent>

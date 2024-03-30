@@ -11,7 +11,7 @@ import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { updateTask } from '@/actions/update-task'
 import { GetTaskType } from '@/actions/get-task/schema'
-import { useEmployeeContext } from '@/lib/provider/employee-provider'
+import { useUserContext } from '@/lib/provider/user-provider'
 
 interface TaskEditFormProps {
   task: GetTaskType
@@ -22,9 +22,7 @@ interface TaskEditFormProps {
 function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
   const title = task.title
   const description = task.description
-  const [employeeIds, setEmployeeIds] = useState(
-    task.employees.map((employee) => employee.task.id)
-  )
+  const [userIds, setUserIds] = useState(task.users.map((user) => user.task.id))
   const timeFrom = task.timeFrom
   const timeTil = task.timeTil
 
@@ -33,7 +31,7 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
     to: task.dateTil,
   })
 
-  const { _employees } = useEmployeeContext()
+  const { _users } = useUserContext()
 
   // TODO: add later on
   // const [urlIds, setUrlIds] = useState<string[]>([])
@@ -58,10 +56,10 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
   const onSubmit = (formData: FormData) => {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    /* TODO: validate if the employee already has a task on that day with that time */
+    /* TODO: validate if the user already has a task on that day with that time */
     const timeFrom = formData.get('timeFrom') as string
     const timeTil = formData.get('timeTil') as string
-    const formEmployeeIds = formData.getAll('employeeId') as string[]
+    const formUserIds = formData.getAll('userId') as string[]
     // const formUrlIds = formData.getAll('urlId') as string[]
 
     if (!date?.from || !date?.to) {
@@ -79,7 +77,7 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
       dateTil,
       timeFrom,
       timeTil,
-      employeeIds: formEmployeeIds,
+      userIds: formUserIds,
     })
   }
 
@@ -127,13 +125,13 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
         )}
         <FormSelectMultiple
           deleteButton
-          id='employeeId'
-          name='employeeId'
+          id='userId'
+          name='userId'
           label='Mitarbeiter'
           placeholder='Wähle einen Mitarbeiter aus'
-          options={_employees}
-          values={employeeIds}
-          onValuesChange={setEmployeeIds}
+          options={_users}
+          values={userIds}
+          onValuesChange={setUserIds}
           errors={fieldErrors}
         />
       </div>

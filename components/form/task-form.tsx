@@ -1,7 +1,7 @@
 'use client'
 
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { employees } from '@/_dev/mockdata/constants'
+import { users } from '@/_dev/mockdata/constants'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -37,7 +37,7 @@ const taskFormSchema = z.object({
     .min(2, { message: 'Der Titel muss mindestens 2 Zeichen lang sein' })
     .max(100, { message: 'Der Titel darf maximal 100 Zeichen lang sein' }),
   // the required_error doesnt seem to work since this is a select? TODO: change this
-  employees: z
+  users: z
     .array(
       z.object({
         value: z.string({
@@ -77,7 +77,7 @@ type TaskFormValues = z.infer<typeof taskFormSchema>
 const defaultValues: Partial<TaskFormValues> = {
   dateFrom: new Date(),
   dateTo: new Date(),
-  employees: [{ value: '' }],
+  users: [{ value: '' }],
   urls: [{ value: '' }],
 }
 
@@ -104,12 +104,12 @@ export function TaskFormT({
   })
 
   const {
-    fields: employeeFields,
-    append: appendEmployee,
-    remove: removeEmployee,
+    fields: userFields,
+    append: appendUser,
+    remove: removeUser,
   } = useFieldArray({
     control: form.control,
-    name: 'employees',
+    name: 'users',
   })
 
   function onSubmit(data: TaskFormValues) {
@@ -140,12 +140,12 @@ export function TaskFormT({
         />
         <div>
           <ul>
-            {employeeFields.map((field, index) => (
+            {userFields.map((field, index) => (
               <li key={field.id}>
                 <FormField
                   control={form.control}
                   key={field.id}
-                  name={`employees.${index}.value`}
+                  name={`users.${index}.value`}
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className={cn(index !== 0 && 'sr-only')}>
@@ -161,14 +161,11 @@ export function TaskFormT({
                               <SelectValue placeholder='Mitarbeiter auswaehlen' />
                             </SelectTrigger>
                           </FormControl>
-                          {/* TODO: only show employees which are not on vacation and which are not sick. also, add tooltip for this so the user knows */}
+                          {/* TODO: only show users which are not on vacation and which are not sick. also, add tooltip for this so the user knows */}
                           <SelectContent>
-                            {employees.map((employee) => (
-                              <SelectItem
-                                key={employee.id}
-                                value={employee.name}
-                              >
-                                {employee.name}
+                            {users.map((user) => (
+                              <SelectItem key={user.id} value={user.name}>
+                                {user.name}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -178,7 +175,7 @@ export function TaskFormT({
                           <Button
                             type='button'
                             variant='outline'
-                            onClick={() => removeEmployee(index)}
+                            onClick={() => removeUser(index)}
                           >
                             Entfernen
                             <Cross2Icon className='ml-2 mt-0.5 h-4 w-4' />
@@ -198,7 +195,7 @@ export function TaskFormT({
                           <Button
                             type='button'
                             variant='outline'
-                            onClick={() => removeEmployee(index)}
+                            onClick={() => removeUser(index)}
                           >
                             Entfernen
                             <Cross2Icon className='ml-2 mt-0.5 h-4 w-4' />
@@ -217,7 +214,7 @@ export function TaskFormT({
             variant='outline'
             size='sm'
             className='mt-2'
-            onClick={() => appendEmployee({ value: '' })}
+            onClick={() => appendUser({ value: '' })}
           >
             Mitarbeiter hinzufügen
           </Button>

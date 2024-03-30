@@ -7,12 +7,12 @@ export const getTasks = cache(async function () {
   // TODO: include createdBy etc?
   const tasks = await db.task.findMany({
     // include: {
-    //   employees: true,
+    //   users: true,
     // },
     include: {
-      employees: {
+      users: {
         include: {
-          employee: true,
+          user: true,
         },
       },
     },
@@ -21,19 +21,19 @@ export const getTasks = cache(async function () {
   // console.log(tasks)
 
   // tasks.forEach((task) => {
-  //   console.log(task.employees)
+  //   console.log(task.users)
   // })
 
   return tasks
 })
 
-export const getTaskWithEmployees = cache(async function (taskId: string) {
+export const getTaskWithUsers = cache(async function (taskId: string) {
   const task = await db.task.findUnique({
     where: { id: taskId },
     select: {
-      employees: {
+      users: {
         select: {
-          employee: {
+          user: {
             select: {
               id: true,
               firstName: true,
@@ -50,7 +50,7 @@ export const getTaskWithEmployees = cache(async function (taskId: string) {
     },
   })
 
-  console.log(task?.employees.map((employee) => employee.employee.firstName))
+  console.log(task?.users.map((user) => user.user.firstName))
 
   return task
 })

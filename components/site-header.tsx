@@ -1,13 +1,10 @@
-import {
-  getEmployeesName,
-  getEmployeesOnCallService,
-} from '@/actions/get-employee'
 import { CalendarWeek } from '@/components/calendar-week'
 import { UserNav } from '@/components/user-nav'
 import Link from 'next/link'
 import ActionsDialog from './dialog/actions-dialog'
 import { TodayButton } from './today-button'
 import { Button } from './ui/button'
+import { getUsersName, getUsersOnCallService } from '@/actions/get-user'
 
 // TODO: prob gonna change this to someting more intuitive
 // TODO: also, maybe dont use two functions but render these based on route. dont know if that is possible & more perfomant
@@ -36,8 +33,8 @@ export function SiteHeader() {
 }
 
 export async function SiteHeaderDashboard() {
-  const employees = await getEmployeesName()
-  const employeesOnCallService = await getEmployeesOnCallService()
+  const users = await getUsersName()
+  const usersOnCallService = await getUsersOnCallService()
 
   const role: string = 'admin'
 
@@ -62,8 +59,8 @@ export async function SiteHeaderDashboard() {
               </div>
               <div>
                 <ActionsDialog
-                  employees={employees}
-                  employeesOnCallService={employeesOnCallService}
+                  users={users}
+                  usersOnCallService={usersOnCallService}
                 />
               </div>
             </div>

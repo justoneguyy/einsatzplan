@@ -11,7 +11,7 @@ export const UpdateTask = z.object({
   dateTil: z.date(),
   timeFrom: z.string().nullable(),
   timeTil: z.string().nullable(),
-  employeeIds: z
+  userIds: z
     .array(
       z.string({
         required_error: 'Der Mitarbeiter ist erforderlich',

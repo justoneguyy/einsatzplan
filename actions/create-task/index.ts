@@ -11,15 +11,8 @@ import { InputType, ReturnType } from './types'
 const handler = async (data: InputType): Promise<ReturnType> => {
   // TODO: add auth check
 
-  const {
-    title,
-    description,
-    dateFrom,
-    dateTil,
-    timeFrom,
-    timeTil,
-    employeeIds,
-  } = data
+  const { title, description, dateFrom, dateTil, timeFrom, timeTil, userIds } =
+    data
 
   let task
 
@@ -32,11 +25,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         dateTil,
         timeFrom,
         timeTil,
-        employees: {
-          create: employeeIds.map((employeeId) => ({
-            employee: {
+        users: {
+          create: userIds.map((userId) => ({
+            user: {
               connect: {
-                id: employeeId,
+                id: userId,
               },
             },
           })),

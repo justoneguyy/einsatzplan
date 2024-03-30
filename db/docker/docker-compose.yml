@@ -2,9 +2,9 @@ version: '3.8'
 
 name: einsatzplan
 
-## use 'docker-compose up mongo' to only start the actual db
-## use 'docker-compose up mongo_seed' to only start the seed data service
-## use 'docker-compose up' to start both
+## use 'docker-compose up -d mongo' to only start the actual db
+## use 'docker-compose up -d mongo_seed' to only start the seed data service
+## use 'docker-compose up -d' to start both
 
 services:
   mongo:

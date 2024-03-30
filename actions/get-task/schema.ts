@@ -7,10 +7,10 @@ const getTasks = z.object({
   dateTil: z.date(),
   timeFrom: z.string().nullable(),
   timeTil: z.string().nullable(),
-  employees: z.array(
+  users: z.array(
     z.object({
       id: z.string(),
-      employeeId: z.string(),
+      userId: z.string(),
       taskId: z.string(),
       task: z.object({
         id: z.string(),
@@ -34,7 +34,7 @@ const GetTask = z.object({
   dateTil: z.date(),
   timeFrom: z.string().nullable(),
   timeTil: z.string().nullable(),
-  employees: z.array(
+  users: z.array(
     z.object({
       task: z.object({
         id: z.string(),

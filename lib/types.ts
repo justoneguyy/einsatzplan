@@ -1,4 +1,4 @@
-import { Employee, Task } from '@prisma/client'
+import { User, Task } from '@prisma/client'
 
 export interface Option {
   label: string
@@ -8,5 +8,4 @@ export interface Option {
 
 export interface TaskProps extends Omit<Task, 'createdAt' | 'updatedAt'> {}
 
-export interface EmployeeProps
-  extends Pick<Employee, 'firstName' | 'lastName'> {}
+export interface UserProps extends Pick<User, 'firstName' | 'lastName'> {}

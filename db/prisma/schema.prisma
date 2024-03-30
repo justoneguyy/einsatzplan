@@ -7,22 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// TODO: maybe separate this into an additional profile model
-model Employee {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+model User {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
   firstName       String
   lastName        String
-  initials        String    // used when the profilePicture is not set
+  initials        String          // used if the profilePicture is not set
   email           String
   profilePicture  String?
 
   account         Account?
-  roleId          String    @db.ObjectId
-  role            Role      @relation(fields: [roleId], references: [id])
-  groups          EmployeeGroup[]
-  tasks           EmployeeTask[]
-  availabilityId  String?        @db.ObjectId
-  availability    Availability?  @relation(fields: [availabilityId], references: [id])
+  roleId          String          @db.ObjectId
+  role            Role            @relation(fields: [roleId], references: [id])
+  groups          UserGroup[]
+  tasks           UserTask[]
+  vacations       Vacation[]
+  sicknesses      Sickness[]
+  onCallServices  OnCallService[]
 }
 
 // maybe use a boolean instead
@@ -32,17 +32,16 @@ enum AccountStatusNames {
 }
 
 model Account {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
   username    String
   password    String
   status      AccountStatusNames
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
 
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  employeeId  String    @unique @db.ObjectId
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String              @unique @db.ObjectId
 }
-
 
 enum RoleNames {
   user
@@ -54,7 +53,7 @@ model Role {
   name        RoleNames
   description String?
 
-  employees   Employee[]
+  users       User[]
 }
 
 // do not use enums at the current time because of not being able to actually remap them for the application. more on this: https://github.com/prisma/prisma/issues/8446
@@ -71,21 +70,25 @@ model Group {
   name            String
   description     String?
 
-  employeeGroups  EmployeeGroup[]
+  users           UserGroup[]
 }
 
-model EmployeeGroup {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+model UserGroup {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
 
-  employeeId  String    @db.ObjectId
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String  @db.ObjectId
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  groupId     String    @db.ObjectId
-  group       Group     @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  groupId String  @db.ObjectId
+  group   Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
-  @@unique([employeeId, groupId])
+  @@unique([userId, groupId])
 }
 
+// TODO: add a general/etc. model for e.g. berufsschule, RZ- Dienst u. Service- Einsatz
+// I think I should add a general modal with props like cell color etc.
+
+// TODO: add cell background and text color prop (by default none)
 model Task {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   title         String
@@ -97,26 +100,92 @@ model Task {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  employees EmployeeTask[]
+  users UserTask[]
 }
 
-model EmployeeTask {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+model UserTask {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
 
-  employeeId  String    @db.ObjectId
-  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId  String  @db.ObjectId
+  user    User    @relation(fields: [userId], references: [id], onDelete: NoAction)
 
-  taskId      String    @db.ObjectId
-  task        Task      @relation(fields: [taskId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  taskId  String  @db.ObjectId
+  task    Task    @relation(fields: [taskId], references: [id], onDelete: NoAction)
 
-  @@unique([employeeId, taskId])
+  @@unique([userId, taskId])
 }
 
-model Availability {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String?
-  color       String
+// TODO: add other 'activities'?
 
-  employees   Employee[]
+enum VacationDuration {
+  halbtags
+  ganztags
+}
+
+// either as said below or in a more 'modern' way (like only showing the available users (this should be filterable) or these should be shown at the bottom? idk yet)
+// cell background should be green
+// text color should be primary
+model Vacation {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  type          String      @default("urlaub")  // urlaub, ueberstundenabbau
+  duration      VacationDuration
+  dateFrom      DateTime
+  dateTil       DateTime
+  // TODO: add these somewhat later on (if this is added, the vacation type should only be of type urlaub -> create a new model for ueberstundenabbau)
+  // numberOfDays  Int
+  // numberofDaysTaken Int
+
+  // one to many (one user can have multiple vacations)
+  userId        String?     @db.ObjectId
+  user          User?       @relation(fields: [userId], references: [id])
+}
+
+enum SicknessTitles {
+  krank
+  arztbesuch
+}
+
+// cell background should be primary
+// text color should be red
+model Sickness {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  title         SicknessTitles
+  dateFrom      DateTime
+  dateTil       DateTime
+
+  // one to many (one user can have multiple sicknesses)
+  userId        String?         @db.ObjectId
+  user          User?           @relation(fields: [userId], references: [id])
+}
+
+// since the duration doesnt seem to be consistens, the service wont be auto assigned to the users of group 'Rufbereitschaft')
+// TODO: either style it as below or in a more 'modern' way (like a badge or something. maybe even a notification for the user who has it)
+// the onCallService should be hidable
+// cell background should be light/baby blue
+// text color should be primary
+model OnCallService {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  title         String      @default("Rufbereitschaft")
+  dateFrom      DateTime    // TODO: create a default preset of one week (7 days)
+  dateTil       DateTime
+  count         Int         // how many times the user had the onCallService (this is based on a on year period; then it should be reset) the count is currently on the column sunday
+
+  // one to many (one user can have multiple onCallServices)
+  userId        String?     @db.ObjectId
+  user          User?       @relation(fields: [userId], references: [id])
+}
+
+// TODO: Berufsschultage (the user/apprentice should be able to set his own days for each year (e.g. { year: 1, days: ['monday', 'tuesday']}; it should be populated until summer holidays for each year. after the new year begins) -> add this in the settings and maybe add a toast notification on login, if no days are set yet. or let the admin hadnle this?), (cell background color: yellow, text color: primary)
+// currently changing weeks are not supported (e.g. one week school, one week work etc.)
+model VocationalSchoolDay {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  day       String    // monday, tuesday, wednesday, thursday, friday
+  year      Int
+}
+
+// TODO: Holidays (use an api for this (https://get.api-feiertage.de?states=ni). Populate the current and next 2 years ahead and save it as a separate model. this way we will have them, even if the api is down. use a task scheduler like node-cron for this which fetches the secondth year from now.), (cell background color: light green, text color: primary)
+model Holiday {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  date      DateTime
 }

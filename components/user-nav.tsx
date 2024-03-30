@@ -91,7 +91,7 @@ export function UserNav() {
           {/* TODO: only render for admins (later on this might be in settings page itself) */}
           <MenubarItem className='cursor-pointer'>
             <PersonIcon className='mr-2 h-4 w-4' />
-            <Link href='/settings/employee-administration'>
+            <Link href='/settings/user-administration'>
               Mitarbeiterverwaltung
             </Link>
           </MenubarItem>

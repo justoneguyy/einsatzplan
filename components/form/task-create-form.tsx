@@ -1,7 +1,7 @@
 'use client'
 
 import { createTask } from '@/actions/create-task'
-import { EmployeesTypeName } from '@/actions/get-employee/types'
+import { UsersTypeName } from '@/actions/get-user/types'
 import { useAction } from '@/lib/hooks/useAction'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
@@ -14,15 +14,15 @@ import { FormSubmit } from './ui/form-submit'
 import { FormSwitch } from './ui/form-switch'
 
 interface TaskCreateFormProps {
-  employees: EmployeesTypeName
+  users: UsersTypeName
   onCreate: () => void
 }
 
 // maybe change zod mode to insta check
-function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
+function TaskCreateForm({ users, onCreate }: TaskCreateFormProps) {
   const [date, setDate] = useState<DateRange | undefined>()
   const [isAllDay, setIsAllDay] = useState(false)
-  const [employeeIds, setEmployeeIds] = useState<string[]>([])
+  const [userIds, setUserIds] = useState<string[]>([])
   // TODO: add later on
   // const [urlIds, setUrlIds] = useState<string[]>([])
 
@@ -46,10 +46,10 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
   const onSubmit = (formData: FormData) => {
     const title = formData.get('title') as string
     const description = formData.get('description') as string
-    /* TODO: validate if the employee already has a task on that day with that time */
+    /* TODO: validate if the user already has a task on that day with that time */
     const timeFrom = formData.get('timeFrom') as string
     const timeTil = formData.get('timeTil') as string
-    const formEmployeeIds = formData.getAll('employeeId') as string[]
+    const formEployeeIds = formData.getAll('userId') as string[]
     // const formUrlIds = formData.getAll('urlId') as string[]
 
     if (!date?.from || !date?.to) {
@@ -70,7 +70,7 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
       dateTil,
       timeFrom,
       timeTil,
-      employeeIds: formEmployeeIds,
+      userIds: formEployeeIds,
     })
   }
 
@@ -124,13 +124,13 @@ function TaskCreateForm({ employees, onCreate }: TaskCreateFormProps) {
         </div>
         <FormSelectMultiple
           deleteButton
-          id='employeeId'
-          name='employeeId'
+          id='userId'
+          name='userId'
           label='Mitarbeiter'
           placeholder='Wähle einen Mitarbeiter aus'
-          values={employeeIds}
-          onValuesChange={setEmployeeIds}
-          options={employees}
+          values={userIds}
+          onValuesChange={setUserIds}
+          options={users}
           errors={fieldErrors}
         />
       </div>

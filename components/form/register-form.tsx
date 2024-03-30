@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
-import { AuthCardWrapper } from '../card/auth-card-wrapper'
 import { FormError } from './ui/form-error'
 import { FormSuccess } from './ui/form-success'
 import {
@@ -25,6 +24,8 @@ import {
   generateEmail,
   generateUsername,
 } from '@/lib/helper/format'
+import { Loader2 } from 'lucide-react'
+import { CardFormWrapper } from '../card/ui/card-form-wrapper'
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('')
@@ -83,7 +84,7 @@ export const RegisterForm = () => {
 
   // Version 2
   return (
-    <AuthCardWrapper
+    <CardFormWrapper
       className='w-[550px]'
       headerLabel='Registrierung'
       backButtonLabel='Du hast schon einen Account?'
@@ -193,11 +194,12 @@ export const RegisterForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button disabled={isPending} type='submit' className='w-full'>
+            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
             Account erstellen
           </Button>
         </form>
       </Form>
-    </AuthCardWrapper>
+    </CardFormWrapper>
   )
 
   // Version 2

@@ -18,18 +18,18 @@ import { AlertCircle, Palmtree } from 'lucide-react'
 import { Button } from '../ui/button'
 import { DialogItem } from './ui/dialog-item'
 import TaskCreateForm from '../form/task-create-form'
-import { EmployeesTypeName } from '@/actions/get-employee/types'
+import { UsersTypeName } from '@/actions/get-user/types'
 import OnCallForm from '../form/onCall-form'
 import { VacationForm } from '../form/vacation-form'
 
 interface ActionsDialogProps {
-  employees: EmployeesTypeName
-  employeesOnCallService: EmployeesTypeName
+  users: UsersTypeName
+  usersOnCallService: UsersTypeName
 }
 
 export default function ActionsDialog({
-  employees,
-  employeesOnCallService,
+  users,
+  usersOnCallService,
 }: ActionsDialogProps) {
   const [open, setOpen] = useState(false)
 
@@ -50,6 +50,8 @@ export default function ActionsDialog({
       setDropdownOpen(false)
     }
   }
+
+  // TODO: add general dialog
 
   if (isDesktop) {
     return (
@@ -83,10 +85,7 @@ export default function ActionsDialog({
                 Hier kann eine neue Aufgabe erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <TaskCreateForm
-              employees={employees}
-              onCreate={() => setOpen(false)}
-            />
+            <TaskCreateForm users={users} onCreate={() => setOpen(false)} />
           </DialogItem>
 
           <DialogItem
@@ -102,7 +101,7 @@ export default function ActionsDialog({
               </DialogDescription>
             </DialogHeader>
             <OnCallForm
-              employees={employeesOnCallService}
+              users={usersOnCallService}
               onCreate={() => setOpen(false)}
             />
           </DialogItem>

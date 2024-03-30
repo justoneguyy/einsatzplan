@@ -8,9 +8,9 @@ import {
 } from '@/ui/tooltip'
 import { ArrowRightIcon, PersonIcon } from '@radix-ui/react-icons'
 
-import { EmployeeProps, TaskProps } from '@/lib/types'
+import { UserProps, TaskProps } from '@/lib/types'
 import { Badge } from '../ui/badge'
-import { useEmployeeContext } from '@/lib/provider/employee-provider'
+import { useUserContext } from '@/lib/provider/user-provider'
 import { format } from 'date-fns'
 
 interface AssignmentCardProps extends TaskProps {
