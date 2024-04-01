@@ -1,10 +1,11 @@
 [
   {
-    "username": "ole.holthus",
     "firstName": "Ole",
     "lastName": "Holthus",
     "initials": "OH",
-    "profilePicture": ""
+    "email": "ole.holthus@uhlhornde",
+    "profilePicture": "",
+    "roleId": "660ae4101a6845922318f25b"
   },
   {
     "username": "justin.hoffmann",

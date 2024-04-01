@@ -6,6 +6,7 @@ import {
   TableColumnHeaderAscDescReset,
   TableColumnHeaderHide,
 } from './ui/table-column-header'
+import { UserTableRowActions } from './user-table-row-actions'
 
 // TODO: set fixed/min width for the specific columns
 export const UserColumns: ColumnDef<GetUserType>[] = [
@@ -119,7 +120,7 @@ export const UserColumns: ColumnDef<GetUserType>[] = [
     id: 'actions',
     cell: ({ row }) => {
       return (
-        <User
+        <UserTableRowActions
           id={row.original.id}
           user={row.original}
           firstName={row.getValue('firstName')}

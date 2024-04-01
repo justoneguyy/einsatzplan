@@ -23,24 +23,24 @@ export function AssignmentCard({
   title,
   description,
   dateFrom,
-  dateTil,
+  dateTo,
   timeFrom,
-  timeTil,
+  timeTo,
   firstName,
   lastName,
 }: AssignmentCardProps) {
   const formattedDateFrom = format(dateFrom, 'dd.MM.yyyy')
-  const formattedDateTil = format(dateTil, 'dd.MM.yyyy')
+  const formattedDateTo = format(dateTo, 'dd.MM.yyyy')
 
   return (
     <Card className='rounded-md'>
       <CardContent className='flex h-14 min-h-14 select-none flex-col p-2'>
         <div className='relative text-muted-foreground'>
-          {timeFrom && timeTil && (
+          {timeFrom && timeTo && (
             <span className='mb-1 flex items-center gap-1 text-xs'>
               {timeFrom}
               <ArrowRightIcon />
-              {timeTil}
+              {timeTo}
             </span>
           )}
           <TooltipProvider delayDuration={0}>
@@ -69,7 +69,7 @@ export function AssignmentCard({
         </div>
         <div className='flex grow items-center'>
           {/* <Label className='cursor-pointer leading-tight'>
-            {formattedDateFrom} - {formattedDateTil}
+            {formattedDateFrom} - {formattedDateTo}
           </Label> */}
           <Label className='cursor-pointer leading-tight'>{title}</Label>
         </div>

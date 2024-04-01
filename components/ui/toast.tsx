@@ -8,7 +8,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from './card'
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toast = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()
 
   return (
@@ -31,7 +31,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
   )
 }
 
-export { Toaster }
+export { Toast }
 
 type ToastProps = Omit<ToastT, 'id'>
 

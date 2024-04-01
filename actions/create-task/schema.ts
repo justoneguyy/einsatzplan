@@ -7,9 +7,9 @@ export const CreateTask = z.object({
   }),
   description: z.string().nullable(),
   dateFrom: z.date(),
-  dateTil: z.date(),
+  dateTo: z.date(),
   timeFrom: z.string().nullable(),
-  timeTil: z.string().nullable(),
+  timeTo: z.string().nullable(),
   userIds: z
     .array(
       z.string({

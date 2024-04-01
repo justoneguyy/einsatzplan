@@ -1,39 +1,34 @@
 'use client'
 
-import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState, useTransition } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 
-import { RegisterSchema } from '@/schemas'
-import { Input } from '@/components/ui/input'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { FormError } from './ui/form-error'
-import { FormSuccess } from './ui/form-success'
+import { Form } from '@/components/ui/form'
 import {
   formatFirstName,
   formatLastName,
   generateEmail,
   generateUsername,
 } from '@/lib/helper/format'
-import { Loader2 } from 'lucide-react'
+import { RegisterSchema } from '@/schemas'
+import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { CardFormWrapper } from '../card/ui/card-form-wrapper'
+import { FormError } from './ui/form-error'
+import { FormInput } from './ui/form-input'
+import { FormSubmit } from './ui/form-submit'
+import { FormSuccess } from './ui/form-success'
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
+    // seems to be required, otherwise the form will not show the correct errors
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -69,18 +64,30 @@ export const RegisterForm = () => {
     form.setValue('email', generateEmail(firstName, lastName))
   }, [firstName, lastName, form])
 
-  // const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-  //   setError("");
-  //   setSuccess("");
+  // const onSubmit = (values: z.infer<typeof UserSchema>) => {
+  //   setError('')
+  //   setSuccess('')
 
   //   startTransition(() => {
-  //     register(values)
+  //     const initials = generateInitials(values.firstName, values.lastName)
+  //     const valuesWithInitials = { ...values, initials }
+
+  //     register(valuesWithInitials)
   //       .then((data) => {
-  //         setError(data.error);
-  //         setSuccess(data.success);
-  //       });
-  //   });
-  // };
+  //         if (data?.error) {
+  //           setError(data.error)
+  //         }
+
+  //         if (data?.success) {
+  //           form.reset()
+  //           setSuccess(data.success)
+  //           dialogClose()
+  //           toast.success(`${data.success}`)
+  //         }
+  //       })
+  //       .catch(() => setError('Etwas ist schief gelaufen'))
+  //   })
+  // }
 
   // Version 2
   return (
@@ -98,105 +105,67 @@ export const RegisterForm = () => {
         >
           <div className='space-y-4'>
             <div className='flex gap-2'>
-              <FormField
+              <FormInput
                 control={form.control}
+                className='w-full'
                 name='firstName'
-                render={({ field }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Vorname</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder='Justin'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Vorname'
+                placeholder='Justin'
+                disabled={isPending}
               />
-              <FormField
+              <FormInput
                 control={form.control}
+                className='w-full'
                 name='lastName'
-                render={({ field }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Nachname</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder='Hoffmann'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Nachname'
+                placeholder='Hoffmann'
+                disabled={isPending}
               />
             </div>
             <div className='flex gap-2'>
-              <FormField
+              <FormInput
                 control={form.control}
+                className='w-full disabled:opacity-100'
                 name='username'
-                render={({ field }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Benutzername</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className='disabled:opacity-100'
-                        disabled
-                        placeholder='justin.hoffmann'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Benutzername'
+                placeholder='justin.hoffmann'
+                disabled
               />
-              <FormField
+              <FormInput
                 control={form.control}
+                className='w-full disabled:opacity-100'
                 name='email'
-                render={({ field }) => (
-                  <FormItem className='w-full'>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className='disabled:opacity-100'
-                        disabled
-                        placeholder='justin.hoffmann@uhlhorn.de'
-                        type='email'
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Email'
+                placeholder='justin.hoffmann@uhlhorn.de'
+                type='email'
+                disabled
               />
             </div>
-            <FormField
+            <FormInput
               control={form.control}
               name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Passwort</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder='********'
-                      type='password'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label='Passwort'
+              disabled={isPending}
+              placeholder='********'
+              type={showPassword ? 'text' : 'password'}
+              icon={
+                showPassword ? (
+                  <EyeNoneIcon
+                    className='h-4 w-4'
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <EyeOpenIcon
+                    className='h-4 w-4'
+                    onClick={() => setShowPassword(true)}
+                  />
+                )
+              }
             />
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type='submit' className='w-full'>
-            {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            Account erstellen
-          </Button>
+          <FormSubmit title='Anmelden' disabled={isPending} showIcon />
         </form>
       </Form>
     </CardFormWrapper>

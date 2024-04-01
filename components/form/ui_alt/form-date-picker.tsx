@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { DateRange } from 'react-day-picker'
 
-import { DatePicker } from '@/components/date-picker'
+import { DateRangePicker } from '@/components/date-range-picker'
 import { Label } from '@/components/ui/label'
 import { FormErrors } from './form-errors'
 
@@ -30,7 +30,7 @@ export function FormDatePicker({
             {label}
           </Label>
         ) : null}
-        <DatePicker date={date} setDate={setDate} />
+        <DateRangePicker date={date} setDate={setDate} />
       </div>
       <FormErrors id={id} errors={errors} />
     </div>

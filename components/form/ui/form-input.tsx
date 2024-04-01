@@ -1,108 +1,163 @@
-import { forwardRef } from 'react'
-import { useFormStatus } from 'react-dom'
-
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { ReactNode } from 'react'
+import { ControllerProps } from 'react-hook-form'
 
-import { FormErrors } from './form-errors'
-import { Separator } from '@/components/ui/separator'
-
-interface FormInputProps {
-  id: string
+interface FormInputProps extends Omit<ControllerProps<any, any>, 'render'> {
   label?: string
   type?: string
   placeholder?: string
   required?: boolean
   disabled?: boolean
-  errors?: Record<string, string[] | undefined>
   className?: string
-  value?: string
-  defaultValue?: string
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: () => void
   autocomplete?: string
-  separator?: boolean
-  separatorSide?: 'left' | 'right'
+  children?: ReactNode
+  icon?: ReactNode
+  optional?: boolean
 }
 
-export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  (props, ref) => {
-    const { pending } = useFormStatus()
-    const { separator, separatorSide } = props
-
-    return (
-      <>
-        {separator ? (
-          <div className='flex gap-8'>
-            {separatorSide === 'left' && (
-              <div className='pb-1 pt-2'>
-                <Separator orientation='vertical' />
-              </div>
-            )}
-            <FormInputContent {...props} ref={ref} />
-            {separatorSide === 'right' && (
-              <div className='pb-1 pt-2'>
-                <Separator orientation='vertical' />
-              </div>
+export function FormInput({
+  label,
+  type = 'text',
+  placeholder,
+  required,
+  disabled,
+  className,
+  onBlur,
+  autocomplete,
+  children,
+  icon,
+  optional = false,
+  ...controllerProps
+}: FormInputProps) {
+  return (
+    <FormField
+      {...controllerProps}
+      render={({ field }) => (
+        <FormItem className={cn('', className)}>
+          <div className='flex gap-1'>
+            <FormLabel>{label}</FormLabel>
+            {optional && (
+              <TooltipProvider delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <InfoCircledIcon className='h-3 w-3' />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>'{label}' ist optional</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             )}
           </div>
-        ) : (
-          <FormInputContent {...props} ref={ref} />
-        )}
-      </>
-    )
-  }
-)
+          <FormControl>
+            <div className='relative'>
+              <Input
+                {...field}
+                type={type}
+                placeholder={placeholder}
+                required={required}
+                disabled={disabled}
+                className={className}
+                onBlur={onBlur}
+                autoComplete={autocomplete}
+              />
+              {icon && (
+                <div className='absolute inset-y-0 right-0 flex items-center pr-3'>
+                  {icon}
+                </div>
+              )}
+            </div>
+          </FormControl>
+          <FormMessage />
+          {children}
+        </FormItem>
+      )}
+    />
+  )
+}
+// import {
+//   FormControl,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from '@/components/ui/form'
+// import { Input } from '@/components/ui/input'
+// import { cn } from '@/lib/utils'
+// import { ReactNode } from 'react'
+// import { ControllerProps } from 'react-hook-form'
 
-FormInput.displayName = 'FormInput'
+// interface FormInputProps extends Omit<ControllerProps<any, any>, 'render'> {
+//   label?: string
+//   type?: string
+//   placeholder?: string
+//   required?: boolean
+//   disabled?: boolean
+//   className?: string
+//   onBlur?: () => void
+//   autocomplete?: string
+//   children?: ReactNode
+//   icon?: ReactNode
+// }
 
-const FormInputContent = forwardRef<HTMLInputElement, FormInputProps>(
-  (
-    {
-      id,
-      label,
-      type,
-      placeholder,
-      required,
-      disabled,
-      errors,
-      className,
-      value,
-      defaultValue,
-      onChange,
-      onBlur,
-      autocomplete,
-    },
-    ref
-  ) => {
-    return (
-      <div className='space-y-2'>
-        <div className='space-y-1'>
-          {label && (
-            <Label htmlFor={id} className='text-xs font-semibold'>
-              {label}
-            </Label>
-          )}
-          <Input
-            autoComplete={autocomplete}
-            onBlur={onBlur}
-            value={value}
-            defaultValue={defaultValue}
-            onChange={onChange}
-            ref={ref}
-            required={required}
-            name={id}
-            id={id}
-            placeholder={placeholder}
-            type={type}
-            disabled={disabled}
-            className={cn('h-8 text-sm disabled:opacity-100', className)}
-            aria-describedby={`${id}-error`}
-          />
-        </div>
-        <FormErrors id={id} errors={errors} />
-      </div>
-    )
-  }
-)
+// export function FormInput({
+//   label,
+//   type = 'text',
+//   placeholder,
+//   required,
+//   disabled,
+//   className,
+//   onBlur,
+//   autocomplete,
+//   children,
+//   icon,
+//   ...controllerProps
+// }: FormInputProps) {
+//   return (
+//     <FormField
+//       {...controllerProps}
+//       render={({ field }) => (
+//         <FormItem className={cn('', className)}>
+//           <FormLabel>{label}</FormLabel>
+//           <FormControl>
+//             <div className='relative'>
+//               <Input
+//                 {...field}
+//                 type={type}
+//                 placeholder={placeholder}
+//                 required={required}
+//                 disabled={disabled}
+//                 className={className}
+//                 onBlur={onBlur}
+//                 autoComplete={autocomplete}
+//               />
+//               {icon && (
+//                 <div className='absolute inset-y-0 right-0 flex items-center pr-3'>
+//                   {icon}
+//                 </div>
+//               )}
+//             </div>
+//           </FormControl>
+//           <FormMessage />
+//           {children}
+//         </FormItem>
+//       )}
+//     />
+//   )
+// }

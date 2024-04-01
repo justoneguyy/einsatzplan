@@ -15,7 +15,7 @@ model User {
   email           String
   profilePicture  String?
 
-  account         Account?
+  // account         Account?
   roleId          String          @db.ObjectId
   role            Role            @relation(fields: [roleId], references: [id])
   groups          UserGroup[]
@@ -25,23 +25,17 @@ model User {
   onCallServices  OnCallService[]
 }
 
-// maybe use a boolean instead
-enum AccountStatusNames {
-  active
-  inactive
-}
+// model Account {
+//   id          String              @id @default(auto()) @map("_id") @db.ObjectId
+//   username    String
+//   password    String
+//   status      String              // active, inactive (there is an enum in /data/enums.ts for this)
+//   createdAt   DateTime            @default(now())
+//   updatedAt   DateTime            @updatedAt
 
-model Account {
-  id          String              @id @default(auto()) @map("_id") @db.ObjectId
-  username    String
-  password    String
-  status      AccountStatusNames
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime            @updatedAt
-
-  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String              @unique @db.ObjectId
-}
+//   user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId      String              @unique @db.ObjectId
+// }
 
 enum RoleNames {
   user
@@ -94,9 +88,9 @@ model Task {
   title         String
   description   String?
   dateFrom      DateTime
-  dateTil       DateTime
+  dateTo        DateTime
   timeFrom      String?
-  timeTil       String?
+  timeTo        String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
@@ -117,20 +111,15 @@ model UserTask {
 
 // TODO: add other 'activities'?
 
-enum VacationDuration {
-  halbtags
-  ganztags
-}
-
 // either as said below or in a more 'modern' way (like only showing the available users (this should be filterable) or these should be shown at the bottom? idk yet)
 // cell background should be green
 // text color should be primary
 model Vacation {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  type          String      @default("urlaub")  // urlaub, ueberstundenabbau
-  duration      VacationDuration
+  type          String
+  duration      String      // halbtags, ganztags (there is an enum in /data/enums.ts for this)
   dateFrom      DateTime
-  dateTil       DateTime
+  dateTo        DateTime
   // TODO: add these somewhat later on (if this is added, the vacation type should only be of type urlaub -> create a new model for ueberstundenabbau)
   // numberOfDays  Int
   // numberofDaysTaken Int
@@ -140,18 +129,15 @@ model Vacation {
   user          User?       @relation(fields: [userId], references: [id])
 }
 
-enum SicknessTitles {
-  krank
-  arztbesuch
-}
-
 // cell background should be primary
 // text color should be red
 model Sickness {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  title         SicknessTitles
+  title         String          // krank, Arztbesuch (there is an enum in /data/enums.ts for this)
   dateFrom      DateTime
-  dateTil       DateTime
+  dateTo        DateTime
+  timeFrom      String?
+  timeTo        String?
 
   // one to many (one user can have multiple sicknesses)
   userId        String?         @db.ObjectId
@@ -165,10 +151,9 @@ model Sickness {
 // text color should be primary
 model OnCallService {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
-  title         String      @default("Rufbereitschaft")
   dateFrom      DateTime    // TODO: create a default preset of one week (7 days)
-  dateTil       DateTime
-  count         Int         // how many times the user had the onCallService (this is based on a on year period; then it should be reset) the count is currently on the column sunday
+  dateTo        DateTime
+  count         Int?        // how many times the user had the onCallService (this is based on a on year period; then it should be reset) the count is currently on the column sunday
 
   // one to many (one user can have multiple onCallServices)
   userId        String?     @db.ObjectId

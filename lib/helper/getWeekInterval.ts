@@ -3,7 +3,7 @@ import { eachDayOfInterval } from 'date-fns'
 import { useQueryStates } from 'nuqs'
 
 // TODO: maybe separate this into two hooks, so it can be used without the weekInterval (e.g. for CalendarWeek component)
-export function useWeekInterval() {
+export function getWeekInterval() {
   const [dateWeek, setDateWeek] = useQueryStates(
     {
       dateFrom: searchParams.dateFrom,

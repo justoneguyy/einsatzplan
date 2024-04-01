@@ -7,7 +7,7 @@ import {
 
 import { GetTaskType } from '@/actions/get-task/schema'
 import { GetUserTaskType } from '@/actions/get-user/schema'
-import { useWeekInterval } from '@/lib/hooks/useWeekInterval'
+import { getWeekInterval } from '@/lib/helper/getWeekInterval'
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
 import { User } from '@prisma/client'
 import { isWithinInterval, setDefaultOptions } from 'date-fns'
@@ -19,16 +19,7 @@ setDefaultOptions({
 })
 
 // TODO: make this more elegant
-type CellUserProps = Omit<
-  User,
-  | 'id'
-  | 'email'
-  | 'roleId'
-  | 'role'
-  | 'groups'
-  | 'availabilityId'
-  | 'availability'
->
+type CellUserProps = Omit<User, 'id' | 'email' | 'roleId' | 'role' | 'groups'>
 
 export const CellUser = ({
   firstName,
@@ -84,23 +75,18 @@ export const CellUser = ({
   )
 }
 
-setDefaultOptions({
-  locale: de,
-  weekStartsOn: 1,
-})
-
 interface CellWeekdayProps {
   tasks: GetUserTaskType['tasks']
   index: number
 }
 
 export const CellWeekday = ({ tasks, index }: CellWeekdayProps) => {
-  const daysOfWeek = useWeekInterval()
+  const daysOfWeek = getWeekInterval()
   const day = daysOfWeek[index]
 
   const tasksForDay = tasks.filter((task) => {
     const taskStartDate = new Date(task.task.dateFrom)
-    const taskEndDate = new Date(task.task.dateTil)
+    const taskEndDate = new Date(task.task.dateTo)
 
     return isWithinInterval(day, { start: taskStartDate, end: taskEndDate })
   })
@@ -110,6 +96,7 @@ export const CellWeekday = ({ tasks, index }: CellWeekdayProps) => {
       <CarouselContent className='-ml-3 cursor-pointer'>
         {tasksForDay.map((i) => (
           // TODO: rotate the carousel items according to the current time
+          // TODO: if only one task is present, show it in full width
           <CarouselItem key={i.task.id} className='basis-10/12 rounded-md pl-3'>
             {/* TODO: pass all of the users which have the same task (need to aggregate them or use task.getUnique where... call) */}
             {/* <TaskDialog task={task}> */}
@@ -118,9 +105,9 @@ export const CellWeekday = ({ tasks, index }: CellWeekdayProps) => {
               title={i.task.title}
               description={i.task.description}
               dateFrom={i.task.dateFrom}
-              dateTil={i.task.dateTil}
+              dateTo={i.task.dateTo}
               timeFrom={i.task.timeFrom}
-              timeTil={i.task.timeTil}
+              timeTo={i.task.timeTo}
             />
             {/* </TaskDialog> */}
           </CarouselItem>
@@ -132,26 +119,26 @@ export const CellWeekday = ({ tasks, index }: CellWeekdayProps) => {
 
 // TODO: use this to order the tasks depending on their time (maybe we should do this in the actual call, dont know yet)
 function sortTasks(tasks: GetTaskType[]): GetTaskType[] {
-  // Filter tasks with both timeFrom and timeTil defined
-  const tasksWithTime = tasks.filter((task) => task.timeFrom && task.timeTil)
-  // Sort tasks by their timeFrom and timeTil values
+  // Filter tasks with both timeFrom and timeTo defined
+  const tasksWithTime = tasks.filter((task) => task.timeFrom && task.timeTo)
+  // Sort tasks by their timeFrom and timeTo values
   tasksWithTime.sort((a, b) => {
-    // Convert timeFrom and timeTil to Date objects for comparison
+    // Convert timeFrom and timeTo to Date objects for comparison
     const timeAFrom = new Date(a.timeFrom!)
     const timeBFrom = new Date(b.timeFrom!)
-    const timeATil = new Date(a.timeTil!)
-    const timeBTil = new Date(b.timeTil!)
+    const timeATil = new Date(a.timeTo!)
+    const timeBTil = new Date(b.timeTo!)
 
-    // Compare timeFrom and timeTil of tasks
+    // Compare timeFrom and timeTo of tasks
     if (timeAFrom < timeBFrom && timeATil < timeBTil) return -1
     if (timeAFrom > timeBFrom && timeATil > timeBTil) return 1
     return 0
   })
 
-  // Concatenate sorted tasks with tasks without timeFrom and timeTil
+  // Concatenate sorted tasks with tasks without timeFrom and timeTo
   const sortedTasks = [
     ...tasksWithTime,
-    ...tasks.filter((task) => !task.timeFrom || !task.timeTil),
+    ...tasks.filter((task) => !task.timeFrom || !task.timeTo),
   ]
 
   return sortedTasks

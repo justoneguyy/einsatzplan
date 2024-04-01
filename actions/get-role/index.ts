@@ -10,5 +10,10 @@ export const getRoles = cache(async function () {
     },
   })
 
-  return roles
+  const mappedRoles = roles.map((role) => ({
+    value: role.id,
+    label: role.name,
+  }))
+
+  return mappedRoles
 })

@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
+import { useEffect } from 'react'
 
 export default function useMouseMove() {
-  React.useEffect(() => {
+  useEffect(() => {
     function mouseMoveEvent(e: MouseEvent) {
       const scale = window.visualViewport?.scale
       // disable mouse movement on viewport zoom - causes page to slow down

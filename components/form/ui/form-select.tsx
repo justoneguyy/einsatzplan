@@ -1,6 +1,10 @@
-import React from 'react'
-
-import { Label } from '@/components/ui/label'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   Select,
   SelectContent,
@@ -8,56 +12,63 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { FormErrors } from './form-errors'
+import { ControllerProps } from 'react-hook-form'
 
-export interface FormSelectProps {
-  id: string
+interface FormSelectProps extends Omit<ControllerProps<any, any>, 'render'> {
   label: string
   placeholder: string
-  options: { id: string; name: string }[]
-  value: string
-  defaultValue?: string
+  disabled?: boolean
+  options: { value: string; label: string }[] | Record<string, string | number>
+  isEnum?: boolean
   onValueChange: (value: string) => void
-  errors?: Record<string, string[] | undefined>
 }
 
-const FormSelect: React.FC<FormSelectProps> = ({
-  id,
+export function FormSelect({
   label,
   placeholder,
+  disabled,
   options,
-  value,
-  defaultValue = '',
+  isEnum,
   onValueChange,
-  errors,
-}) => (
-  <div className='space-y-2'>
-    <div className='space-y-1'>
-      {label ? (
-        <Label htmlFor={id} className='text-xs font-semibold'>
-          {label}
-        </Label>
-      ) : null}
-      <Select
-        value={value}
-        defaultValue={defaultValue}
-        onValueChange={onValueChange}
-      >
-        <SelectTrigger>
-          <SelectValue placeholder={placeholder} defaultValue={defaultValue} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option) => (
-            <SelectItem id={option.id} key={option.id} value={option.id}>
-              {option.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <input hidden id={id} name={id} value={value} readOnly />
-    </div>
-    <FormErrors id={id} errors={errors} />
-  </div>
-)
-
-export default FormSelect
+  ...controllerProps
+}: FormSelectProps) {
+  return (
+    <FormField
+      {...controllerProps}
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <Select
+              {...field}
+              disabled={disabled}
+              value={field.value}
+              defaultValue={field.value}
+              onValueChange={onValueChange}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {isEnum
+                  ? Object.entries(options).map(([key, value]) => (
+                      <SelectItem key={key} value={value}>
+                        {key}
+                      </SelectItem>
+                    ))
+                  : (options as { value: string; label: string }[]).map(
+                      (option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      )
+                    )}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}

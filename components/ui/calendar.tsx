@@ -2,12 +2,20 @@
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
-import { DayPicker } from 'react-day-picker'
+import { DayPicker, DropdownProps } from 'react-day-picker'
+
+import '@/styles/globals.css'
 
 import { cn } from '@/lib/utils'
-import { fontSans } from '@/styles/font'
 import { buttonVariants } from '@/ui/button'
 import { de } from 'date-fns/locale'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './select'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -93,15 +101,7 @@ function CalendarCustom({
         caption: 'flex justify-center pt-1 relative items-center',
         caption_label: 'text-sm font-medium',
         vhidden: 'hidden', // hides the month and year label beside the dropdowns
-        caption_dropdowns: 'flex space-x-1',
-        dropdown: cn(
-          buttonVariants({ variant: 'outline' }),
-          'h-7 px-1 py-0 bg-background',
-          '*:bg-background', // idk how to access other props than background and text of the option elements inside the dropdown menu. will stay like this for now
-          `*:${fontSans.className}`
-        ),
-        dropdown_month: 'text-sm font-medium',
-        dropdown_year: 'text-sm font-medium',
+        caption_dropdowns: 'flex gap-2',
         nav: 'space-x-1 flex items-center',
         nav_button: cn(
           buttonVariants({ variant: 'outline' }),
@@ -113,21 +113,17 @@ function CalendarCustom({
         head_row: 'flex ml-2',
         head_cell:
           'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
-        row: 'flex w-full mt-2 group',
+        row: 'flex w-full mt-2 group selectFirstChild selectSecondChild selectLastChild',
         cell: cn(
           'relative p-0 text-center text-sm focus-within:relative focus-within:z-20 cursor-pointer',
-          '[&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/70'
-          // '[&:has([aria-selected].day-today)]:bg-primary/50 [&:has([aria-selected].day-today)]:text-primary-foreground/80'
-          // props.mode === 'range'
-          //   ? '[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
-          //   : 'first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md'
+          '[&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/70',
+          'group-hover:bg-accent'
         ),
-        // TODO: the border should only be shown on first and last day (weeknumber not included). fix this or just remove the border..
         day: cn(
           buttonVariants({ variant: 'ghost' }),
           'h-8 w-8 p-0 font-normal aria-selected:opacity-100',
           'rounded-none',
-          'group-hover:bg-accent [&:has([aria-selected].day-outside)]:group-hover:bg-accent/50 group-hover:text-accent-foreground'
+          '[&:has([aria-selected].day-outside)]:group-hover:bg-accent/50 group-hover:text-accent-foreground'
         ),
         day_today:
           '!bg-primary !text-primary-foreground !font-semibold opacity-100 rounded-md',
@@ -144,6 +140,40 @@ function CalendarCustom({
         ...classNames,
       }}
       components={{
+        Dropdown: ({ value, onChange, children, ...props }: DropdownProps) => {
+          const options = React.Children.toArray(
+            children
+          ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[]
+          const selected = options.find((child) => child.props.value === value)
+          const handleChange = (value: string) => {
+            const changeEvent = {
+              target: { value },
+            } as React.ChangeEvent<HTMLSelectElement>
+            onChange?.(changeEvent)
+          }
+          return (
+            <Select
+              value={value?.toString()}
+              onValueChange={(value) => {
+                handleChange(value)
+              }}
+            >
+              <SelectTrigger className='justify-center hover:bg-accent hover:text-accent-foreground focus:ring-0'>
+                <SelectValue>{selected?.props?.children}</SelectValue>
+              </SelectTrigger>
+              <SelectContent className='max-h-full min-w-min' position='popper'>
+                {options.map((option, id: number) => (
+                  <SelectItem
+                    key={`${option.props.value}-${id}`}
+                    value={option.props.value?.toString() ?? ''}
+                  >
+                    {option.props.children}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )
+        },
         IconLeft: ({ ...props }) => <ChevronLeftIcon className='h-4 w-4' />,
         IconRight: ({ ...props }) => <ChevronRightIcon className='h-4 w-4' />,
       }}

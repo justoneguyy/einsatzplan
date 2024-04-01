@@ -7,7 +7,6 @@ import {
 
 export const UpdateUser = z.object({
   id: z.string(),
-  username: z.string(),
   firstName: z
     .string({
       required_error: 'Der Vorname ist erforderlich',

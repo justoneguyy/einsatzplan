@@ -38,41 +38,19 @@ export const getUsersWithTasks = cache(async function () {
               title: true,
               description: true,
               dateFrom: true,
-              dateTil: true,
+              dateTo: true,
               timeFrom: true,
-              timeTil: true,
+              timeTo: true,
             },
           },
           user: true,
         },
       },
-      // tasks: {
-      //   select: {
-      //     task: {
-      //       select: {
-      //         id: true,
-      //         title: true,
-      //         description: true,
-      //         dateFrom: true,
-      //         dateTil: true,
-      //         timeFrom: true,
-      //         timeTil: true,
-      //       },
-      //     },
-      //     user: true,
-      //   },
-      // },
     },
     orderBy: {
       firstName: 'asc',
     },
   })
-
-  // users.forEach((user) => {
-  //   console.log(user.tasks)
-  // })
-
-  // console.log(users)
 
   return users
 })
@@ -90,11 +68,12 @@ export const getUsersName = cache(async function () {
     },
   })
 
-  // return users
-  return users.map((user) => ({
-    id: user.id,
-    name: `${user.firstName} ${user.lastName}`,
+  const mappedUsers = users.map((user) => ({
+    value: user.id,
+    label: `${user.firstName} ${user.lastName}`,
   }))
+
+  return mappedUsers
 })
 
 export const getUsersOnCallService = cache(async function () {
@@ -118,8 +97,10 @@ export const getUsersOnCallService = cache(async function () {
     },
   })
 
-  return users.map((user) => ({
-    id: user.id,
-    name: `${user.firstName} ${user.lastName}`,
+  const mappedUsers = users.map((user) => ({
+    value: user.id,
+    label: `${user.firstName} ${user.lastName}`,
   }))
+
+  return mappedUsers
 })

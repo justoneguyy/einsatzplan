@@ -57,4 +57,4 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   return { data: user }
 }
 
-export const createUser = createSafeAction(CreateUser, handler)
+export const cccreateUser = createSafeAction(CreateUser, handler)

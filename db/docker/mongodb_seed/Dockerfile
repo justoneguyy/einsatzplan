@@ -12,7 +12,7 @@ RUN echo "Starting data import..."
 
 # the users can only be seeded after the groups and roles are seeded because we need the objectIds of the groups and roles
 # define the collections to import (name = fileName(.json) = collectionName(toUpper))
-CMD collections=("role" "group" "availability"); \
+CMD collections=("role" "group"); \
     for name in "${collections[@]}"; do \
       collection=$(echo $name | awk '{print toupper(substr($0,1,1))substr($0,2)}'); \
       file="${DATA_PATH}/${name}.json"; \

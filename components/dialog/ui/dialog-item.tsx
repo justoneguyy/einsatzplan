@@ -1,18 +1,17 @@
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogOverlay,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { Cross2Icon } from '@radix-ui/react-icons'
+import { cn } from '@/lib/utils'
 import { ReactElement, ReactNode, Ref, forwardRef } from 'react'
 
 interface DialogItemProps {
   forwardedRef?: Ref<HTMLDivElement>
   children: ReactNode
+  className?: string
   title: ReactNode
   icon?: ReactElement
   onOpenChange: (open: boolean) => void
@@ -21,8 +20,15 @@ interface DialogItemProps {
 
 export const DialogItem = forwardRef<HTMLDivElement, DialogItemProps>(
   (props, ref) => {
-    const { children, title, icon, onSelect, onOpenChange, ...itemProps } =
-      props
+    const {
+      children,
+      className,
+      title,
+      icon,
+      onSelect,
+      onOpenChange,
+      ...itemProps
+    } = props
     return (
       <Dialog onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
@@ -39,13 +45,8 @@ export const DialogItem = forwardRef<HTMLDivElement, DialogItemProps>(
           </DropdownMenuItem>
         </DialogTrigger>
         <DialogOverlay />
-        <DialogContent>
+        <DialogContent className={cn('w-[500px]', className)}>
           {children}
-          {/* <DialogClose asChild>
-            <Button aria-label='Close'>
-              <Cross2Icon />
-            </Button>
-          </DialogClose> */}
         </DialogContent>
       </Dialog>
     )

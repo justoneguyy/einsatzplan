@@ -1,10 +1,9 @@
-import type { Metadata } from 'next'
-import '@/styles/globals.css'
-import { cn } from '@/lib/utils'
-import { SiteHeader } from '@/components/site-header'
+import { CustomToast, Toast } from '@/components/ui/toast'
 import { ThemeProvider } from '@/lib/provider/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
+import { cn } from '@/lib/utils'
 import { fontSans } from '@/styles/font'
+import '@/styles/globals.css'
+import type { Metadata } from 'next'
 
 // TODO: replace later on with config/site.ts
 // TODO: change title on all pages?
@@ -33,7 +32,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <Toaster expand />
+          <Toast />
         </ThemeProvider>
       </body>
     </html>

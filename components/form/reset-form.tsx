@@ -20,6 +20,8 @@ import { FormError } from './ui/form-error'
 import { FormSuccess } from './ui/form-success'
 import { MailIcon } from 'lucide-react'
 import { CardFormWrapper } from '../card/ui/card-form-wrapper'
+import { FormInput } from './ui/form-input'
+import { FormSubmit } from './ui/form-submit'
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>('')
@@ -58,31 +60,22 @@ export const ResetForm = () => {
           className='space-y-6'
         >
           <div className='space-y-4'>
-            <FormField
+            <FormInput
               control={form.control}
               name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder='justin.hoffmann@uhlhorn.de'
-                      type='email'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label='Email'
+              disabled={isPending}
+              placeholder='justin.hoffmann@uhlhorn.de'
+              type='email'
             />
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type='submit' className='w-full'>
-            <MailIcon className='mr-2 h-4 w-4' />
-            Reset Link senden
-          </Button>
+          <FormSubmit
+            title='Reset Link senden'
+            showIcon
+            icon={<MailIcon className='mr-2 h-4 w-4' />}
+          />
         </form>
       </Form>
     </CardFormWrapper>

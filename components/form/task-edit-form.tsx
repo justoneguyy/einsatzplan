@@ -4,11 +4,11 @@ import { useAction } from '@/lib/hooks/useAction'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
-import { CustomToast } from '../ui/toaster'
-import { FormDatePicker } from './ui/form-date-picker'
-import { FormInput } from './ui/form-input'
-import FormSelectMultiple from './ui/form-select-multiple'
-import { FormSubmit } from './ui/form-submit'
+import { CustomToast } from '../ui/toast'
+import { FormDatePicker } from './ui_alt/form-date-picker'
+import { FormInput } from './ui_alt/form-input'
+import FormSelectMultiple from './ui_alt/form-select-multiple'
+import { FormSubmit } from './ui_alt/form-submit'
 import { updateTask } from '@/actions/update-task'
 import { GetTaskType } from '@/actions/get-task/schema'
 import { useUserContext } from '@/lib/provider/user-provider'
@@ -24,11 +24,11 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
   const description = task.description
   const [userIds, setUserIds] = useState(task.users.map((user) => user.task.id))
   const timeFrom = task.timeFrom
-  const timeTil = task.timeTil
+  const timeTo = task.timeTo
 
   const [date, setDate] = useState<DateRange | undefined>({
     from: task.dateFrom,
-    to: task.dateTil,
+    to: task.dateTo,
   })
 
   const { _users } = useUserContext()
@@ -58,7 +58,7 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
     const description = formData.get('description') as string
     /* TODO: validate if the user already has a task on that day with that time */
     const timeFrom = formData.get('timeFrom') as string
-    const timeTil = formData.get('timeTil') as string
+    const timeTo = formData.get('timeTo') as string
     const formUserIds = formData.getAll('userId') as string[]
     // const formUrlIds = formData.getAll('urlId') as string[]
 
@@ -67,16 +67,16 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
     }
 
     const dateFrom = date.from
-    const dateTil = date.to
+    const dateTo = date.to
 
     execute({
       id: task.id,
       title,
       description,
       dateFrom,
-      dateTil,
+      dateTo,
       timeFrom,
-      timeTil,
+      timeTo,
       userIds: formUserIds,
     })
   }
@@ -105,7 +105,7 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
           errors={fieldErrors}
         />
         {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
-        {timeFrom && timeTil && (
+        {timeFrom && timeTo && (
           <div className='flex justify-between gap-3'>
             <FormInput
               id='timeFrom'
@@ -115,8 +115,8 @@ function TaskEditForm({ task, onCreate }: TaskEditFormProps) {
               errors={fieldErrors}
             />
             <FormInput
-              id='timeTil'
-              defaultValue={timeTil}
+              id='timeTo'
+              defaultValue={timeTo}
               label='Zeit bis'
               type='text'
               errors={fieldErrors}

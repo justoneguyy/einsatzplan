@@ -42,7 +42,6 @@ export const getTaskWithUsers = cache(async function (taskId: string) {
               email: true,
               profilePicture: true,
               roleId: true,
-              availabilityId: true,
             },
           },
         },

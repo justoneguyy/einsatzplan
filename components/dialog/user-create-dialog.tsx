@@ -36,11 +36,7 @@ export function UserCreateDialog({ roles, groups }: UserCreateDialogProps) {
         <DialogDescription>
           Hier können Mitarbeiter hinzugefügt werden.
         </DialogDescription>
-        <UserCreateForm
-          roles={roles}
-          groups={groups}
-          onCreate={() => setOpen(false)}
-        />
+        <UserCreateForm roles={roles} groups={groups} />
       </DialogContent>
     </Dialog>
   )

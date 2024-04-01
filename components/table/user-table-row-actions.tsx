@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../ui/dialog'
-import { CustomToast } from '../ui/toaster'
+import { CustomToast } from '../ui/toast'
 import UserEditForm, { UserEditFormProps } from '../form/user-edit-form'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'

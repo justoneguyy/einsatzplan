@@ -1,29 +1,33 @@
-import { useFormStatus } from 'react-dom'
-
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { Loader2 } from 'lucide-react'
+import { ReactNode } from 'react'
 
-interface FormSubmitProps extends ButtonProps {}
+interface FormSubmitProps {
+  className?: string
+  title: string
+  disabled?: boolean
+  icon?: ReactNode
+  loadingIcon?: ReactNode
+  showIcon?: boolean
+}
 
-export const FormSubmit = ({
-  children,
-  disabled,
+export function FormSubmit({
   className,
-  onClick,
-  variant = 'default',
-  size = 'default',
-}: FormSubmitProps) => {
-  const { pending } = useFormStatus()
-
+  title,
+  disabled,
+  icon,
+  loadingIcon = <Loader2 className='mr-2 h-4 w-4 animate-spin' />,
+  showIcon = false,
+}: FormSubmitProps) {
   return (
     <Button
+      disabled={disabled}
       type='submit'
-      disabled={pending || disabled}
-      variant={variant}
-      size={size}
-      className={cn(className)}
+      className={cn('w-full', className)}
     >
-      {children}
+      {showIcon ? (disabled ? loadingIcon : icon) : null}
+      {title}
     </Button>
   )
 }

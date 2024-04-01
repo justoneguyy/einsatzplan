@@ -14,12 +14,16 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
-interface DatePickerProps extends React.HTMLAttributes<HTMLDivElement> {
+interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
 }
 
-export function DatePicker({ date, setDate, className }: DatePickerProps) {
+export function DateRangePicker({
+  date,
+  setDate,
+  className,
+}: DateRangePickerProps) {
   const dateFormat = 'dd.MM.yyyy'
 
   return (
@@ -57,7 +61,13 @@ export function DatePicker({ date, setDate, className }: DatePickerProps) {
             mode='range'
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={(selectedDate) => {
+              const dayRange =
+                selectedDate && !selectedDate.to
+                  ? { from: selectedDate.from, to: selectedDate.from }
+                  : selectedDate
+              setDate(dayRange)
+            }}
             numberOfMonths={2}
           />
         </PopoverContent>

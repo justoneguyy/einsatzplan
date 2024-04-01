@@ -5,7 +5,7 @@
     "weekday": "Montag",
     "assignedEmployeeName": "John Doe",
     "timeFrom": "09:00",
-    "timeTil": "11:30",
+    "timeTo": "11:30",
     "assignedEmployeeProfilePicture": "/public/images/enton.png",
     "assignedEmployeeAvailability": "Available"
   },
@@ -15,7 +15,7 @@
     "weekday": "Montag",
     "assignedEmployeeName": "Jane Smith",
     "timeFrom": "14:00",
-    "timeTil": "16:30",
+    "timeTo": "16:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -25,7 +25,7 @@
     "assignedEmployeeName": "Alex Brown",
     "onCall": true,
     "timeFrom": "10:00",
-    "timeTil": "11:30",
+    "timeTo": "11:30",
     "assignedEmployeeAvailability": "Available"
   },
   {
@@ -34,7 +34,7 @@
     "weekday": "Mittwoch",
     "assignedEmployeeName": "Emily Johnson",
     "timeFrom": "15:00",
-    "timeTil": "16:30",
+    "timeTo": "16:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -43,7 +43,7 @@
     "weekday": "Donnerstag",
     "assignedEmployeeName": "Michael Lee",
     "timeFrom": "09:30",
-    "timeTil": "11:00",
+    "timeTo": "11:00",
     "assignedEmployeeAvailability": "Available"
   },
   {
@@ -52,7 +52,7 @@
     "weekday": "Freitag",
     "timeFrom": "14:00",
     "assignedEmployeeName": "Sophia Rodriguez",
-    "timeTil": "15:30",
+    "timeTo": "15:30",
     "assignedEmployeeAvailability": "Available"
   },
   {
@@ -61,7 +61,7 @@
     "weekday": "Donnerstag",
     "assignedEmployeeName": "Daniel Kim",
     "timeFrom": "11:00",
-    "timeTil": "12:30",
+    "timeTo": "12:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -70,7 +70,7 @@
     "weekday": "Dienstag",
     "assignedEmployeeName": "Olivia White",
     "timeFrom": "10:30",
-    "timeTil": "12:00",
+    "timeTo": "12:00",
     "assignedEmployeeAvailability": "Available"
   },
   {
@@ -79,7 +79,7 @@
     "weekday": "Mittwoch",
     "assignedEmployeeName": "William Harris",
     "timeFrom": "13:00",
-    "timeTil": "14:30",
+    "timeTo": "14:30",
     "assignedEmployeeAvailability": "Available"
   },
   {
@@ -88,7 +88,7 @@
     "weekday": "Freitag",
     "assignedEmployeeName": "Ava Martinez",
     "timeFrom": "09:00",
-    "timeTil": "10:30",
+    "timeTo": "10:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -97,7 +97,7 @@
     "weekday": "Freitag",
     "assignedEmployeeName": "Ava Martinez",
     "timeFrom": "09:00",
-    "timeTil": "10:30",
+    "timeTo": "10:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -106,7 +106,7 @@
     "weekday": "Freitag",
     "assignedEmployeeName": "Ava Martinez",
     "timeFrom": "09:00",
-    "timeTil": "10:30",
+    "timeTo": "10:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -115,7 +115,7 @@
     "weekday": "Freitag",
     "assignedEmployeeName": "Ava Martinez",
     "timeFrom": "09:00",
-    "timeTil": "10:30",
+    "timeTo": "10:30",
     "assignedEmployeeAvailability": "Busy"
   },
   {
@@ -124,7 +124,7 @@
     "weekday": "Freitag",
     "assignedEmployeeName": "Ava Martinez",
     "timeFrom": "09:00",
-    "timeTil": "10:30",
+    "timeTo": "10:30",
     "assignedEmployeeAvailability": "Busy"
   }
 ]

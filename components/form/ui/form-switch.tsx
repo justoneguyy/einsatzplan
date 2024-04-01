@@ -1,45 +1,50 @@
-import { Label } from '@/components/ui/label'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import { FormErrors } from './form-errors'
 import { cn } from '@/lib/utils'
-import { Separator } from '@/components/ui/separator'
+import { ControllerProps } from 'react-hook-form'
 
-interface FormSwitchProps {
-  id: string
+interface FormSwitchProps extends Omit<ControllerProps<any, any>, 'render'> {
   label?: string
   checked: boolean
   onCheckedChange: (checked: boolean) => void
-  errors?: Record<string, string[] | undefined>
+  disabled?: boolean
   className?: string
 }
 
-export const FormSwitch = ({
-  id,
+export function FormSwitch({
   label,
   checked,
   onCheckedChange,
-  errors,
+  disabled,
   className,
-}: FormSwitchProps) => {
+  ...controllerProps
+}: FormSwitchProps) {
   return (
-    <div className='space-y-2'>
-      <div className='space-y-1'>
-        {label ? (
-          <Label htmlFor={id} className='text-xs font-semibold'>
-            {label}
-          </Label>
-        ) : null}
-        <div className='py-1'>
-          <Switch
-            id={id}
-            checked={checked}
-            onCheckedChange={onCheckedChange}
-            size='md'
-            className={cn('', className)}
-          />
-        </div>
-      </div>
-      <FormErrors id={id} errors={errors} />
-    </div>
+    <FormField
+      {...controllerProps}
+      render={({ field }) => (
+        <FormItem className={cn('', className)}>
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <div className='relative'>
+              <Switch
+                {...field}
+                checked={checked}
+                onCheckedChange={onCheckedChange}
+                disabled={disabled}
+                className={cn('', className)}
+              />
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
   )
 }

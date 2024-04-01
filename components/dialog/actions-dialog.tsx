@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react'
 
+import { UsersTypeName } from '@/actions/get-user/types'
 import {
   DialogDescription,
   DialogHeader,
@@ -14,13 +15,13 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu'
 import { CheckCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons'
-import { AlertCircle, Palmtree } from 'lucide-react'
+import { AlertCircle, Palmtree, HeartPulse } from 'lucide-react'
+import { OnCallServiceForm } from '../form/onCallService-form'
+import TaskCreateForm from '../form/task-create-form'
+import { VacationEntryForm } from '../form/vacationEntry-form'
 import { Button } from '../ui/button'
 import { DialogItem } from './ui/dialog-item'
-import TaskCreateForm from '../form/task-create-form'
-import { UsersTypeName } from '@/actions/get-user/types'
-import OnCallForm from '../form/onCall-form'
-import { VacationForm } from '../form/vacation-form'
+import { SicknessEntryForm } from '../form/sicknessEntry-form'
 
 interface ActionsDialogProps {
   users: UsersTypeName
@@ -31,8 +32,6 @@ export default function ActionsDialog({
   users,
   usersOnCallService,
 }: ActionsDialogProps) {
-  const [open, setOpen] = useState(false)
-
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -74,6 +73,7 @@ export default function ActionsDialog({
           }}
         >
           <DialogItem
+            className='w-[450px]'
             title='Aufgabe'
             icon={<CheckCircledIcon className='mr-2 h-4 w-4' />}
             onSelect={handleDialogItemSelect}
@@ -85,10 +85,11 @@ export default function ActionsDialog({
                 Hier kann eine neue Aufgabe erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <TaskCreateForm users={users} onCreate={() => setOpen(false)} />
+            <TaskCreateForm users={users} />
           </DialogItem>
 
           <DialogItem
+            className='w-[400px]'
             title='Rufbereitschaft'
             icon={<AlertCircle className='mr-2 h-4 w-4' />}
             onSelect={handleDialogItemSelect}
@@ -100,13 +101,11 @@ export default function ActionsDialog({
                 Hier kann eine neue Rufbereitschaft erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <OnCallForm
-              users={usersOnCallService}
-              onCreate={() => setOpen(false)}
-            />
+            <OnCallServiceForm users={usersOnCallService} />
           </DialogItem>
 
           <DialogItem
+            className='w-[400px]'
             title='Urlaubeintrag'
             icon={<Palmtree className='mr-2 h-4 w-4' />}
             onSelect={handleDialogItemSelect}
@@ -118,7 +117,23 @@ export default function ActionsDialog({
                 Hier kann eine neuer Urlaubseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <VacationForm onCreate={() => setOpen(false)} />
+            <VacationEntryForm users={users} />
+          </DialogItem>
+
+          <DialogItem
+            className='w-[400px]'
+            title='Krankheitseintrag'
+            icon={<HeartPulse className='mr-2 h-4 w-4' />}
+            onSelect={handleDialogItemSelect}
+            onOpenChange={handleDialogItemOpenChange}
+          >
+            <DialogHeader>
+              <DialogTitle>Neuer Krankheitseintrag</DialogTitle>
+              <DialogDescription>
+                Hier kann eine neuer Krankheitseintrag erstellt werden.
+              </DialogDescription>
+            </DialogHeader>
+            <SicknessEntryForm users={users} />
           </DialogItem>
         </DropdownMenuContent>
       </DropdownMenu>

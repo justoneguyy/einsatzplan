@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache'
 
 import db from '@/lib/db'
-import { User } from '@prisma/client'
 
 import { createSafeAction } from '@/lib/helper/create-safe-action'
 import { InputType, ReturnType } from './types'
@@ -13,15 +12,8 @@ import { UpdateUser } from './schema'
 const handler = async (data: InputType): Promise<ReturnType> => {
   // TODO: add auth check
 
-  const {
-    username,
-    firstName,
-    lastName,
-    initials,
-    profilePicture,
-    roleId,
-    groupIds,
-  } = data
+  const { firstName, lastName, initials, profilePicture, roleId, groupIds } =
+    data
 
   let user
 
@@ -39,7 +31,6 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           id: data.id,
         },
         data: {
-          username,
           firstName,
           lastName,
           initials,

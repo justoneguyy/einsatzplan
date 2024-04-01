@@ -10,5 +10,12 @@ export const getGroups = cache(async function () {
     },
   })
 
-  return groups
+  // return groups
+
+  const mappedGroups = groups.map((group) => ({
+    value: group.id,
+    label: group.name,
+  }))
+
+  return mappedGroups
 })

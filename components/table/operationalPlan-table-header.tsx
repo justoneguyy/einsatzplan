@@ -1,4 +1,4 @@
-import { useWeekInterval } from '@/lib/hooks/useWeekInterval'
+import { getWeekInterval } from '@/lib/helper/getWeekInterval'
 import { format, setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
 
@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 export function HeaderWeekday({ index }: HeaderProps) {
-  const daysOfWeek = useWeekInterval()
+  const daysOfWeek = getWeekInterval()
 
   const day = daysOfWeek[index]
   const formattedDate = format(day, 'EEEE, dd.MM.yyyy')
@@ -21,7 +21,7 @@ export function HeaderWeekday({ index }: HeaderProps) {
 }
 
 // export function HeaderWeekend({ index }: HeaderProps) {
-//   const daysOfWeek = useWeekInterval()
+//   const daysOfWeek = getWeekInterval()
 
 //   const day = daysOfWeek[index]
 //   const formattedDate = format(day, 'EEEE, dd.MM.yyyy')
@@ -30,7 +30,7 @@ export function HeaderWeekday({ index }: HeaderProps) {
 // }
 
 export function HeaderWeekend({ index }: HeaderProps) {
-  const daysOfWeek = useWeekInterval()
+  const daysOfWeek = getWeekInterval()
 
   const day = daysOfWeek[index]
   const formattedDate = format(day, 'EEEE, dd.MM.yyyy')

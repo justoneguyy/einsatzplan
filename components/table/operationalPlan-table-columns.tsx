@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { weekdays, weekdaysDE } from '@/_dev/mockdata/constants'
+import { Weekdays, WeekdaysDE, weekdaysMapping } from '@/data/enums'
 import { GetUserTaskType } from '@/actions/get-user/schema'
 import { setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
@@ -47,17 +47,28 @@ export const OperationalPlanColumns: ColumnDef<GetUserTaskType>[] = [
     minSize: 200,
     maxSize: 250,
   },
-  ...weekdays.map((day, index) => {
-    const isWeekend =
-      weekdays[index] === 'saturday' || weekdays[index] === 'sunday'
+  // ...weekdays.map((day, index) => {
+  //   const isWeekend =
+  //     weekdays[index] === 'saturday' || weekdays[index] === 'sunday'
+  //   return {
+  //     accessorKey: weekdays[index],
+  //     meta: weekdaysDE[index],
+  //     header: isWeekend ? headerWeekend(index) : headerWeekday(index),
+  //     cell: ({ row }: any) => (
+  //       <CellWeekday tasks={row.original.tasks} index={index} />
+  //     ),
+  //     // TODO: save the state of this prop. (e.g. in localstorage)
+  //     enableHiding: isWeekend,
+  //   }
+  ...Object.values(Weekdays).map((day, index) => {
+    const isWeekend = day === Weekdays.Saturday || day === Weekdays.Sunday
     return {
-      accessorKey: weekdays[index],
-      meta: weekdaysDE[index],
+      accessorKey: day,
+      meta: weekdaysMapping[day],
       header: isWeekend ? headerWeekend(index) : headerWeekday(index),
       cell: ({ row }: any) => (
         <CellWeekday tasks={row.original.tasks} index={index} />
       ),
-      // TODO: save the state of this prop. (e.g. in localstorage)
       enableHiding: isWeekend,
     }
   }),
