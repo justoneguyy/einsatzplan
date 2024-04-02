@@ -1,27 +1,18 @@
 'use client'
 
-import * as z from 'zod'
-import { useForm } from 'react-hook-form'
-import { useState, useTransition } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { ResetSchema } from '@/schemas'
-import { Input } from '@/components/ui/input'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import { FormError } from './ui/form-error'
-import { FormSuccess } from './ui/form-success'
+import { Form } from '@/components/ui/form'
+import { ResetSchema } from '@/data/reset/schema'
 import { MailIcon } from 'lucide-react'
 import { CardFormWrapper } from '../card/ui/card-form-wrapper'
+import { FormError } from './ui/form-error'
 import { FormInput } from './ui/form-input'
 import { FormSubmit } from './ui/form-submit'
+import { FormSuccess } from './ui/form-success'
 
 export const ResetForm = () => {
   const [error, setError] = useState<string | undefined>('')

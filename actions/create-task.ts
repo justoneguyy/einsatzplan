@@ -2,9 +2,9 @@
 
 import { z } from 'zod'
 import db from '@/lib/db'
-import { TaskSchema } from '@/schemas'
-import { getTaskByEmployeeDateTitle } from '@/data/task'
 import { revalidatePath } from 'next/cache'
+import { getTaskByEmployeeDateTitle } from '@/data/task'
+import { TaskSchema } from '@/data/task/schema'
 
 export const createTask = async (values: z.infer<typeof TaskSchema>) => {
   const validatedFields = TaskSchema.safeParse(values)

@@ -2,8 +2,8 @@
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 
-import { deleteUser } from '@/actions/delete-user'
-import { useAction } from '@/lib/hooks/useAction'
+import { GetUserType } from '@/actions/get-user/schema'
+import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { Button } from '@/ui/button'
 import {
   DropdownMenu,
@@ -12,19 +12,12 @@ import {
 } from '@/ui/dropdown-menu'
 import { useRef, useState } from 'react'
 import { DialogItem } from '../dialog/ui/dialog-item'
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '../ui/dialog'
-import { CustomToast } from '../ui/toast'
-import UserEditForm, { UserEditFormProps } from '../form/user-edit-form'
-import { DialogClose } from '../dialog/ui/dialog-cancel'
-import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
+import UserDeleteForm from '../form/user-delete-form'
+import UserEditForm from '../form/user-edit-form'
+import { DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog'
 
-export interface TableRowActionsProps
-  extends Omit<UserEditFormProps, 'onCreate' | 'onCancel'> {
+export interface TableRowActionsProps {
+  user: GetUserType
   id: string
   firstName: string
   lastName: string
@@ -54,25 +47,6 @@ export function UserTableRowActions({
     if (open === false) {
       setDropdownOpen(false)
     }
-  }
-
-  const { execute, isLoading } = useAction(deleteUser, {
-    onSuccess: () => {
-      CustomToast({
-        title: `Mitarbeiter ${firstName} ${lastName} geloescht`,
-        description: `Der Mitarbeiter ${firstName} ${lastName} wurde erfolgreich geloescht.`,
-      })()
-    },
-    onError: (error) => {
-      CustomToast({
-        title: `Mitarbeiter ${firstName} ${lastName} konnte nicht geloescht werden`,
-        description: error,
-      })()
-    },
-  })
-
-  const onDelete = () => {
-    execute({ id })
   }
 
   return (
@@ -108,7 +82,7 @@ export function UserTableRowActions({
               {firstName} {lastName}
             </DialogDescription>
           </DialogHeader>
-          <UserEditForm user={user} onCreate={() => setOpen(false)} />
+          <UserEditForm user={user} />
         </DialogItem>
 
         <DialogItem
@@ -126,12 +100,8 @@ export function UserTableRowActions({
               geloescht werden soll?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <DialogClose />
-            <Button onClick={onDelete} disabled={isLoading}>
-              Bestaetigen
-            </Button>
-          </DialogFooter>
+          <UserDeleteForm user={user} />
+          <div className=''></div>
         </DialogItem>
       </DropdownMenuContent>
     </DropdownMenu>

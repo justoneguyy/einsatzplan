@@ -16,8 +16,8 @@ import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { FormInput } from './ui/form-input'
 import { SicknessEntryTitles } from '@/data/enums'
-import { SicknessEntrySchema } from '@/schemas'
 import { createSicknessEntry } from '@/actions/create-sicknessEntry'
+import { SicknessEntrySchema } from '@/data/sickness/schema'
 
 interface SicknessEntryFormProps {
   users: UsersTypeName
@@ -55,8 +55,6 @@ export function SicknessEntryForm({ users }: SicknessEntryFormProps) {
           }
 
           if (data?.success) {
-            form.reset()
-            setSuccess(data.success)
             dialogClose()
             toast.success(`${data.success}`)
           }

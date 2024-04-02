@@ -2,7 +2,6 @@
 
 import { createTask } from '@/actions/create-task'
 import { UsersTypeName } from '@/actions/get-user/types'
-import { TaskSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,6 +16,7 @@ import { FormInput } from './ui/form-input'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { TaskSchema } from '@/data/task/schema'
 
 interface TaskCreateFormProps {
   users: UsersTypeName

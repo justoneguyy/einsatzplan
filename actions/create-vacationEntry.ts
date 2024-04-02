@@ -1,8 +1,8 @@
 'use server'
 
 import { getVacationEntryByEmployeeDate } from '@/data/vacation'
+import { VacationEntrySchema } from '@/data/vacation/schema'
 import db from '@/lib/db'
-import { VacationEntrySchema } from '@/schemas'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 

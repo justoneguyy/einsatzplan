@@ -9,7 +9,6 @@ import {
   generateEmail,
   generateInitials,
 } from '@/lib/helper/format'
-import { UserSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState, useTransition } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
@@ -24,6 +23,7 @@ import { FormSelect } from './ui/form-select'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { UserSchema } from '@/data/user/schema'
 
 interface UserCreateFormProps {
   roles: RolesType
@@ -88,8 +88,6 @@ function UserCreateForm({ roles, groups }: UserCreateFormProps) {
           }
 
           if (data?.success) {
-            form.reset()
-            setSuccess(data.success)
             dialogClose()
             toast.success(`${data.success}`)
           }

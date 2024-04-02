@@ -1,8 +1,6 @@
 'use client'
 
-import { createOnCallService } from '@/actions/create-onCallService'
 import { UsersTypeName } from '@/actions/get-user/types'
-import { OnCallServiceSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,6 +14,8 @@ import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { dialogClose } from '../ui/dialog'
 import { toast } from 'sonner'
+import { OnCallServiceSchema } from '@/data/onCallService/schema'
+import { createOnCallService } from '@/actions/create-onCallService'
 
 interface OnCallServiceFormProps {
   users: UsersTypeName
@@ -50,8 +50,6 @@ export function OnCallServiceForm({ users }: OnCallServiceFormProps) {
           }
 
           if (data?.success) {
-            form.reset()
-            setSuccess(data.success)
             dialogClose()
             toast.success(`${data.success}`)
           }

@@ -3,7 +3,6 @@
 import { createVacationEntry } from '@/actions/create-vacationEntry'
 import { UsersTypeName } from '@/actions/get-user/types'
 import { VacationEntryDurations, VacationEntryTypes } from '@/data/enums'
-import { VacationEntrySchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,6 +16,7 @@ import { FormError } from './ui/form-error'
 import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { VacationEntrySchema } from '@/data/vacation/schema'
 
 interface VacationEntryFormProps {
   users: UsersTypeName
@@ -53,8 +53,6 @@ export function VacationEntryForm({ users }: VacationEntryFormProps) {
           }
 
           if (data?.success) {
-            form.reset()
-            setSuccess(data.success)
             dialogClose()
             toast.success(`${data.success}`)
           }

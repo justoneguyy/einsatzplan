@@ -12,13 +12,13 @@ import {
   generateEmail,
   generateUsername,
 } from '@/lib/helper/format'
-import { RegisterSchema } from '@/schemas'
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { CardFormWrapper } from '../card/ui/card-form-wrapper'
 import { FormError } from './ui/form-error'
 import { FormInput } from './ui/form-input'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { RegisterSchema } from '@/data/register/schema'
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>('')
@@ -28,7 +28,6 @@ export const RegisterForm = () => {
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
-    // seems to be required, otherwise the form will not show the correct errors
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -89,7 +88,6 @@ export const RegisterForm = () => {
   //   })
   // }
 
-  // Version 2
   return (
     <CardFormWrapper
       className='w-[550px]'
@@ -170,119 +168,4 @@ export const RegisterForm = () => {
       </Form>
     </CardFormWrapper>
   )
-
-  // Version 2
-  //
-  // return (
-  //   <AuthCardWrapper
-  //     headerLabel='Registrierung'
-  //     backButtonLabel='Du hast schon einen Account?'
-  //     backButtonHref='/auth/login'
-  //   >
-  //     <Form {...form}>
-  //       <form
-  //         // onSubmit={form.handleSubmit(onSubmit)}
-  //         onSubmit={form.handleSubmit(() => {})}
-  //         className='space-y-6'
-  //       >
-  //         <div className='space-y-4'>
-  //           <FormField
-  //             control={form.control}
-  //             name='firstName'
-  //             render={({ field }) => (
-  //               <FormItem>
-  //                 <FormLabel>Vorname</FormLabel>
-  //                 <FormControl>
-  //                   <Input
-  //                     {...field}
-  //                     disabled={isPending}
-  //                     placeholder='Justin'
-  //                   />
-  //                 </FormControl>
-  //                 <FormMessage />
-  //               </FormItem>
-  //             )}
-  //           />
-  //           <FormField
-  //             control={form.control}
-  //             name='lastName'
-  //             render={({ field }) => (
-  //               <FormItem>
-  //                 <FormLabel>Nachname</FormLabel>
-  //                 <FormControl>
-  //                   <Input
-  //                     {...field}
-  //                     disabled={isPending}
-  //                     placeholder='Hoffmann'
-  //                   />
-  //                 </FormControl>
-  //                 <FormMessage />
-  //               </FormItem>
-  //             )}
-  //           />
-  //           <FormField
-  //             control={form.control}
-  //             name='username'
-  //             render={({ field }) => (
-  //               <FormItem>
-  //                 <FormLabel>Benutzername</FormLabel>
-  //                 <FormControl>
-  //                   <Input
-  //                     {...field}
-  //                     className='disabled:opacity-100'
-  //                     disabled
-  //                     placeholder='justin.hoffmann'
-  //                   />
-  //                 </FormControl>
-  //                 <FormMessage />
-  //               </FormItem>
-  //             )}
-  //           />
-  //           <FormField
-  //             control={form.control}
-  //             name='email'
-  //             render={({ field }) => (
-  //               <FormItem>
-  //                 <FormLabel>Email</FormLabel>
-  //                 <FormControl>
-  //                   <Input
-  //                     {...field}
-  //                     className='disabled:opacity-100'
-  //                     disabled
-  //                     placeholder='justin.hoffmann@uhlhorn.de'
-  //                     type='email'
-  //                   />
-  //                 </FormControl>
-  //                 <FormMessage />
-  //               </FormItem>
-  //             )}
-  //           />
-  //           <FormField
-  //             control={form.control}
-  //             name='password'
-  //             render={({ field }) => (
-  //               <FormItem>
-  //                 <FormLabel>Passwort</FormLabel>
-  //                 <FormControl>
-  //                   <Input
-  //                     {...field}
-  //                     disabled={isPending}
-  //                     placeholder='********'
-  //                     type='password'
-  //                   />
-  //                 </FormControl>
-  //                 <FormMessage />
-  //               </FormItem>
-  //             )}
-  //           />
-  //         </div>
-  //         <FormError message={error} />
-  //         <FormSuccess message={success} />
-  //         <Button disabled={isPending} type='submit' className='w-full'>
-  //           Account erstellen
-  //         </Button>
-  //       </form>
-  //     </Form>
-  //   </AuthCardWrapper>
-  // )
 }

@@ -2,9 +2,9 @@
 
 import { z } from 'zod'
 import db from '@/lib/db'
-import { UserSchema } from '@/schemas'
 import { revalidatePath } from 'next/cache'
-import { getUser } from '@/data/user'
+import { getUserByName } from '@/data/user'
+import { UserSchema } from '@/data/user/schema'
 
 export const createUser = async (values: z.infer<typeof UserSchema>) => {
   const validatedFields = UserSchema.safeParse(values)
@@ -24,7 +24,7 @@ export const createUser = async (values: z.infer<typeof UserSchema>) => {
     groupIds,
   } = validatedFields.data
 
-  const existingUser = await getUser(firstName, lastName)
+  const existingUser = await getUserByName(firstName, lastName)
   if (existingUser) {
     return {
       error: 'Diesen Benutzer gibt es bereits!',

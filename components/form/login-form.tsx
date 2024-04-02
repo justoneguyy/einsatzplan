@@ -1,11 +1,9 @@
 'use client'
 
 import { Form } from '@/components/ui/form'
-import { LoginSchema } from '@/schemas'
 import { Button } from '@/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
-import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useState, useTransition } from 'react'
@@ -16,6 +14,7 @@ import { FormError } from './ui/form-error'
 import { FormInput } from './ui/form-input'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { LoginSchema } from '@/data/login/schema'
 
 export function LoginForm() {
   // TOOD: remove searchParams if not needed

@@ -1,8 +1,8 @@
 'use server'
 
 import { getSicknessEntryByEmployeeDate } from '@/data/sickness'
+import { SicknessEntrySchema } from '@/data/sickness/schema'
 import db from '@/lib/db'
-import { SicknessEntrySchema } from '@/schemas'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 

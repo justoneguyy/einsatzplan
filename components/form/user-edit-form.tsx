@@ -1,128 +1,122 @@
 'use client'
 
-import { GetUserType } from '@/actions/get-user/schema'
-import { updateUser } from '@/actions/update-user'
-import { useAction } from '@/lib/hooks/useAction'
+import { generateEmail, generateInitials } from '@/lib/helper/format'
 import { useGroupContext } from '@/lib/provider/group-provider'
 import { useRoleContext } from '@/lib/provider/role-provider'
-import { useState } from 'react'
-import { Button } from '../ui/button'
-import { CustomToast } from '../ui/toast'
-import { FormInput } from './ui_alt/form-input'
-import FormSelect from './ui_alt/form-select'
-import { FormSubmit } from './ui_alt/form-submit'
-import FormSelectMultiple from './ui_alt/form-select-multiple'
-import {
-  formatFirstName,
-  formatLastName,
-  generateInitials,
-  generateUsername,
-} from '@/lib/helper/format'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
+import { dialogClose } from '../ui/dialog'
+import { Form } from '../ui/form'
+import { FormError } from './ui/form-error'
+import { FormInput } from './ui/form-input'
+import { FormSelect } from './ui/form-select'
+import FormSelectMultiple from './ui/form-select-multiple'
+import { FormSubmit } from './ui/form-submit'
+import { FormSuccess } from './ui/form-success'
+import { updateUser } from '@/actions/update-user'
+import { UserType } from '@/actions/get-user/types'
+import { UserUpdateSchema } from '@/data/user/schema'
 
-export interface UserEditFormProps {
-  user: GetUserType
-  onCreate: () => void
+interface UserEditFormProps {
+  user: UserType
 }
 
-// maybe change zod mode to insta check
-// TODO: make this form more dynamic & sharable. e.g. this can be shared with user-create-form
-function UserEditForm({ user, onCreate }: UserEditFormProps) {
-  const firstName = user.firstName
-  const lastName = user.lastName
-  const [roleId, setRoleId] = useState(user.roleId)
-  const [groupIds, setGroupIds] = useState(
-    user.groups.map((group) => group.group.id)
-  )
+function UserEditForm({ user }: UserEditFormProps) {
+  const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState<string | undefined>('')
+  const [isPending, startTransition] = useTransition()
 
   const { _roles } = useRoleContext()
   const { _groups } = useGroupContext()
 
-  const { execute, fieldErrors } = useAction(updateUser, {
-    onSuccess: (user) => {
-      CustomToast({
-        title: `Mitarbeiter ${user.firstName} ${user.lastName} bearbeitet`,
-        description: `Der Mitarbeiter ${user.firstName} ${user.lastName} wurde erfolgreich bearbeitet.`,
-      })()
-      onCreate()
-    },
-    onError: (error) => {
-      CustomToast({
-        title: `Mitarbeiter konnte nicht bearbeitet werden`,
-        description: error,
-        duration: 15000,
-      })()
+  const form = useForm<z.infer<typeof UserUpdateSchema>>({
+    resolver: zodResolver(UserUpdateSchema),
+    defaultValues: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      initials: user.initials,
+      email: user.email,
+      profilePicture: user.profilePicture,
+      roleId: user.roleId,
+      groupIds: user.groups.map((group) => ({
+        value: group.group.id,
+        label: group.group.name,
+      })),
     },
   })
 
-  // TODO: consider using entries method: https://developer.mozilla.org/en-US/docs/Web/API/FormData/entries
-  const onSubmit = (formData: FormData) => {
-    const firstName = formData.get('firstName') as string
-    const lastName = formData.get('lastName') as string
-    const roleId = formData.get('roleId') as string
-    const formGroupIds = formData.getAll('groupId') as string[]
+  const onSubmit = (values: z.infer<typeof UserUpdateSchema>) => {
+    setError('')
+    setSuccess('')
 
-    const formattedFirstName = formatFirstName(firstName)
-    const formattedLastName = formatLastName(lastName)
-    const username = generateUsername(firstName, lastName)
-    const initials = generateInitials(formattedFirstName, formattedLastName)
+    startTransition(() => {
+      const initials = generateInitials(values.firstName, values.lastName)
+      const email = generateEmail(values.firstName, values.lastName)
+      const values_ = { ...values, initials, email }
 
-    execute({
-      id: user.id,
-      firstName: formattedFirstName,
-      lastName: formattedLastName,
-      initials,
-      roleId,
-      groupIds: formGroupIds,
+      updateUser(values_)
+        .then((data) => {
+          if (data?.error) {
+            setError(data.error)
+          }
+
+          if (data?.success) {
+            dialogClose()
+            toast.success(`${data.success}`)
+          }
+        })
+        .catch(() => setError('Etwas ist schief gelaufen'))
     })
   }
 
   return (
-    <form action={onSubmit} className='space-y-4'>
-      <div className='flex flex-col space-y-2'>
-        <FormInput
-          id='firstName'
-          defaultValue={firstName}
-          label='Vorname'
-          type='text'
-          autocomplete='given-name'
-          errors={fieldErrors}
-        />
-        <FormInput
-          id='lastName'
-          defaultValue={lastName}
-          label='Nachname'
-          type='text'
-          autocomplete='family-name'
-          errors={fieldErrors}
-        />
-        <FormSelect
-          id='roleId'
-          label='Rolle'
-          placeholder='Wähle eine Rolle aus'
-          options={_roles}
-          value={roleId}
-          defaultValue={roleId}
-          onValueChange={setRoleId}
-          errors={fieldErrors}
-        />
-        <FormSelectMultiple
-          deleteButton
-          id='groupId'
-          name='groupId'
-          label='Gruppe'
-          placeholder='Wähle eine Gruppe aus'
-          options={_groups}
-          values={groupIds}
-          onValuesChange={setGroupIds}
-          errors={fieldErrors}
-        />
-      </div>
-      <div className='!mt-8 flex justify-end space-x-3'>
-        <DialogClose />
-        <FormSubmit>Updaten</FormSubmit>
-      </div>
-    </form>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+        <div className='space-y-4'>
+          <FormInput
+            control={form.control}
+            name='firstName'
+            label='Vorname'
+            placeholder='Justin'
+          />
+          <FormInput
+            control={form.control}
+            name='lastName'
+            label='Nachname'
+            placeholder='Hoffmann'
+          />
+          <FormSelect
+            control={form.control}
+            name='roleId'
+            label='Rolle'
+            placeholder='Rolle auswählen'
+            options={_roles}
+            onValueChange={(value: string) => {
+              form.setValue('roleId', value)
+            }}
+          />
+          <FormSelectMultiple
+            control={form.control}
+            name='groupIds'
+            label='Gruppen'
+            options={_groups}
+            placeholder='Gruppen auswählen'
+            disabled={isPending}
+          />
+        </div>
+        <FormError message={error} />
+        <FormSuccess message={success} />
+        <div className='flex justify-end space-x-3'>
+          <DialogClose />
+          <FormSubmit className='w-min' title='Updaten' disabled={isPending} />
+        </div>
+      </form>
+    </Form>
   )
 }
 
