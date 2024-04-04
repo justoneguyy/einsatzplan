@@ -45,7 +45,7 @@ type Modifiers = {
 export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
   const currentYear = new Date().getFullYear()
   const fromYear = currentYear - 2
-  const toYear = currentYear + 2
+  const toYear = currentYear + 3
   const [hoverRange, setHoverRange] = useState<DateRange | undefined>(undefined)
   const [isCalendarOpen, setIsCalendarOpen] = useState(false) // remove this state if the calendar shouldnt be closed on click
 

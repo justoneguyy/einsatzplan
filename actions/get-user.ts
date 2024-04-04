@@ -24,12 +24,6 @@ export const getUsers = cache(async function () {
 export const getUsersWithTasks = cache(async function () {
   const users = await db.user.findMany({
     include: {
-      role: true,
-      groups: {
-        include: {
-          group: true,
-        },
-      },
       tasks: {
         include: {
           task: {
@@ -51,6 +45,16 @@ export const getUsersWithTasks = cache(async function () {
           user: true,
         },
       },
+      groups: {
+        include: {
+          group: true,
+        },
+      },
+      onCallServices: {
+        include: {
+          user: true,
+        },
+      },
     },
     orderBy: {
       firstName: 'asc',
@@ -59,6 +63,45 @@ export const getUsersWithTasks = cache(async function () {
 
   return users
 })
+
+// export const getUsersWithTasks = cache(async function () {
+//   const users = await db.user.findMany({
+//     include: {
+//       role: true,
+//       groups: {
+//         include: {
+//           group: true,
+//         },
+//       },
+//       tasks: {
+//         include: {
+//           task: {
+//             select: {
+//               id: true,
+//               title: true,
+//               description: true,
+//               dateFrom: true,
+//               dateTo: true,
+//               timeFrom: true,
+//               timeTo: true,
+//               users: {
+//                 include: {
+//                   user: true,
+//                 },
+//               },
+//             },
+//           },
+//           user: true,
+//         },
+//       },
+//     },
+//     orderBy: {
+//       firstName: 'asc',
+//     },
+//   })
+
+//   return users
+// })
 
 // TODO: remove
 export const testgetUsersWithTasks = async () => {

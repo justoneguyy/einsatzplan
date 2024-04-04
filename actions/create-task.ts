@@ -27,6 +27,7 @@ export const createTask = async (values: z.infer<typeof TaskSchema>) => {
     timeTo
   )
 
+  // TODO: add check for holidays. add check if the employee already has a task. add check if the employee is sick etc. or rather not show them at all.
   if (existingTask) {
     return {
       error:

@@ -50,7 +50,10 @@ const config = {
       green: {
         100: colors.green[100],
         500: colors.green[500],
+        700: colors.green[700],
+        800: colors.green[800],
         900: colors.green[900],
+        950: colors.green[950],
       },
       red: {
         50: colors.red[50],
@@ -73,6 +76,11 @@ const config = {
         100: colors.blue[100],
         500: colors.blue[500],
         900: colors.blue[900],
+      },
+      pink: {
+        100: colors.pink[100],
+        500: colors.pink[500],
+        900: colors.pink[900],
       },
       transparent: colors.transparent,
       inherit: colors.inherit,

@@ -187,3 +187,4 @@ model SchoolHoliday {
   dateFrom  DateTime
   dateTo    DateTime
 }
+

@@ -22,6 +22,8 @@ import {
 } from '@/components/ui/table'
 import { useState } from 'react'
 import { OperationalPlanTableToolbar } from './operationalPlan-table-toolbar'
+import { Button } from '../ui/button'
+import { seedSchoolHolidays } from '@/data/schoolHoliday/seed'
 
 interface OperationalPlanTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -38,7 +40,7 @@ export function OperationalPlanTable<TData, TValue>({
   const [filter, setFilter] = useState('')
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
     defaultColumn: {
       minSize: 200,
@@ -128,6 +130,7 @@ export function OperationalPlanTable<TData, TValue>({
                           width: cell.column.getSize(),
                         }}
                         // TODO: optimize height
+                        // className='h-18 border-r px-0 py-2 last:border-r-0'
                         className='h-18 border-r last:border-r-0'
                       >
                         {flexRender(

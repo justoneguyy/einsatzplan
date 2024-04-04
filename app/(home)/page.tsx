@@ -1,3 +1,4 @@
+import { aggregateOperationalPlanData } from '@/actions/aggregate-operationalPlan-data'
 import { getUsersName, getUsersWithTasks } from '@/actions/get-user'
 import { OperationalPlanTable } from '@/components/table/operationalPlan-table'
 import { OperationalPlanColumns } from '@/components/table/operationalPlan-table-columns'
@@ -12,16 +13,16 @@ interface DashboardPageProps {
 export default async function DashboardPage({
   searchParams,
 }: DashboardPageProps) {
-  const users = await getUsersWithTasks()
-
   const usersName = await getUsersName()
+
+  const data = await aggregateOperationalPlanData()
 
   searchParamsCache.parse(searchParams)
 
   return (
     <section>
       <UserProvider _users={usersName}>
-        <OperationalPlanTable columns={OperationalPlanColumns} data={users} />
+        <OperationalPlanTable columns={OperationalPlanColumns} data={data} />
       </UserProvider>
     </section>
   )
