@@ -28,6 +28,7 @@ interface OperationalPlanTableProps<TData, TValue> {
   data: TData[]
 }
 
+// TODO: add memoization
 export function OperationalPlanTable<TData, TValue>({
   columns,
   data,
@@ -123,8 +124,11 @@ export function OperationalPlanTable<TData, TValue>({
                         key={cell.id}
                         // TODO: somehow the width is still not equally distributed. fix this
                         // TOOD: the height should also be fixed. currently when no data is passed, the row isnt as high as if data is passed
-                        style={{ width: cell.column.getSize() }}
-                        className='border-r last:border-r-0'
+                        style={{
+                          width: cell.column.getSize(),
+                        }}
+                        // TODO: optimize height
+                        className='h-18 border-r last:border-r-0'
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

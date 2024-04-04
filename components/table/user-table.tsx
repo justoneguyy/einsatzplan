@@ -12,8 +12,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 
-import { GroupsType } from '@/actions/get-group/types'
-import { RolesType } from '@/actions/get-role/type'
 import {
   Table,
   TableBody,
@@ -26,6 +24,8 @@ import { Option } from '@/lib/types'
 import { useState } from 'react'
 import { UserCreateDialog } from '../dialog/user-create-dialog'
 import { UserTableToolbar } from './user-table-toolbar'
+import { RolesType } from '@/data/role/types'
+import { GroupsType } from '@/data/group/types'
 
 interface UserTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

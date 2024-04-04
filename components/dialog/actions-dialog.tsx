@@ -2,7 +2,6 @@
 
 import { useRef, useState } from 'react'
 
-import { UsersTypeName } from '@/actions/get-user/types'
 import {
   DialogDescription,
   DialogHeader,
@@ -22,6 +21,7 @@ import { VacationEntryForm } from '../form/vacationEntry-form'
 import { Button } from '../ui/button'
 import { DialogItem } from './ui/dialog-item'
 import { SicknessEntryForm } from '../form/sicknessEntry-form'
+import { UsersTypeName } from '@/data/user/types'
 
 interface ActionsDialogProps {
   users: UsersTypeName

@@ -21,13 +21,13 @@ export const updateTask = async (values: z.infer<typeof TaskUpdateSchema>) => {
   // 2. check if any other task already exists with the title, dateFrom etc.);
   // 3. etc.
 
-  // TODO: think about using transactions instead
+  // TODO: think about using a transaction instead
   let deleteSuccessful = false
 
   try {
     await db.userTask.deleteMany({
       where: {
-        userId: id,
+        taskId: id,
       },
     })
     deleteSuccessful = true

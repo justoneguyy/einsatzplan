@@ -17,7 +17,7 @@ export const TaskSchema = z.object({
   timeFrom: z.string().optional(),
   timeTo: z.string().optional(),
   userIds: z.array(optionSchema).min(1, {
-    message: 'Es ist mindestens Benutzer erforderlich',
+    message: 'Es ist mindestens ein Benutzer erforderlich',
   }),
 })
 
@@ -38,6 +38,10 @@ export const TaskUpdateSchema = z.object({
   timeFrom: z.string().nullable(),
   timeTo: z.string().nullable(),
   userIds: z.array(optionSchema).min(1, {
-    message: 'Es ist mindestens Benutzer erforderlich',
+    message: 'Es ist mindestens ein Benutzer erforderlich',
   }),
+})
+
+export const TaskDeleteSchema = z.object({
+  id: z.string(),
 })

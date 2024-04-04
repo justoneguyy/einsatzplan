@@ -1,6 +1,6 @@
 'use client'
 
-import { UsersTypeName } from '@/actions/get-user/types'
+import { UsersTypeName } from '@/data/user/types'
 import { createContext, useContext } from 'react'
 
 interface UserContextProps {

@@ -30,7 +30,7 @@ export const updateUser = async (values: z.infer<typeof UserUpdateSchema>) => {
   // 3. check if the user is not the last admin in the system
   // 4. etc.
 
-  // TODO: think about using transactions instead
+  // TODO: think about using a transaction instead
   let deleteSuccessful = false
 
   try {

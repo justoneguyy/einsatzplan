@@ -18,8 +18,8 @@ import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { updateUser } from '@/actions/update-user'
-import { UserType } from '@/actions/get-user/types'
 import { UserUpdateSchema } from '@/data/user/schema'
+import { UserType } from '@/data/user/types'
 
 interface UserEditFormProps {
   user: UserType

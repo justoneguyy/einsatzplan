@@ -14,7 +14,12 @@ export const CardFormBackButton = ({
   label,
 }: CardFormBackButtonProps) => {
   return (
-    <Button variant='link' className='w-full font-normal' size='sm' asChild>
+    <Button
+      variant='link'
+      className='w-full select-none font-normal'
+      size='sm'
+      asChild
+    >
       <Link href={href}>{label}</Link>
     </Button>
   )

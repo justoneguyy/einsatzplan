@@ -104,7 +104,7 @@ model UserTask {
   user    User    @relation(fields: [userId], references: [id], onDelete: NoAction)
 
   taskId  String  @db.ObjectId
-  task    Task    @relation(fields: [taskId], references: [id], onDelete: NoAction)
+  task    Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@unique([userId, taskId])
 }
@@ -168,9 +168,22 @@ model VocationalSchoolDay {
   year      Int
 }
 
-// TODO: Holidays (use an api for this (https://get.api-feiertage.de?states=ni). Populate the current and next 2 years ahead and save it as a separate model. this way we will have them, even if the api is down. use a task scheduler like node-cron for this which fetches the secondth year from now.), (cell background color: light green, text color: primary)
+
+// Feiertage: https://openholidaysapi.org/PublicHolidays?countryIsoCode=DE&languageIsoCode=DE&validFrom=2023-01-01&validTo=2025-12-31&subdivisionCode=DE-NI
+// Schulferien: https://openholidaysapi.org/SchoolHolidays?countryIsoCode=DE&languageIsoCode=DE&validFrom=2023-01-01&validTo=2025-12-31&subdivisionCode=DE-NI
+// the date range can only be of max 2 years per api call (e.g. validFrom=2023-01-01&validTo=2025-12-31)
+// we will populate with two calls til the end of 2027
+// 2022-01-01 - 2024-12-31 & 2025-01-01 - 2027-12-31
+// TODO: Holidays (use an api for this. Populate the current and next 2 years ahead and save it as a separate model. this way we will have them, even if the api is down. use a task scheduler like node-cron for this which fetches the secondth year from now.), (cell background color: light green, text color: primary)
 model Holiday {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   date      DateTime
+}
+
+model SchoolHoliday {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  dateFrom  DateTime
+  dateTo    DateTime
 }

@@ -1,42 +1,44 @@
 'use client'
 
-import { deleteUser } from '@/actions/delete-user'
+import { deleteTask } from '@/actions/delete-task'
+import { TaskDeleteSchema } from '@/data/task/schema'
+import { UserTaskType } from '@/data/user/types'
+import { UnwrapArray } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { dialogClose } from '../ui/dialog'
 import { toast } from 'sonner'
-import { FormError } from './ui/form-error'
-import { FormSuccess } from './ui/form-success'
+import { z } from 'zod'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
-import { FormSubmit } from './ui/form-submit'
+import { dialogClose } from '../ui/dialog'
 import { Form } from '../ui/form'
-import { UserDeleteSchema } from '@/data/user/schema'
-import { UserType } from '@/data/user/types'
+import { FormError } from './ui/form-error'
+import { FormSubmit } from './ui/form-submit'
+import { FormSuccess } from './ui/form-success'
 
-interface UserDeleteFormProps {
-  user: UserType
+interface TaskDeleteFormProps {
+  task: UnwrapArray<UserTaskType['tasks']>
 }
 
-function UserDeleteForm({ user }: UserDeleteFormProps) {
+// TODO: change to reusable component (e.g. share with user-delete-form)
+function TaskDeleteForm({ task }: TaskDeleteFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof UserDeleteSchema>>({
-    resolver: zodResolver(UserDeleteSchema),
+  const form = useForm<z.infer<typeof TaskDeleteSchema>>({
+    resolver: zodResolver(TaskDeleteSchema),
     defaultValues: {
-      id: user.id,
+      id: task.taskId,
     },
   })
 
-  const onSubmit = (values: z.infer<typeof UserDeleteSchema>) => {
+  const onSubmit = (values: z.infer<typeof TaskDeleteSchema>) => {
     setError('')
     setSuccess('')
 
     startTransition(() => {
-      deleteUser(values)
+      deleteTask(values)
         .then((data) => {
           if (data?.error) {
             setError(data.error)
@@ -70,4 +72,4 @@ function UserDeleteForm({ user }: UserDeleteFormProps) {
   )
 }
 
-export default UserDeleteForm
+export default TaskDeleteForm

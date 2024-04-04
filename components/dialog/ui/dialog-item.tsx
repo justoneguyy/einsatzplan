@@ -1,3 +1,4 @@
+import { ContextMenuItem } from '@/components/ui/context-menu'
 import {
   Dialog,
   DialogContent,
@@ -52,3 +53,39 @@ export const DialogItem = forwardRef<HTMLDivElement, DialogItemProps>(
     )
   }
 )
+
+export const DialogItemContextMenu = forwardRef<
+  HTMLDivElement,
+  DialogItemProps
+>((props, ref) => {
+  const {
+    children,
+    className,
+    title,
+    icon,
+    onSelect,
+    onOpenChange,
+    ...itemProps
+  } = props
+  return (
+    <Dialog onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>
+        <ContextMenuItem
+          {...itemProps}
+          ref={ref}
+          onSelect={(event) => {
+            event.preventDefault()
+            onSelect && onSelect()
+          }}
+        >
+          {icon}
+          <span>{title}</span>
+        </ContextMenuItem>
+      </DialogTrigger>
+      <DialogOverlay />
+      <DialogContent className={cn('w-[500px]', className)}>
+        {children}
+      </DialogContent>
+    </Dialog>
+  )
+})

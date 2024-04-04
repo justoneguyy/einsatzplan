@@ -21,6 +21,7 @@
 - berufsschuletage handling (die tage sollten bei den azubis auswählbar sein (und auch bis wann oder automatisch bis zu den naechsten sommerferien))
 - feiertage fetchen per api
 - save the state of the calendar (daily, weekly, monthly) in localstorage
+- cleaner structure of files, folders and code
 
 ## einsatzplan
 

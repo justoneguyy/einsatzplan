@@ -110,7 +110,9 @@ export function LoginForm() {
                   asChild
                   className='px-0 font-normal'
                 >
-                  <Link href='/auth/reset'>Passwort vergessen?</Link>
+                  <Link href='/auth/reset' className='select-none'>
+                    Passwort vergessen?
+                  </Link>
                 </Button>
               </FormInput>
             </>

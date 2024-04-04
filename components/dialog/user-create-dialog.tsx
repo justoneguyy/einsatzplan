@@ -1,7 +1,5 @@
 'use client'
 
-import { GroupsType } from '@/actions/get-group/types'
-import { RolesType } from '@/actions/get-role/type'
 import { Button } from '@/ui/button'
 import {
   Dialog,
@@ -13,6 +11,8 @@ import {
 } from '@/ui/dialog'
 import { useState } from 'react'
 import UserCreateForm from '../form/user-create-form'
+import { RolesType } from '@/data/role/types'
+import { GroupsType } from '@/data/group/types'
 
 interface UserCreateDialogProps {
   roles: RolesType

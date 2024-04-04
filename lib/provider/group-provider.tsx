@@ -1,6 +1,6 @@
 'use client'
 
-import { GroupsType } from '@/actions/get-group/types'
+import { GroupsType } from '@/data/group/types'
 import { createContext, useContext } from 'react'
 
 interface GroupContextProps {

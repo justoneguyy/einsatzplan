@@ -2,7 +2,6 @@
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 
-import { GetUserType } from '@/actions/get-user/schema'
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery'
 import { Button } from '@/ui/button'
 import {
@@ -15,9 +14,10 @@ import { DialogItem } from '../dialog/ui/dialog-item'
 import UserDeleteForm from '../form/user-delete-form'
 import UserEditForm from '../form/user-edit-form'
 import { DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog'
+import { UserType } from '@/data/user/types'
 
 export interface TableRowActionsProps {
-  user: GetUserType
+  user: UserType
   id: string
   firstName: string
   lastName: string
@@ -85,8 +85,9 @@ export function UserTableRowActions({
           <UserEditForm user={user} />
         </DialogItem>
 
+        {/* TODO: we dont delete users, later on change it to update the account status (active/inactive) */}
         <DialogItem
-          title='Loeschen'
+          title='Löschen'
           onSelect={handleDialogItemSelect}
           onOpenChange={handleDialogItemOpenChange}
         >
@@ -101,7 +102,6 @@ export function UserTableRowActions({
             </DialogDescription>
           </DialogHeader>
           <UserDeleteForm user={user} />
-          <div className=''></div>
         </DialogItem>
       </DropdownMenuContent>
     </DropdownMenu>

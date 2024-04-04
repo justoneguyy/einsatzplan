@@ -14,13 +14,13 @@ export default async function DashboardPage({
 }: DashboardPageProps) {
   const users = await getUsersWithTasks()
 
-  const usersWithNames = await getUsersName()
+  const usersName = await getUsersName()
 
   searchParamsCache.parse(searchParams)
 
   return (
     <section>
-      <UserProvider _users={usersWithNames}>
+      <UserProvider _users={usersName}>
         <OperationalPlanTable columns={OperationalPlanColumns} data={users} />
       </UserProvider>
     </section>

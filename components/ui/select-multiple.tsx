@@ -14,6 +14,7 @@ import { useEffect, forwardRef } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
+// TODO: currently this is kinda ugly if >= 2 items are selected. fix this
 export interface Option {
   value: string
   label: string

@@ -2,13 +2,15 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
-import { Weekdays, WeekdaysDE, weekdaysMapping } from '@/data/enums'
-import { GetUserTaskType } from '@/actions/get-user/schema'
+import { Weekdays, weekdaysMapping } from '@/data/enums'
+import { UserTaskType } from '@/data/user/types'
 import { setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
 import { CellUser, CellWeekday } from './operationalPlan-table-cells'
 import { HeaderWeekday, HeaderWeekend } from './operationalPlan-table-header'
 import { TableColumnHeaderAscDescReset } from './ui/table-column-header'
+import { HolidayType } from '@/data/holiday/types'
+import { SchoolHolidayType } from '@/data/schoolHoliday/types'
 
 setDefaultOptions({
   locale: de,
@@ -23,8 +25,13 @@ const headerWeekend = (index: number) => {
   return () => <HeaderWeekend index={index} />
 }
 
-// TODO: set fixed/min width for the specific columns
-export const OperationalPlanColumns: ColumnDef<GetUserTaskType>[] = [
+export type OperationalPlanType = UserTaskType &
+  HolidayType &
+  SchoolHolidayType & {}
+
+// I need different Entity because of the holidays and school holidays.
+export const OperationalPlanColumns: ColumnDef<UserTaskType>[] = [
+  // TODO: set fixed/min width for the specific columns
   {
     accessorKey: 'firstName',
     header: ({ column }) => (
@@ -47,19 +54,6 @@ export const OperationalPlanColumns: ColumnDef<GetUserTaskType>[] = [
     minSize: 200,
     maxSize: 250,
   },
-  // ...weekdays.map((day, index) => {
-  //   const isWeekend =
-  //     weekdays[index] === 'saturday' || weekdays[index] === 'sunday'
-  //   return {
-  //     accessorKey: weekdays[index],
-  //     meta: weekdaysDE[index],
-  //     header: isWeekend ? headerWeekend(index) : headerWeekday(index),
-  //     cell: ({ row }: any) => (
-  //       <CellWeekday tasks={row.original.tasks} index={index} />
-  //     ),
-  //     // TODO: save the state of this prop. (e.g. in localstorage)
-  //     enableHiding: isWeekend,
-  //   }
   ...Object.values(Weekdays).map((day, index) => {
     const isWeekend = day === Weekdays.Saturday || day === Weekdays.Sunday
     return {
@@ -69,6 +63,7 @@ export const OperationalPlanColumns: ColumnDef<GetUserTaskType>[] = [
       cell: ({ row }: any) => (
         <CellWeekday tasks={row.original.tasks} index={index} />
       ),
+      // TODO: save the state of this prop. (e.g. in localstorage)
       enableHiding: isWeekend,
     }
   }),
