@@ -6,6 +6,7 @@ import { getHolidays } from './get-holiday'
 import { getSchoolHolidays } from './get-schoolHoliday'
 import { UnwrapArray, UnwrapPromise } from '@/lib/types'
 
+// TODO: cache
 export const aggregateOperationalPlanData = cache(async function () {
   const users = await getUsersWithTasks()
 
@@ -13,30 +14,11 @@ export const aggregateOperationalPlanData = cache(async function () {
 
   const schoolHolidays = await getSchoolHolidays()
 
-  const data = users.flatMap((user) =>
-    user.tasks.map((task) => {
-      // prob not needed TODO: remove this
-      const isHoliday = holidays.some(
-        (holiday) =>
-          holiday.date.getTime() === task.task.dateFrom.getTime() ||
-          holiday.date.getTime() === task.task.dateTo.getTime()
-      )
-      const isSchoolHoliday = schoolHolidays.some(
-        (schoolHoliday) =>
-          schoolHoliday.dateFrom.getTime() <= task.task.dateFrom.getTime() &&
-          schoolHoliday.dateTo.getTime() >= task.task.dateTo.getTime()
-      )
-
-      return {
-        ...user,
-        ...task,
-        holidays,
-        schoolHolidays,
-        isHoliday,
-        isSchoolHoliday,
-      }
-    })
-  )
+  const data = users.map((user) => ({
+    ...user,
+    holidays,
+    schoolHolidays,
+  }))
 
   return data
 })

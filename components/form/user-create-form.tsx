@@ -1,8 +1,6 @@
 'use client'
 
 import { createUser } from '@/actions/create-user'
-import { GroupsType } from '@/actions/get-group/types'
-import { RolesType } from '@/actions/get-role/type'
 import {
   formatFirstName,
   formatLastName,
@@ -24,6 +22,8 @@ import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { UserSchema } from '@/data/user/schema'
+import { RolesType } from '@/data/role/types'
+import { GroupsType } from '@/data/group/types'
 
 interface UserCreateFormProps {
   roles: RolesType
@@ -45,6 +45,7 @@ function UserCreateForm({ roles, groups }: UserCreateFormProps) {
       email: '',
       profilePicture: '',
       roleId: '',
+      groupIds: [],
     },
   })
 

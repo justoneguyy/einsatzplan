@@ -1,4 +1,4 @@
-import { getUsers } from '@/actions/get-user'
+import { getUsers, getUsersName } from '@/actions/get-user'
 import { getGroups } from '@/actions/get-group'
 import { getRoles } from '@/actions/get-role'
 import { Options } from '@/components/table/data/options'

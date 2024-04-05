@@ -1,7 +1,6 @@
 'use client'
 
 import { createVacationEntry } from '@/actions/create-vacationEntry'
-import { UsersTypeName } from '@/actions/get-user/types'
 import { VacationEntryDurations, VacationEntryTypes } from '@/data/enums'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
@@ -17,15 +16,14 @@ import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { VacationEntrySchema } from '@/data/vacation/schema'
+import { useUserContext } from '@/lib/provider/user-provider'
 
-interface VacationEntryFormProps {
-  users: UsersTypeName
-}
-
-export function VacationEntryForm({ users }: VacationEntryFormProps) {
+export function VacationEntryForm() {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
+
+  const { _users } = useUserContext()
 
   const form = useForm<z.infer<typeof VacationEntrySchema>>({
     resolver: zodResolver(VacationEntrySchema),
@@ -98,7 +96,7 @@ export function VacationEntryForm({ users }: VacationEntryFormProps) {
             name='userId'
             label='Mitarbeiter'
             placeholder='Mitarbeiter auswählen'
-            options={users}
+            options={_users}
             onValueChange={(value: string) => {
               form.setValue('userId', value)
             }}

@@ -1,6 +1,5 @@
 'use client'
 
-import { UsersTypeName } from '@/actions/get-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -18,15 +17,14 @@ import { FormInput } from './ui/form-input'
 import { SicknessEntryTitles } from '@/data/enums'
 import { createSicknessEntry } from '@/actions/create-sicknessEntry'
 import { SicknessEntrySchema } from '@/data/sickness/schema'
+import { useUserContext } from '@/lib/provider/user-provider'
 
-interface SicknessEntryFormProps {
-  users: UsersTypeName
-}
-
-export function SicknessEntryForm({ users }: SicknessEntryFormProps) {
+export function SicknessEntryForm() {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
+
+  const { _users } = useUserContext()
 
   const form = useForm<z.infer<typeof SicknessEntrySchema>>({
     resolver: zodResolver(SicknessEntrySchema),
@@ -103,7 +101,7 @@ export function SicknessEntryForm({ users }: SicknessEntryFormProps) {
             name='userId'
             label='Mitarbeiter'
             placeholder='Mitarbeiter auswählen'
-            options={users}
+            options={_users}
             onValueChange={(value: string) => {
               form.setValue('userId', value)
             }}

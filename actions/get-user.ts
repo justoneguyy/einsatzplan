@@ -42,7 +42,6 @@ export const getUsersWithTasks = cache(async function () {
               },
             },
           },
-          user: true,
         },
       },
       groups: {
@@ -146,8 +145,6 @@ export const testgetUsersWithTasks = async () => {
       task.task.users.map((user) => user.user.firstName)
     )
   })
-
-  console.log(test)
 
   return users
 }

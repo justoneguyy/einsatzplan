@@ -8,6 +8,9 @@ import { Card, CardDescription, CardHeader, CardTitle } from './card'
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
+{
+  /* TODO: width should only fill (there is always space on the left. fix this) */
+}
 const Toast = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()
 

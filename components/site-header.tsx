@@ -5,6 +5,7 @@ import ActionsDialog from './dialog/actions-dialog'
 import { TodayButton } from './today-button'
 import { Button } from './ui/button'
 import { getUsersName, getUsersOnCallService } from '@/actions/get-user'
+import UserProvider from '@/lib/provider/user-provider'
 
 // TODO: prob gonna change this to someting more intuitive
 // TODO: also, maybe dont use two functions but render these based on route. dont know if that is possible & more perfomant
@@ -58,10 +59,9 @@ export async function SiteHeaderDashboard() {
                 <CalendarWeek />
               </div>
               <div>
-                <ActionsDialog
-                  users={users}
-                  usersOnCallService={usersOnCallService}
-                />
+                <UserProvider _users={users}>
+                  <ActionsDialog usersOnCallService={usersOnCallService} />
+                </UserProvider>
               </div>
             </div>
           </section>

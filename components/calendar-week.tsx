@@ -9,19 +9,26 @@ import {
 } from '@radix-ui/react-icons'
 import {
   addDays,
+  addMonths,
   eachDayOfInterval,
   endOfWeek,
   format,
   getWeek,
   setDefaultOptions,
   startOfWeek,
+  subMonths,
 } from 'date-fns'
 import { de } from 'date-fns/locale'
 import { useQueryStates } from 'nuqs'
-import { HTMLAttributes, useState } from 'react'
-import { Button, buttonVariants } from './ui/button'
+import { HTMLAttributes, useEffect, useState } from 'react'
+import { Button } from './ui/button'
 import { CalendarCustom } from './ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import {
+  useMonthNavigation,
+  useOpenCalendarShortcut,
+  useWeekNavigation,
+} from '@/lib/hooks/useKeyboardNavigation'
 
 setDefaultOptions({
   locale: de,
@@ -42,6 +49,7 @@ type Modifiers = {
   selectedRangeEnd?: false | Date
 }
 
+// TODO: add key listener for arrow keys (left/right) to navigate through the weeks
 export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
   const currentYear = new Date().getFullYear()
   const fromYear = currentYear - 2
@@ -84,6 +92,30 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
     })
   }
 
+  useWeekNavigation(goToPreviousWeek, goToNextWeek, !isCalendarOpen)
+
+  const goToNextMonth = () => {
+    setDateWeek({
+      dateFrom: addMonths(dateFrom, 1),
+      dateTo: addMonths(dateTo, 1),
+    })
+  }
+
+  const goToPreviousMonth = () => {
+    setDateWeek({
+      dateFrom: subMonths(dateFrom, 1),
+      dateTo: subMonths(dateTo, 1),
+    })
+  }
+
+  useMonthNavigation(goToNextMonth, goToPreviousMonth, !isCalendarOpen)
+
+  const toggleCalendarOpen = () => {
+    setIsCalendarOpen((prevOpen) => !prevOpen)
+  }
+
+  useOpenCalendarShortcut(toggleCalendarOpen)
+
   const handleDayChange = (date: Date) => {
     const start = startOfWeek(date)
     const end = endOfWeek(date)
@@ -124,15 +156,13 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
 
   return (
     <div className={cn('flex items-center justify-between gap-4', className)}>
-      <button
+      <Button
         onClick={goToPreviousWeek}
-        className={cn(
-          buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
-        )}
+        variant='outline'
+        className='h-7 min-h-7 w-7 min-w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
       >
         <ChevronLeftIcon className='h-4 w-4' />
-      </button>
+      </Button>
       <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -151,7 +181,7 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='center'>
-          {/* TODO: think about adding presets (this week, next week ...) */}
+          {/* TODO: add better keyboard navigation */}
           <CalendarCustom
             classNames={{
               caption_label: 'hidden',
@@ -163,7 +193,6 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
             defaultMonth={dateFrom}
             showWeekNumber
             modifiers={modifiers}
-            // TODO: close popover on day/week click? -- get feedback on this
             onDayClick={handleDayChange}
             onWeekNumberClick={handleWeekClick}
             onDayMouseEnter={handleDayEnter}
@@ -171,15 +200,13 @@ export function CalendarWeek({ className }: HTMLAttributes<HTMLDivElement>) {
           />
         </PopoverContent>
       </Popover>
-      <button
+      <Button
         onClick={goToNextWeek}
-        className={cn(
-          buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
-        )}
+        variant='outline'
+        className='h-7 min-h-7 w-7 min-w-7 bg-transparent p-0 opacity-50 hover:opacity-100'
       >
         <ChevronRightIcon className='h-4 w-4' />
-      </button>
+      </Button>
     </div>
   )
 }

@@ -27,10 +27,9 @@ import TaskDeleteForm from '../form/task-delete-form'
 
 interface TaskDialogProps {
   task: UnwrapArray<UserTaskType['tasks']>
-  children?: React.ReactNode
 }
 
-export function TaskDialog({ task, children }: TaskDialogProps) {
+export function TaskDialog({ task }: TaskDialogProps) {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleOpen = () => {

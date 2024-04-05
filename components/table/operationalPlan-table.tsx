@@ -131,6 +131,7 @@ export function OperationalPlanTable<TData, TValue>({
                         }}
                         // TODO: optimize height
                         // className='h-18 border-r px-0 py-2 last:border-r-0'
+                        // TODO: if one user has 3 tasks, the width is much bigger than if one user has only one task. fix this
                         className='h-18 border-r last:border-r-0'
                       >
                         {flexRender(

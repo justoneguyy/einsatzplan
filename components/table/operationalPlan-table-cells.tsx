@@ -3,13 +3,19 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel'
-import { UserTaskType, UserType } from '@/data/user/types'
+import { UserTaskType } from '@/data/user/types'
 
+import { OperationalPlanDataType } from '@/actions/aggregate-operationalPlan-data'
 import { HolidayType } from '@/data/holiday/types'
 import { SchoolHolidayType } from '@/data/schoolHoliday/types'
 import { getWeekInterval } from '@/lib/helper/getWeekInterval'
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
-import { isSameDay, isWithinInterval, setDefaultOptions } from 'date-fns'
+import {
+  format,
+  isSameDay,
+  isWithinInterval,
+  setDefaultOptions,
+} from 'date-fns'
 import { de } from 'date-fns/locale'
 import { TaskDialog } from '../dialog/task-dialog'
 import { Indicator } from '../ui/indicator'
@@ -19,33 +25,65 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../ui/tooltip'
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from '../ui/context-menu'
+import TaskCreateForm from '../form/task-create-form'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog'
+import { OptionType } from '@/data/schema'
 
 setDefaultOptions({
   locale: de,
   weekStartsOn: 1,
 })
 
+// TODO: component cleanup
+
 // TODO: make this more elegant
 type CellUserProps = Omit<
   UserTaskType,
-  'id' | 'email' | 'roleId' | 'role' | 'tasks'
-> & {}
-// type CellUserProps = User & {}
+  'id' | 'email' | 'roleId' | 'role' | 'tasks' | 'groups'
+> & {
+  index: number
+}
 
 export const CellUser = ({
+  index,
   firstName,
   lastName,
   initials,
   profilePicture,
-  groups,
   onCallServices,
 }: CellUserProps) => {
+  const daysOfWeek = getWeekInterval()
+  const day = daysOfWeek[index]
+
+  const onCallServiceForDay = onCallServices.filter((onCallService) => {
+    const onCallServiceStartDate = new Date(onCallService.dateFrom)
+    const onCallServiceEndDate = new Date(onCallService.dateTo)
+
+    return isWithinInterval(day, {
+      start: onCallServiceStartDate,
+      end: onCallServiceEndDate,
+    })
+  })
+
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex h-full items-center gap-2'>
       {/* TODO: popover for clicked on user OR just go to profile .. idk yet */}
       {/* TODO: might make this a separate component since used already twice */}
       {/* TODO: maybe use a popover with a button as trigger for this */}
-      <div className='relative'>
+      <div className=''>
         <Avatar className='h-10 w-10'>
           {profilePicture && <AvatarImage src={profilePicture} alt='avatar' />}
           <AvatarFallback>{initials}</AvatarFallback>
@@ -62,26 +100,32 @@ export const CellUser = ({
         </TooltipProvider> */}
       </div>
       {/* TOOD: only lastname? */}
-      <div className='flex flex-col items-center gap-1'>
-        <p className='hidden lg:flex'>
+      <div className='flex items-center'>
+        <p className='hidden md:flex'>
           {firstName} {lastName}
         </p>
-        {groups.some((group) => group.group.name === 'Rufbereitschaft') && (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Indicator className='w-3/4' />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  Hat aktuell Rufbereitschaft
-                  <br />
-                  (vom 01.01. - 08.01.)
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
+      </div>
+      <div className='flex h-full grow justify-end'>
+        {onCallServiceForDay.map((onCallService) => {
+          const dateFrom = format(onCallService.dateFrom, 'dd.MM')
+          const dateTo = format(onCallService.dateTo, 'dd.MM')
+          return (
+            <TooltipProvider key={onCallService.id} delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Indicator orientation='vertical' />
+                </TooltipTrigger>
+                <TooltipContent className='bg-secondary shadow-sm'>
+                  <p className='text-center text-secondary-foreground'>
+                    Rufbereitschaft
+                    <br />
+                    vom {dateFrom} - {dateTo}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )
+        })}
       </div>
     </div>
   )
@@ -90,9 +134,10 @@ export const CellUser = ({
 interface CellWeekdayProps {
   index: number
   rowIndex: number
-  tasks: UserTaskType['tasks']
+  tasks: OperationalPlanDataType['tasks']
   holidays: HolidayType[]
   schoolHolidays: SchoolHolidayType[]
+  users: OptionType[]
 }
 
 export const CellWeekday = ({
@@ -101,6 +146,7 @@ export const CellWeekday = ({
   tasks,
   holidays,
   schoolHolidays,
+  users,
 }: CellWeekdayProps) => {
   const daysOfWeek = getWeekInterval()
   const day = daysOfWeek[index]
@@ -140,19 +186,45 @@ export const CellWeekday = ({
 
   return holidayForDay ? (
     // TODO: make this prettier
-    <div className='bg-green-950 flex h-full items-center justify-center rounded-md'>
+    <div className='flex h-full items-center justify-center rounded-md bg-green-950'>
       <p className='select-none'>{holidayForDay.name}</p>
     </div>
+  ) : tasksForDay.length === 0 ? (
+    // TODO: try to change it, so the current row is still highlighted when the context menu is opened
+    <Dialog>
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <div className='h-full' />
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <DialogTrigger asChild>
+            <ContextMenuItem>Aufgabe hinzufügen</ContextMenuItem>
+          </DialogTrigger>
+        </ContextMenuContent>
+      </ContextMenu>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Neue Aufgabe</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>
+          Hier kann eine neue Aufgabe erstellt werden.
+        </DialogDescription>
+        <TaskCreateForm date={day} users={users} />
+      </DialogContent>
+    </Dialog>
   ) : (
+    // TODO: add context menu for the admin, so he can quickly add a task for this user on this day
     <Carousel className='h-full'>
-      <CarouselContent className='-ml-3 h-full cursor-pointer'>
+      <CarouselContent
+        className={`${tasksForDay.length > 0 ? '-ml-3 cursor-pointer' : 'ml-0 cursor-default'} h-full`}
+      >
         {tasksForDay.map((task) => (
           // TODO: rotate the carousel items according to the current time
           // TODO: if only one task is present, show it in full width
           // TODO: make these draggable for the admin (quick re-assign)?
           <CarouselItem
             key={task.task.id}
-            className='basis-10/12 rounded-md pl-3'
+            className={`${tasksForDay.length > 1 ? 'basis-10/12' : 'base-full'} rounded-md pl-3`}
           >
             <TaskDialog task={task} />
           </CarouselItem>

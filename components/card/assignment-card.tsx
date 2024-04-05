@@ -38,7 +38,7 @@ export function AssignmentCard({ task, onOpen }: AssignmentCardProps) {
           <TooltipProvider delayDuration={0}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <span className='absolute right-2 top-0'>
+                <span className='absolute right-0 top-0'>
                   {users.length > 1 ? (
                     <UsersRound className='h-4 w-4' />
                   ) : (

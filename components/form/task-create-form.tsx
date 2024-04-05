@@ -1,7 +1,6 @@
 'use client'
 
 import { createTask } from '@/actions/create-task'
-import { UsersTypeName } from '@/actions/get-user/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,22 +16,32 @@ import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
 import { TaskSchema } from '@/data/task/schema'
+import { useUserContext } from '@/lib/provider/user-provider'
+import { OptionType } from '@/data/schema'
 
 interface TaskCreateFormProps {
-  users: UsersTypeName
+  date?: Date
+  users?: OptionType[]
 }
 
-function TaskCreateForm({ users }: TaskCreateFormProps) {
+function TaskCreateForm({ date, users }: TaskCreateFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
+  const { _users } = useUserContext()
+
   const form = useForm<z.infer<typeof TaskSchema>>({
     resolver: zodResolver(TaskSchema),
-    // TODO: currently if e.g. the date is not set in the defaultValues, the custom error message isnt being passed. change this behaviour
+    // TODO: currently if no value is set in the defaultValues, the custom error message isnt being passed. change this behaviour
     defaultValues: {
+      userIds: users,
       title: '',
       description: '',
+      date: {
+        from: date,
+        to: date,
+      },
       timeFrom: '',
       timeTo: '',
     },
@@ -80,6 +89,13 @@ function TaskCreateForm({ users }: TaskCreateFormProps) {
           />
           {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
           <div className='flex gap-4'>
+            {/* <FormInput
+              control={form.control}
+              name='timeFrom'
+              label='Zeit von'
+              optional
+              type='time'
+            /> */}
             <FormInput
               control={form.control}
               name='timeFrom'
@@ -100,7 +116,7 @@ function TaskCreateForm({ users }: TaskCreateFormProps) {
             control={form.control}
             name='userIds'
             label='Mitarbeiter'
-            options={users}
+            options={_users}
             placeholder='Mitarbeiter auswählen'
             disabled={isPending}
           />

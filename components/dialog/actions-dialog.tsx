@@ -24,12 +24,11 @@ import { SicknessEntryForm } from '../form/sicknessEntry-form'
 import { UsersTypeName } from '@/data/user/types'
 
 interface ActionsDialogProps {
-  users: UsersTypeName
   usersOnCallService: UsersTypeName
 }
 
+// TODO: change to new multi dialog
 export default function ActionsDialog({
-  users,
   usersOnCallService,
 }: ActionsDialogProps) {
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -85,7 +84,7 @@ export default function ActionsDialog({
                 Hier kann eine neue Aufgabe erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <TaskCreateForm users={users} />
+            <TaskCreateForm />
           </DialogItem>
 
           <DialogItem
@@ -117,7 +116,7 @@ export default function ActionsDialog({
                 Hier kann eine neuer Urlaubseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <VacationEntryForm users={users} />
+            <VacationEntryForm />
           </DialogItem>
 
           <DialogItem
@@ -133,7 +132,7 @@ export default function ActionsDialog({
                 Hier kann eine neuer Krankheitseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <SicknessEntryForm users={users} />
+            <SicknessEntryForm />
           </DialogItem>
         </DropdownMenuContent>
       </DropdownMenu>

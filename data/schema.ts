@@ -5,3 +5,5 @@ export const optionSchema = z.object({
   label: z.string(),
   disable: z.boolean().optional(),
 })
+
+export type OptionType = z.infer<typeof optionSchema>
