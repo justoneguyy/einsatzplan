@@ -68,7 +68,7 @@ export function TaskDialog({ task }: TaskDialogProps) {
                 <Dialog>
                   <DialogPortal>
                     <DialogOverlay />
-                    <DialogContent>
+                    <DialogContent className='w-[400px]'>
                       <DialogHeader>
                         <DialogTitle>Aufgabe bearbeiten</DialogTitle>
                       </DialogHeader>

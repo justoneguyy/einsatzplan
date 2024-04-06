@@ -13,8 +13,7 @@ export const updateTask = async (values: z.infer<typeof TaskUpdateSchema>) => {
   }
   // TODO: add auth check
 
-  const { id, title, description, date, timeFrom, timeTo, userIds } =
-    validatedFields.data
+  const { id, title, description, date, userIds } = validatedFields.data
 
   // TODO: add more validation (
   // 1. check if nothing was changed at all
@@ -45,8 +44,6 @@ export const updateTask = async (values: z.infer<typeof TaskUpdateSchema>) => {
         description,
         dateFrom: date.from,
         dateTo: date.to,
-        timeFrom,
-        timeTo,
         users: {
           create: userIds.map((userId) => ({
             user: {

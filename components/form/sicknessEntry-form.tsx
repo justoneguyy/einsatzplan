@@ -1,5 +1,9 @@
 'use client'
 
+import { createSicknessEntry } from '@/actions/create-sicknessEntry'
+import { SicknessEntryTitles } from '@/data/enums'
+import { SicknessEntrySchema } from '@/data/sickness/schema'
+import { useUserContext } from '@/lib/provider/user-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -13,11 +17,6 @@ import { FormError } from './ui/form-error'
 import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
-import { FormInput } from './ui/form-input'
-import { SicknessEntryTitles } from '@/data/enums'
-import { createSicknessEntry } from '@/actions/create-sicknessEntry'
-import { SicknessEntrySchema } from '@/data/sickness/schema'
-import { useUserContext } from '@/lib/provider/user-provider'
 
 export function SicknessEntryForm() {
   const [error, setError] = useState<string | undefined>('')
@@ -30,12 +29,6 @@ export function SicknessEntryForm() {
     resolver: zodResolver(SicknessEntrySchema),
     defaultValues: {
       title: SicknessEntryTitles.Krank,
-      date: {
-        from: new Date(),
-        to: new Date(),
-      },
-      timeFrom: '',
-      timeTo: '',
       userId: '',
     },
   })
@@ -80,22 +73,9 @@ export function SicknessEntryForm() {
             control={form.control}
             name='date'
             label='Datum'
+            time
             disabled={isPending}
           />
-          <div className='flex gap-4'>
-            <FormInput
-              control={form.control}
-              name='timeFrom'
-              label='Zeit von'
-              placeholder='08:00'
-            />
-            <FormInput
-              control={form.control}
-              name='timeTo'
-              label='Zeit bis'
-              placeholder='10:00'
-            />
-          </div>
           <FormSelect
             control={form.control}
             name='userId'

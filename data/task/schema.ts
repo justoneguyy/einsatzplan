@@ -14,8 +14,6 @@ export const TaskSchema = z.object({
     .refine((data) => data.from && data.to, {
       message: 'Das Datum ist erforderlich',
     }),
-  timeFrom: z.string().optional(),
-  timeTo: z.string().optional(),
   userIds: z.array(optionSchema).min(1, {
     message: 'Es ist mindestens ein Benutzer erforderlich',
   }),
@@ -35,8 +33,6 @@ export const TaskUpdateSchema = z.object({
     .refine((data) => data.from && data.to, {
       message: 'Das Datum ist erforderlich',
     }),
-  timeFrom: z.string().nullable(),
-  timeTo: z.string().nullable(),
   userIds: z.array(optionSchema).min(1, {
     message: 'Es ist mindestens ein Benutzer erforderlich',
   }),

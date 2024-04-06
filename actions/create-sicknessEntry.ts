@@ -15,7 +15,7 @@ export const createSicknessEntry = async (
     return { error: 'ungültige Felder' }
   }
 
-  const { title, date, timeFrom, timeTo, userId } = validatedFields.data
+  const { title, date, userId } = validatedFields.data
 
   const existingSicknessEntry = await getSicknessEntryByEmployeeDate(
     userId,
@@ -35,8 +35,6 @@ export const createSicknessEntry = async (
       title,
       dateFrom: date.from,
       dateTo: date.to,
-      timeFrom,
-      timeTo,
       userId,
     },
   })

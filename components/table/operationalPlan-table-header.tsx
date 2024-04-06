@@ -1,4 +1,4 @@
-import { getWeekInterval } from '@/lib/helper/getWeekInterval'
+import { getWeekInterval } from '@/lib/helper/date-utils'
 import { format, setDefaultOptions } from 'date-fns'
 import { de } from 'date-fns/locale'
 

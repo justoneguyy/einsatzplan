@@ -8,7 +8,6 @@ import { UserTaskType } from '@/data/user/types'
 import { OperationalPlanDataType } from '@/actions/aggregate-operationalPlan-data'
 import { HolidayType } from '@/data/holiday/types'
 import { SchoolHolidayType } from '@/data/schoolHoliday/types'
-import { getWeekInterval } from '@/lib/helper/getWeekInterval'
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
 import {
   format,
@@ -41,6 +40,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog'
 import { OptionType } from '@/data/schema'
+import { getWeekInterval } from '@/lib/helper/date-utils'
 
 setDefaultOptions({
   locale: de,
@@ -176,10 +176,10 @@ export const CellWeekday = ({
 
   // 5. priority - tasks
   const tasksForDay = tasks.filter((task) => {
-    const taskStartDate = new Date(task.task.dateFrom)
-    const taskEndDate = new Date(task.task.dateTo)
+    const taskStartDate = task.task.dateFrom
+    const taskEndDate = task.task.dateTo
 
-    return isWithinInterval(day, { start: taskStartDate, end: taskEndDate })
+    return isSameDay(day, taskStartDate) || isSameDay(day, taskEndDate)
   })
 
   // 6. onCallService - should have a like 50% opacity baby-blueish background
@@ -202,7 +202,7 @@ export const CellWeekday = ({
           </DialogTrigger>
         </ContextMenuContent>
       </ContextMenu>
-      <DialogContent>
+      <DialogContent className='w-[400px]'>
         <DialogHeader>
           <DialogTitle>Neue Aufgabe</DialogTitle>
         </DialogHeader>

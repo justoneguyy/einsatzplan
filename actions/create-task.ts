@@ -15,16 +15,13 @@ export const createTask = async (values: z.infer<typeof TaskSchema>) => {
 
   // TODO: add auth check
 
-  const { title, description, date, timeFrom, timeTo, userIds } =
-    validatedFields.data
+  const { title, description, date, userIds } = validatedFields.data
 
   const existingTask = await getTaskByEmployeeDateTitle(
     title,
     date.from,
     date.to,
-    userIds.map((user) => user.value),
-    timeFrom,
-    timeTo
+    userIds.map((user) => user.value)
   )
 
   // TODO: add check for holidays. add check if the employee already has a task. add check if the employee is sick etc. or rather not show them at all.
@@ -43,8 +40,6 @@ export const createTask = async (values: z.infer<typeof TaskSchema>) => {
       description,
       dateFrom: date.from,
       dateTo: date.to,
-      timeFrom,
-      timeTo,
       users: {
         create: userIds.map((userId) => ({
           user: {

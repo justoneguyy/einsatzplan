@@ -1,11 +1,10 @@
 'use client'
 
-import * as React from 'react'
 import { CalendarIcon } from '@radix-ui/react-icons'
-import { addDays, format } from 'date-fns'
+import { format } from 'date-fns'
+import * as React from 'react'
 import { DateRange } from 'react-day-picker'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -13,18 +12,38 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { isMidnight } from '@/lib/helper/date-utils'
+import { cn } from '@/lib/utils'
+import { TimeRangePicker } from './time-range-picker'
 
 interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
+  time?: boolean
 }
 
 export function DateRangePicker({
   date,
   setDate,
+  time,
   className,
 }: DateRangePickerProps) {
-  const dateFormat = 'dd.MM.yyyy'
+  // dont render the time if no time is being input
+  const isMidnightStart = isMidnight(date?.from)
+  const isMidnightEnd = isMidnight(date?.to)
+
+  const dateFormat =
+    isMidnightStart && isMidnightEnd ? 'dd.MM.yyyy' : 'dd.MM.yyyy HH:mm'
+  const formattedDate = (date: Date | undefined) =>
+    date ? format(date, dateFormat) : undefined
+
+  const handleDateChange = (selectedDate: DateRange | undefined) => {
+    const dateRange =
+      selectedDate && !selectedDate.to
+        ? { from: selectedDate.from, to: selectedDate.from }
+        : selectedDate
+    setDate(dateRange)
+  }
 
   return (
     <div className={cn('grid gap-2', className)}>
@@ -43,33 +62,34 @@ export function DateRangePicker({
               date.to &&
               format(date.from, dateFormat) !== format(date.to, dateFormat) ? (
                 <>
-                  {format(date.from, dateFormat)} -{' '}
-                  {format(date.to, dateFormat)}
+                  {formattedDate(date.from)} - {formattedDate(date.to)}
                 </>
               ) : (
-                format(date.from, dateFormat)
+                formattedDate(date.from)
               )
             ) : (
-              <span>Waehle ein Datum aus</span>
+              <span className='text-muted-foreground'>Wähle ein Datum aus</span>
             )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='start'>
-          {/* TODO: maybe change this to include years like in the weekCalendar */}
           <Calendar
             initialFocus
             mode='range'
             defaultMonth={date?.from}
             selected={date}
-            onSelect={(selectedDate) => {
-              const dayRange =
-                selectedDate && !selectedDate.to
-                  ? { from: selectedDate.from, to: selectedDate.from }
-                  : selectedDate
-              setDate(dayRange)
-            }}
-            numberOfMonths={2}
+            onSelect={handleDateChange}
+            numberOfMonths={1}
           />
+          {time && (
+            <div className='border-t border-border p-3 pt-2'>
+              {/* TODO: add validation, so that timeTo cant be lower than timeFrom */}
+              <TimeRangePicker
+                dateRange={date}
+                setDateRange={handleDateChange}
+              />
+            </div>
+          )}
         </PopoverContent>
       </Popover>
     </div>

@@ -30,10 +30,6 @@ export function VacationEntryForm() {
     defaultValues: {
       type: VacationEntryTypes.Urlaub,
       duration: VacationEntryDurations.Ganztags,
-      date: {
-        from: new Date(),
-        to: new Date(),
-      },
       userId: '',
     },
   })

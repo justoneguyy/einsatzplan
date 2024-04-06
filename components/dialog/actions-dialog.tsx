@@ -72,7 +72,7 @@ export default function ActionsDialog({
           }}
         >
           <DialogItem
-            className='w-[450px]'
+            className='w-[400px]'
             title='Aufgabe'
             icon={<CheckCircledIcon className='mr-2 h-4 w-4' />}
             onSelect={handleDialogItemSelect}

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Projektarbeit",
+    "dateFrom": "2024-04-04T22:00:00.000+00:00",
+    "dateTo": "2024-04-04T22:00:00.000+00:00",
+    "users": {
+      "create": [
+        {
+          "user": {
+            "connect": {
+              "id": "660aefdf2c668dedb3b6853e"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

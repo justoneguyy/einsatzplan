@@ -1,6 +1,9 @@
 'use client'
 
 import { createTask } from '@/actions/create-task'
+import { OptionType } from '@/data/schema'
+import { TaskSchema } from '@/data/task/schema'
+import { useUserContext } from '@/lib/provider/user-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -15,9 +18,6 @@ import { FormInput } from './ui/form-input'
 import FormSelectMultiple from './ui/form-select-multiple'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
-import { TaskSchema } from '@/data/task/schema'
-import { useUserContext } from '@/lib/provider/user-provider'
-import { OptionType } from '@/data/schema'
 
 interface TaskCreateFormProps {
   date?: Date
@@ -42,8 +42,6 @@ function TaskCreateForm({ date, users }: TaskCreateFormProps) {
         from: date,
         to: date,
       },
-      timeFrom: '',
-      timeTo: '',
     },
   })
 
@@ -70,6 +68,7 @@ function TaskCreateForm({ date, users }: TaskCreateFormProps) {
     })
   }
 
+  // TODO: add a repeat button (every week, month etc.)
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
@@ -85,32 +84,9 @@ function TaskCreateForm({ date, users }: TaskCreateFormProps) {
             control={form.control}
             name='date'
             label='Datum'
+            time
             disabled={isPending}
           />
-          {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
-          <div className='flex gap-4'>
-            {/* <FormInput
-              control={form.control}
-              name='timeFrom'
-              label='Zeit von'
-              optional
-              type='time'
-            /> */}
-            <FormInput
-              control={form.control}
-              name='timeFrom'
-              label='Zeit von'
-              placeholder='08:00'
-              optional
-            />
-            <FormInput
-              control={form.control}
-              name='timeTo'
-              label='Zeit bis'
-              placeholder='10:00'
-              optional
-            />
-          </div>
           {/* TODO: add groups */}
           <FormSelectMultiple
             control={form.control}

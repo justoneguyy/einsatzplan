@@ -33,8 +33,6 @@ export const getUsersWithTasks = cache(async function () {
               description: true,
               dateFrom: true,
               dateTo: true,
-              timeFrom: true,
-              timeTo: true,
               users: {
                 include: {
                   user: true,
@@ -62,92 +60,6 @@ export const getUsersWithTasks = cache(async function () {
 
   return users
 })
-
-// export const getUsersWithTasks = cache(async function () {
-//   const users = await db.user.findMany({
-//     include: {
-//       role: true,
-//       groups: {
-//         include: {
-//           group: true,
-//         },
-//       },
-//       tasks: {
-//         include: {
-//           task: {
-//             select: {
-//               id: true,
-//               title: true,
-//               description: true,
-//               dateFrom: true,
-//               dateTo: true,
-//               timeFrom: true,
-//               timeTo: true,
-//               users: {
-//                 include: {
-//                   user: true,
-//                 },
-//               },
-//             },
-//           },
-//           user: true,
-//         },
-//       },
-//     },
-//     orderBy: {
-//       firstName: 'asc',
-//     },
-//   })
-
-//   return users
-// })
-
-// TODO: remove
-export const testgetUsersWithTasks = async () => {
-  const users = await db.user.findMany({
-    include: {
-      role: true,
-      groups: {
-        include: {
-          group: true,
-        },
-      },
-      tasks: {
-        include: {
-          task: {
-            select: {
-              id: true,
-              title: true,
-              description: true,
-              dateFrom: true,
-              dateTo: true,
-              timeFrom: true,
-              timeTo: true,
-              // users: true,
-              users: {
-                include: {
-                  user: true,
-                },
-              },
-            },
-          },
-          user: true,
-        },
-      },
-    },
-    orderBy: {
-      firstName: 'asc',
-    },
-  })
-
-  const test = users.forEach((user) => {
-    user.tasks = user.tasks.filter((task) =>
-      task.task.users.map((user) => user.user.firstName)
-    )
-  })
-
-  return users
-}
 
 // TODO: add another query or change this one to only include the users that are not on holiday etc..
 export const getUsersName = cache(async function () {

@@ -18,9 +18,7 @@ export const getTaskByEmployeeDateTitle = async (
   title: string,
   dateFrom: Date,
   dateTo: Date,
-  userIds: string[],
-  timeFrom?: string,
-  timeTo?: string
+  userIds: string[]
 ) => {
   try {
     const task = await db.task.findFirst({
@@ -35,8 +33,6 @@ export const getTaskByEmployeeDateTitle = async (
             },
           },
         },
-        timeFrom,
-        timeTo,
       },
     })
 

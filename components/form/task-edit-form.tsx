@@ -40,8 +40,6 @@ function TaskEditForm({ task }: TaskEditFormProps) {
         from: task.task.dateFrom,
         to: task.task.dateTo,
       },
-      timeFrom: task.task.timeFrom,
-      timeTo: task.task.timeTo,
       userIds: task.task.users.map((user) => ({
         value: user.user.id,
         label: `${user.user.firstName} ${user.user.lastName}`,
@@ -89,25 +87,9 @@ function TaskEditForm({ task }: TaskEditFormProps) {
             control={form.control}
             name='date'
             label='Datum'
+            time
             disabled={isPending}
           />
-          {/* TODO: add custom time picker with a dropdown menu starting at 06:00 and ending at 20:00 */}
-          <div className='flex gap-4'>
-            <FormInput
-              control={form.control}
-              name='timeFrom'
-              label='Zeit von'
-              placeholder='08:00'
-              optional
-            />
-            <FormInput
-              control={form.control}
-              name='timeTo'
-              label='Zeit bis'
-              placeholder='10:00'
-              optional
-            />
-          </div>
           {/* TODO: add groups */}
           <FormSelectMultiple
             control={form.control}

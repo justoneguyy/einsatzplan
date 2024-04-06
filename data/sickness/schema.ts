@@ -12,8 +12,6 @@ export const SicknessEntrySchema = z.object({
     .refine((data) => data.from && data.to, {
       message: 'Das Datum ist erforderlich',
     }),
-  timeFrom: z.string().nullable(),
-  timeTo: z.string().nullable(),
   userId: z.string().min(1, {
     message: 'Der Benutzer ist erforderlich',
   }),

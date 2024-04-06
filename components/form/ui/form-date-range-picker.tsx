@@ -12,11 +12,13 @@ interface FormDateRangePickerProps
   extends Omit<ControllerProps<any, any>, 'render'> {
   label: string
   disabled?: boolean
+  time?: boolean
 }
 
 export function FormDateRangePicker({
   label,
   disabled,
+  time,
   ...controllerProps
 }: FormDateRangePickerProps) {
   return (
@@ -26,7 +28,11 @@ export function FormDateRangePicker({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <DateRangePicker date={field.value} setDate={field.onChange} />
+            <DateRangePicker
+              time={time}
+              date={field.value}
+              setDate={field.onChange}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

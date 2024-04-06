@@ -89,8 +89,6 @@ model Task {
   description   String?
   dateFrom      DateTime
   dateTo        DateTime
-  timeFrom      String?
-  timeTo        String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
@@ -136,8 +134,6 @@ model Sickness {
   title         String          // krank, Arztbesuch (there is an enum in /data/enums.ts for this)
   dateFrom      DateTime
   dateTo        DateTime
-  timeFrom      String?
-  timeTo        String?
 
   // one to many (one user can have multiple sicknesses)
   userId        String?         @db.ObjectId

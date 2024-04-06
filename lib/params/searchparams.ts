@@ -1,15 +1,17 @@
-import { endOfWeek, setDefaultOptions, startOfWeek } from 'date-fns'
+import { endOfWeek, format, setDefaultOptions, startOfWeek } from 'date-fns'
 import { de } from 'date-fns/locale'
 import {
-  parseAsIsoDateTime,
   createSearchParamsCache,
   createSerializer,
+  createParser,
 } from 'nuqs/server'
 
 setDefaultOptions({
   locale: de,
   weekStartsOn: 1,
 })
+
+const formatDate = (date: Date) => format(date, 'yyyy-MM-dd')
 
 const getWeekRange = () => {
   const now = new Date()
@@ -22,10 +24,20 @@ const getWeekRange = () => {
   }
 }
 
+// custom parser. otherwise the date would be shown as datetime(utc) in the url
+const parseAsYYYYMMDD = createParser({
+  parse(queryValue) {
+    const parsedDate = new Date(queryValue)
+    return isNaN(parsedDate.getTime()) ? null : parsedDate
+  },
+  serialize(value) {
+    return formatDate(value)
+  },
+})
+
 export const searchParams = {
-  // TODO: change the format of the date that is showed in the url. preffered: YYYY-MM-dd or dd.MM.yyyy
-  dateFrom: parseAsIsoDateTime.withDefault(getWeekRange().from),
-  dateTo: parseAsIsoDateTime.withDefault(getWeekRange().to),
+  dateFrom: parseAsYYYYMMDD.withDefault(getWeekRange().from),
+  dateTo: parseAsYYYYMMDD.withDefault(getWeekRange().to),
 }
 
 export const searchParamsCache = createSearchParamsCache(searchParams)
