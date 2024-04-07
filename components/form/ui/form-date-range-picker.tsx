@@ -13,12 +13,14 @@ interface FormDateRangePickerProps
   label: string
   disabled?: boolean
   time?: boolean
+  numberOfMonths?: number
 }
 
 export function FormDateRangePicker({
   label,
   disabled,
   time,
+  numberOfMonths = 1,
   ...controllerProps
 }: FormDateRangePickerProps) {
   return (
@@ -32,6 +34,7 @@ export function FormDateRangePicker({
               time={time}
               date={field.value}
               setDate={field.onChange}
+              numberOfMonths={numberOfMonths}
             />
           </FormControl>
           <FormMessage />

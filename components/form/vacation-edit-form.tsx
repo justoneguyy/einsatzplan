@@ -1,7 +1,6 @@
 'use client'
 
-import { createVacationEntry } from '@/actions/create-vacationEntry'
-import { VacationEntryDurations, VacationEntryTypes } from '@/data/enums'
+import { VacationDurations, VacationTypes } from '@/data/enums'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -15,31 +14,42 @@ import { FormError } from './ui/form-error'
 import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
-import { VacationEntrySchema } from '@/data/vacation/schema'
+import { VacationUpdateSchema } from '@/data/vacation/schema'
 import { useUserContext } from '@/lib/provider/user-provider'
+import { Vacation } from '@prisma/client'
+import { updateVacation } from '@/actions/update-vacation'
 
-export function VacationEntryForm() {
+interface VacationEditFormProps {
+  vacation: Vacation
+}
+
+export function VacationEditForm({ vacation }: VacationEditFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
   const { _users } = useUserContext()
 
-  const form = useForm<z.infer<typeof VacationEntrySchema>>({
-    resolver: zodResolver(VacationEntrySchema),
+  const form = useForm<z.infer<typeof VacationUpdateSchema>>({
+    resolver: zodResolver(VacationUpdateSchema),
     defaultValues: {
-      type: VacationEntryTypes.Urlaub,
-      duration: VacationEntryDurations.Ganztags,
-      userId: '',
+      id: vacation.id,
+      type: vacation.type as VacationTypes,
+      duration: vacation.duration as VacationDurations,
+      userId: vacation.userId as string,
+      date: {
+        from: vacation.dateFrom,
+        to: vacation.dateTo,
+      },
     },
   })
 
-  const onSubmit = (values: z.infer<typeof VacationEntrySchema>) => {
+  const onSubmit = (values: z.infer<typeof VacationUpdateSchema>) => {
     setError('')
     setSuccess('')
 
     startTransition(() => {
-      createVacationEntry(values)
+      updateVacation(values)
         .then((data) => {
           if (data?.error) {
             form.reset()
@@ -64,10 +74,10 @@ export function VacationEntryForm() {
             name='type'
             label='Typ'
             placeholder='Typ auswählen'
-            options={VacationEntryTypes}
+            options={VacationTypes}
             isEnum
             onValueChange={(value: string) => {
-              form.setValue('type', value as VacationEntryTypes)
+              form.setValue('type', value as VacationTypes)
             }}
           />
           <FormSelect
@@ -75,16 +85,17 @@ export function VacationEntryForm() {
             name='duration'
             label='Dauer'
             placeholder='Dauer auswählen'
-            options={VacationEntryDurations}
+            options={VacationDurations}
             isEnum
             onValueChange={(value: string) => {
-              form.setValue('duration', value as VacationEntryDurations)
+              form.setValue('duration', value as VacationDurations)
             }}
           />
           <FormDateRangePicker
             control={form.control}
             name='date'
             label='Datum'
+            numberOfMonths={2}
             disabled={isPending}
           />
           <FormSelect
@@ -102,7 +113,7 @@ export function VacationEntryForm() {
         <FormSuccess message={success} />
         <div className='flex justify-end space-x-3'>
           <DialogClose />
-          <FormSubmit className='w-min' title='Anlegen' disabled={isPending} />
+          <FormSubmit className='w-min' title='Updaten' disabled={isPending} />
         </div>
       </form>
     </Form>

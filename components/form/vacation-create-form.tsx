@@ -1,38 +1,41 @@
 'use client'
 
+import { createVacation } from '@/actions/create-vacation'
+import { VacationDurations, VacationTypes } from '@/data/enums'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { DialogClose } from '../dialog/ui/dialog-cancel'
+import { dialogClose } from '../ui/dialog'
 import { Form } from '../ui/form'
 import { FormDateRangePicker } from './ui/form-date-range-picker'
 import { FormError } from './ui/form-error'
 import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
-import { dialogClose } from '../ui/dialog'
-import { toast } from 'sonner'
-import { OnCallServiceSchema } from '@/data/onCallService/schema'
-import { createOnCallService } from '@/actions/create-onCallService'
+import { VacationCreateSchema } from '@/data/vacation/schema'
 import { useUserContext } from '@/lib/provider/user-provider'
 import { OptionType } from '@/data/schema'
 
-interface OnCallServiceFormProps {
+interface VacationCreateFormProps {
   date?: Date
   user?: OptionType
 }
 
-export function OnCallServiceForm({ date, user }: OnCallServiceFormProps) {
+export function VacationCreateForm({ date, user }: VacationCreateFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const { _usersOnCallService = [] } = useUserContext()
+  const { _users } = useUserContext()
 
-  const form = useForm<z.infer<typeof OnCallServiceSchema>>({
-    resolver: zodResolver(OnCallServiceSchema),
+  const form = useForm<z.infer<typeof VacationCreateSchema>>({
+    resolver: zodResolver(VacationCreateSchema),
     defaultValues: {
+      type: VacationTypes.Urlaub,
+      duration: VacationDurations.Ganztags,
       userId: user?.value,
       date: {
         from: date,
@@ -41,12 +44,12 @@ export function OnCallServiceForm({ date, user }: OnCallServiceFormProps) {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof OnCallServiceSchema>) => {
+  const onSubmit = (values: z.infer<typeof VacationCreateSchema>) => {
     setError('')
     setSuccess('')
 
     startTransition(() => {
-      createOnCallService(values)
+      createVacation(values)
         .then((data) => {
           if (data?.error) {
             form.reset()
@@ -66,6 +69,28 @@ export function OnCallServiceForm({ date, user }: OnCallServiceFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
         <div className='space-y-4'>
+          <FormSelect
+            control={form.control}
+            name='type'
+            label='Typ'
+            placeholder='Typ auswählen'
+            options={VacationTypes}
+            isEnum
+            onValueChange={(value: string) => {
+              form.setValue('type', value as VacationTypes)
+            }}
+          />
+          <FormSelect
+            control={form.control}
+            name='duration'
+            label='Dauer'
+            placeholder='Dauer auswählen'
+            options={VacationDurations}
+            isEnum
+            onValueChange={(value: string) => {
+              form.setValue('duration', value as VacationDurations)
+            }}
+          />
           <FormDateRangePicker
             control={form.control}
             name='date'
@@ -78,7 +103,7 @@ export function OnCallServiceForm({ date, user }: OnCallServiceFormProps) {
             name='userId'
             label='Mitarbeiter'
             placeholder='Mitarbeiter auswählen'
-            options={_usersOnCallService}
+            options={_users}
             onValueChange={(value: string) => {
               form.setValue('userId', value)
             }}

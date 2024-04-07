@@ -1,44 +1,45 @@
 'use client'
 
-import { deleteTask } from '@/actions/delete-task'
-import { TaskDeleteSchema } from '@/data/task/schema'
-import { UserTaskType } from '@/data/user/types'
-import { UnwrapArray } from '@/lib/types'
+import { deleteSicknessEntry } from '@/actions/delete-sicknessEntry'
+import { DialogClose } from '@/components/dialog/ui/dialog-cancel'
+import { FormError } from '@/components/form/ui/form-error'
+import { FormSubmit } from '@/components/form/ui/form-submit'
+import { FormSuccess } from '@/components/form/ui/form-success'
+import { dialogClose } from '@/components/ui/dialog'
+import { Form } from '@/components/ui/form'
+import { SicknessEntryDeleteSchema } from '@/data/sicknessEntry/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { SicknessEntry } from '@prisma/client'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { DialogClose } from '@/components/dialog/ui/dialog-cancel'
-import { dialogClose } from '@/components/ui/dialog'
-import { Form } from '@/components/ui/form'
-import { FormError } from '@/components/form/ui/form-error'
-import { FormSubmit } from '@/components/form/ui/form-submit'
-import { FormSuccess } from '@/components/form/ui/form-success'
 
-interface TaskDeleteFormProps {
-  task: UnwrapArray<UserTaskType['tasks']>
+interface SicknessEntryDeleteFormProps {
+  sicknessEntry: SicknessEntry
 }
 
 // TODO: change to reusable component (e.g. share with user-delete-form)
-function TaskDeleteForm({ task }: TaskDeleteFormProps) {
+function SicknessEntryDeleteForm({
+  sicknessEntry,
+}: SicknessEntryDeleteFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof TaskDeleteSchema>>({
-    resolver: zodResolver(TaskDeleteSchema),
+  const form = useForm<z.infer<typeof SicknessEntryDeleteSchema>>({
+    resolver: zodResolver(SicknessEntryDeleteSchema),
     defaultValues: {
-      id: task.taskId,
+      id: sicknessEntry.id,
     },
   })
 
-  const onSubmit = (values: z.infer<typeof TaskDeleteSchema>) => {
+  const onSubmit = (values: z.infer<typeof SicknessEntryDeleteSchema>) => {
     setError('')
     setSuccess('')
 
     startTransition(() => {
-      deleteTask(values)
+      deleteSicknessEntry(values)
         .then((data) => {
           if (data?.error) {
             setError(data.error)
@@ -72,4 +73,4 @@ function TaskDeleteForm({ task }: TaskDeleteFormProps) {
   )
 }
 
-export default TaskDeleteForm
+export default SicknessEntryDeleteForm

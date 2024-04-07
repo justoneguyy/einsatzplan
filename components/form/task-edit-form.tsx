@@ -29,6 +29,8 @@ function TaskEditForm({ task }: TaskEditFormProps) {
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
+  const { _users } = useUserContext()
+
   const form = useForm<z.infer<typeof TaskUpdateSchema>>({
     resolver: zodResolver(TaskUpdateSchema),
     // TODO: currently if e.g. the date is not set in the defaultValues, the custom error message isnt being passed. change this behaviour
@@ -69,8 +71,6 @@ function TaskEditForm({ task }: TaskEditFormProps) {
         .catch(() => setError('Etwas ist schief gelaufen'))
     })
   }
-
-  const { _users } = useUserContext()
 
   return (
     <Form {...form}>

@@ -39,12 +39,12 @@ export const weekdaysMapping: Record<Weekdays, WeekdaysDE> = {
 }
 
 // TODO: think about adding others
-export enum VacationEntryTypes {
+export enum VacationTypes {
   Urlaub = 'Urlaub',
   Überstundenabbau = 'Überstundenabbau',
 }
 
-export enum VacationEntryDurations {
+export enum VacationDurations {
   Halbtags = 'halbtags',
   Ganztags = 'ganztags',
 }

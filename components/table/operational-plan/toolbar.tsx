@@ -1,5 +1,5 @@
 import { Table } from '@tanstack/react-table'
-import { TableFilter } from './ui/table-filter'
+import { TableFilter } from '../ui/table-filter'
 
 interface OperationalPlanTableToolbarProps<TData> {
   table: Table<TData>

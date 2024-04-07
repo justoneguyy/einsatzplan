@@ -39,7 +39,5 @@ export const getTaskWithUsers = cache(async function (taskId: string) {
     },
   })
 
-  console.log(task?.users.map((user) => user.user.firstName))
-
   return task
 })

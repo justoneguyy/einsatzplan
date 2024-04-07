@@ -4,10 +4,10 @@ import { z } from 'zod'
 import db from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { getTaskByEmployeeDateTitle } from '@/data/task'
-import { TaskSchema } from '@/data/task/schema'
+import { TaskCreateSchema } from '@/data/task/schema'
 
-export const createTask = async (values: z.infer<typeof TaskSchema>) => {
-  const validatedFields = TaskSchema.safeParse(values)
+export const createTask = async (values: z.infer<typeof TaskCreateSchema>) => {
+  const validatedFields = TaskCreateSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'ungültige Felder' }

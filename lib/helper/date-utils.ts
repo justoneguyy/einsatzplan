@@ -1,21 +1,14 @@
 import {
   addDays,
   addWeeks,
-  endOfWeek,
-  setDefaultOptions,
-  startOfWeek,
   eachDayOfInterval,
+  endOfWeek,
   format,
+  startOfWeek,
 } from 'date-fns'
-import { de } from 'date-fns/locale'
 
 import { searchParams } from '@/lib/params/searchparams'
 import { useQueryStates } from 'nuqs'
-
-setDefaultOptions({
-  locale: de,
-  weekStartsOn: 1,
-})
 
 export function getWeek(weekOffset: number = 0) {
   const now = addWeeks(new Date(), weekOffset)

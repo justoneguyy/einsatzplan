@@ -20,37 +20,25 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Option } from '@/lib/types'
 import { useState } from 'react'
-import { UserCreateDialog } from '../dialog/user-create-dialog'
-import { UserTableToolbar } from './user-table-toolbar'
-import { RolesType } from '@/data/role/types'
-import { GroupsType } from '@/data/group/types'
+import { OperationalPlanTableToolbar } from './toolbar'
 
-interface UserTableProps<TData, TValue> {
+interface OperationalPlanTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  roleOptions: Option[]
-  groupOptions: Option[]
-  roles: RolesType
-  groups: GroupsType
 }
 
-// TODO: if performance is bad, add memoization
-export function UserTable<TData, TValue>({
+// TODO: add memoization
+export function OperationalPlanTable<TData, TValue>({
   columns,
   data,
-  roleOptions,
-  groupOptions,
-  roles,
-  groups,
-}: UserTableProps<TData, TValue>) {
+}: OperationalPlanTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [filter, setFilter] = useState('')
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
     defaultColumn: {
       minSize: 200,
@@ -74,13 +62,10 @@ export function UserTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
   })
 
-  // think about removing the vertical border
   return (
     <div className='max-w-full space-y-2'>
-      <UserTableToolbar
+      <OperationalPlanTableToolbar
         table={table}
-        roleOptions={roleOptions}
-        groupOptions={groupOptions}
         filter={filter}
         setFilter={setFilter}
       />
@@ -98,7 +83,7 @@ export function UserTable<TData, TValue>({
                         position: 'relative',
                         width: `calc(var(--header-${header?.id}-size) * 1px)`,
                       }}
-                      className='border-b border-l pl-3 text-center first:border-l-0 last:border-l-0'
+                      className='border-b border-r pl-4 last:border-r-0'
                     >
                       {header.isPlaceholder
                         ? null
@@ -137,8 +122,16 @@ export function UserTable<TData, TValue>({
                     return (
                       <TableCell
                         key={cell.id}
-                        style={{ width: cell.column.getSize() }}
-                        className='border-l first:border-l-0 last:border-l-0'
+                        // TODO: somehow the width is still not equally distributed. fix this
+                        // TOOD: the height should also be fixed. currently when no data is passed, the row isnt as high as if data is passed
+                        style={{
+                          width: cell.column.getSize(),
+                        }}
+                        // TODO: optimize height
+                        // className='h-18 border-r px-0 py-2 last:border-r-0'
+                        // TODO: if one user has 3 tasks, the width is much bigger than if one user has only one task. fix this
+                        // the border could be removed if we also add a higlighting on the columns
+                        className='h-18 border-r last:border-r-0'
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -152,9 +145,6 @@ export function UserTable<TData, TValue>({
             })}
           </TableBody>
         </Table>
-      </div>
-      <div className='flex justify-end'>
-        <UserCreateDialog roles={roles} groups={groups} />
       </div>
     </div>
   )

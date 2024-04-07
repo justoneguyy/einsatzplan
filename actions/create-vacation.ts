@@ -1,15 +1,15 @@
 'use server'
 
 import { getVacationEntryByEmployeeDate } from '@/data/vacation'
-import { VacationEntrySchema } from '@/data/vacation/schema'
+import { VacationCreateSchema } from '@/data/vacation/schema'
 import db from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
-export const createVacationEntry = async (
-  values: z.infer<typeof VacationEntrySchema>
+export const createVacation = async (
+  values: z.infer<typeof VacationCreateSchema>
 ) => {
-  const validatedFields = VacationEntrySchema.safeParse(values)
+  const validatedFields = VacationCreateSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'ungültige Felder' }

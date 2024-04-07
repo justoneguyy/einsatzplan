@@ -17,20 +17,13 @@ import { CheckCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { AlertCircle, Palmtree, HeartPulse } from 'lucide-react'
 import { OnCallServiceForm } from '../form/onCallService-form'
 import TaskCreateForm from '../form/task-create-form'
-import { VacationEntryForm } from '../form/vacationEntry-form'
+import { VacationCreateForm } from '../form/vacation-create-form'
 import { Button } from '../ui/button'
 import { DialogItem } from './ui/dialog-item'
-import { SicknessEntryForm } from '../form/sicknessEntry-form'
-import { UsersTypeName } from '@/data/user/types'
-
-interface ActionsDialogProps {
-  usersOnCallService: UsersTypeName
-}
+import { SicknessEntryCreateForm } from '../form/sicknessEntry-create-form'
 
 // TODO: change to new multi dialog
-export default function ActionsDialog({
-  usersOnCallService,
-}: ActionsDialogProps) {
+export default function ActionsDialog() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -100,7 +93,7 @@ export default function ActionsDialog({
                 Hier kann eine neue Rufbereitschaft erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <OnCallServiceForm users={usersOnCallService} />
+            <OnCallServiceForm />
           </DialogItem>
 
           <DialogItem
@@ -116,7 +109,7 @@ export default function ActionsDialog({
                 Hier kann eine neuer Urlaubseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <VacationEntryForm />
+            <VacationCreateForm />
           </DialogItem>
 
           <DialogItem
@@ -132,7 +125,7 @@ export default function ActionsDialog({
                 Hier kann eine neuer Krankheitseintrag erstellt werden.
               </DialogDescription>
             </DialogHeader>
-            <SicknessEntryForm />
+            <SicknessEntryCreateForm />
           </DialogItem>
         </DropdownMenuContent>
       </DropdownMenu>

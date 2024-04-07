@@ -4,16 +4,9 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { OperationalPlanDataType } from '@/actions/aggregate-operationalPlan-data'
 import { Weekdays, weekdaysMapping } from '@/data/enums'
-import { setDefaultOptions } from 'date-fns'
-import { de } from 'date-fns/locale'
-import { CellUser, CellWeekday } from './operationalPlan-table-cells'
-import { HeaderWeekday, HeaderWeekend } from './operationalPlan-table-header'
-import { TableColumnHeaderAscDescReset } from './ui/table-column-header'
-
-setDefaultOptions({
-  locale: de,
-  weekStartsOn: 1,
-})
+import { TableColumnHeaderAscDescReset } from '../ui/table-column-header'
+import { CellUser, CellWeekday } from './cells'
+import { HeaderWeekday, HeaderWeekend } from './header'
 
 const headerWeekday = (index: number) => {
   return () => <HeaderWeekday index={index} />
@@ -39,7 +32,7 @@ export const OperationalPlanColumns: ColumnDef<OperationalPlanDataType>[] = [
           lastName={row.original.lastName}
           initials={row.original.initials}
           profilePicture={row.original.profilePicture}
-          onCallServices={row.original.onCallServices}
+          // onCallServices={row.original.onCallServices}
         />
       )
     },
@@ -62,6 +55,9 @@ export const OperationalPlanColumns: ColumnDef<OperationalPlanDataType>[] = [
           tasks={row.original.tasks}
           holidays={row.original.holidays}
           schoolHolidays={row.original.schoolHolidays}
+          sicknessEntries={row.original.sicknessEntries}
+          onCallServices={row.original.onCallServices}
+          vacations={row.original.vacations}
           users={[
             {
               value: row.original.id,

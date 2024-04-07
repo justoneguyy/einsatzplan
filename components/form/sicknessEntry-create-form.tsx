@@ -2,7 +2,7 @@
 
 import { createSicknessEntry } from '@/actions/create-sicknessEntry'
 import { SicknessEntryTitles } from '@/data/enums'
-import { SicknessEntrySchema } from '@/data/sickness/schema'
+import { SicknessEntryCreateSchema } from '@/data/sicknessEntry/schema'
 import { useUserContext } from '@/lib/provider/user-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
@@ -17,23 +17,36 @@ import { FormError } from './ui/form-error'
 import { FormSelect } from './ui/form-select'
 import { FormSubmit } from './ui/form-submit'
 import { FormSuccess } from './ui/form-success'
+import { OptionType } from '@/data/schema'
 
-export function SicknessEntryForm() {
+interface SicknessEntryCreateFormProps {
+  date?: Date
+  user?: OptionType
+}
+
+export function SicknessEntryCreateForm({
+  date,
+  user,
+}: SicknessEntryCreateFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
   const { _users } = useUserContext()
 
-  const form = useForm<z.infer<typeof SicknessEntrySchema>>({
-    resolver: zodResolver(SicknessEntrySchema),
+  const form = useForm<z.infer<typeof SicknessEntryCreateSchema>>({
+    resolver: zodResolver(SicknessEntryCreateSchema),
     defaultValues: {
       title: SicknessEntryTitles.Krank,
-      userId: '',
+      userId: user?.value,
+      date: {
+        from: date,
+        to: date,
+      },
     },
   })
 
-  const onSubmit = (values: z.infer<typeof SicknessEntrySchema>) => {
+  const onSubmit = (values: z.infer<typeof SicknessEntryCreateSchema>) => {
     setError('')
     setSuccess('')
 
@@ -74,6 +87,7 @@ export function SicknessEntryForm() {
             name='date'
             label='Datum'
             time
+            numberOfMonths={2}
             disabled={isPending}
           />
           <FormSelect

@@ -2,7 +2,7 @@
 
 import { createTask } from '@/actions/create-task'
 import { OptionType } from '@/data/schema'
-import { TaskSchema } from '@/data/task/schema'
+import { TaskCreateSchema } from '@/data/task/schema'
 import { useUserContext } from '@/lib/provider/user-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
@@ -31,8 +31,8 @@ function TaskCreateForm({ date, users }: TaskCreateFormProps) {
 
   const { _users } = useUserContext()
 
-  const form = useForm<z.infer<typeof TaskSchema>>({
-    resolver: zodResolver(TaskSchema),
+  const form = useForm<z.infer<typeof TaskCreateSchema>>({
+    resolver: zodResolver(TaskCreateSchema),
     // TODO: currently if no value is set in the defaultValues, the custom error message isnt being passed. change this behaviour
     defaultValues: {
       userIds: users,
@@ -45,7 +45,7 @@ function TaskCreateForm({ date, users }: TaskCreateFormProps) {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof TaskSchema>) => {
+  const onSubmit = (values: z.infer<typeof TaskCreateSchema>) => {
     setError('')
     setSuccess('')
 

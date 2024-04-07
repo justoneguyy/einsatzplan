@@ -1,15 +1,15 @@
 'use client'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { GetUserType } from '@/actions/get-user/schema'
 import {
   TableColumnHeaderAscDescReset,
   TableColumnHeaderHide,
-} from './ui/table-column-header'
-import { UserTableRowActions } from './user-table-row-actions'
+} from '../ui/table-column-header'
+import { UserTableRowActions } from './row-actions'
+import { UserType } from '@/data/user/types'
 
 // TODO: set fixed/min width for the specific columns
-export const UserColumns: ColumnDef<GetUserType>[] = [
+export const UserColumns: ColumnDef<UserType>[] = [
   // add profilePicture?
   {
     header: 'Name',

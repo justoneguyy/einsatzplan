@@ -1,10 +1,9 @@
 import { z } from 'zod'
 
-import { VacationDurations, VacationTypes } from '@/data/enums'
+import { SicknessEntryTitles } from '@/data/enums'
 
-export const VacationCreateSchema = z.object({
-  type: z.nativeEnum(VacationTypes),
-  duration: z.nativeEnum(VacationDurations),
+export const SicknessEntryCreateSchema = z.object({
+  title: z.nativeEnum(SicknessEntryTitles),
   date: z
     .object({
       from: z.date(),
@@ -18,10 +17,9 @@ export const VacationCreateSchema = z.object({
   }),
 })
 
-export const VacationUpdateSchema = z.object({
+export const SicknessEntryUpdateSchema = z.object({
   id: z.string(),
-  type: z.nativeEnum(VacationTypes),
-  duration: z.nativeEnum(VacationDurations),
+  title: z.nativeEnum(SicknessEntryTitles),
   date: z
     .object({
       from: z.date(),
@@ -35,6 +33,6 @@ export const VacationUpdateSchema = z.object({
   }),
 })
 
-export const VacationDeleteSchema = z.object({
+export const SicknessEntryDeleteSchema = z.object({
   id: z.string(),
 })

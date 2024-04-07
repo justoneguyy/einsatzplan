@@ -1,26 +1,26 @@
 import db from '@/lib/db'
 
-export const getVacationById = async (id: string) => {
+export const getSicknessEntryById = async (id: string) => {
   try {
-    const vacation = await db.vacation.findUnique({
+    const sicknessEntry = await db.sicknessEntry.findUnique({
       where: {
         id,
       },
     })
 
-    return vacation
+    return sicknessEntry
   } catch {
     return null
   }
 }
 
-export const getVacationEntryByEmployeeDate = async (
+export const getSicknessEntryByEmployeeDate = async (
   userId: string,
   dateFrom: Date,
   dateTo: Date
 ) => {
   try {
-    const vacationEntry = await db.vacation.findFirst({
+    const sicknessEntry = await db.sicknessEntry.findFirst({
       where: {
         userId,
         dateFrom,
@@ -28,7 +28,7 @@ export const getVacationEntryByEmployeeDate = async (
       },
     })
 
-    return vacationEntry
+    return sicknessEntry
   } catch {
     return null
   }

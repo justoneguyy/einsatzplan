@@ -1,9 +1,5 @@
 'use client'
 
-import { deleteTask } from '@/actions/delete-task'
-import { TaskDeleteSchema } from '@/data/task/schema'
-import { UserTaskType } from '@/data/user/types'
-import { UnwrapArray } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -15,30 +11,33 @@ import { Form } from '@/components/ui/form'
 import { FormError } from '@/components/form/ui/form-error'
 import { FormSubmit } from '@/components/form/ui/form-submit'
 import { FormSuccess } from '@/components/form/ui/form-success'
+import { Vacation } from '@prisma/client'
+import { VacationDeleteSchema } from '@/data/vacation/schema'
+import { deleteVaction } from '@/actions/delete-vacation'
 
-interface TaskDeleteFormProps {
-  task: UnwrapArray<UserTaskType['tasks']>
+interface VacationDeleteFormProps {
+  vacation: Vacation
 }
 
 // TODO: change to reusable component (e.g. share with user-delete-form)
-function TaskDeleteForm({ task }: TaskDeleteFormProps) {
+function VacationDeleteForm({ vacation }: VacationDeleteFormProps) {
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
 
-  const form = useForm<z.infer<typeof TaskDeleteSchema>>({
-    resolver: zodResolver(TaskDeleteSchema),
+  const form = useForm<z.infer<typeof VacationDeleteSchema>>({
+    resolver: zodResolver(VacationDeleteSchema),
     defaultValues: {
-      id: task.taskId,
+      id: vacation.id,
     },
   })
 
-  const onSubmit = (values: z.infer<typeof TaskDeleteSchema>) => {
+  const onSubmit = (values: z.infer<typeof VacationDeleteSchema>) => {
     setError('')
     setSuccess('')
 
     startTransition(() => {
-      deleteTask(values)
+      deleteVaction(values)
         .then((data) => {
           if (data?.error) {
             setError(data.error)
@@ -72,4 +71,4 @@ function TaskDeleteForm({ task }: TaskDeleteFormProps) {
   )
 }
 
-export default TaskDeleteForm
+export default VacationDeleteForm

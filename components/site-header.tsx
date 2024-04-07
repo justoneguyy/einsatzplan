@@ -59,9 +59,15 @@ export async function SiteHeaderDashboard() {
                 <CalendarWeek />
               </div>
               <div>
-                <UserProvider _users={users}>
-                  <ActionsDialog usersOnCallService={usersOnCallService} />
+                <UserProvider
+                  _users={users}
+                  _usersOnCallService={usersOnCallService}
+                >
+                  <ActionsDialog />
                 </UserProvider>
+                {/* <UserProvider _users={users}>
+                  <ActionsDialog usersOnCallService={usersOnCallService} />
+                </UserProvider> */}
               </div>
             </div>
           </section>

@@ -1,7 +1,7 @@
 'use client'
 
-import { UserTaskType } from '@/data/user/types'
-import { UnwrapArray } from '@/lib/types'
+import { useState } from 'react'
+
 import {
   Dialog,
   DialogContent,
@@ -12,33 +12,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/ui/dialog'
-import { useState } from 'react'
-import TaskEditForm from '../form/task-edit-form'
-
-import { AssignmentCard } from '../card/assignment-card'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from '../ui/context-menu'
-import { MultipleDialog } from './ui/dialog-multiple'
-import TaskDeleteForm from '../form/task-delete-form'
+} from '@/components/ui/context-menu'
+import { MultipleDialog } from '@/components/dialog/ui/dialog-multiple'
+import { SicknessEntryEditForm } from '@/components/form/sicknessEntry-edit-form'
+import { SicknessEntry } from '@prisma/client'
+import SicknessEntryDeleteForm from '@/components/form/sicknessEntry-delete-form'
 
-interface TaskDialogProps {
-  task: UnwrapArray<UserTaskType['tasks']>
+interface CellSicknessEntryProps {
+  sicknessEntry: SicknessEntry
 }
 
-export function TaskDialog({ task }: TaskDialogProps) {
+export function CellSicknessEntry({ sicknessEntry }: CellSicknessEntryProps) {
   const [open, setOpen] = useState<boolean>(false)
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  // TODO: add mobil variant (make use of useMediaQuery)
-  // TODO: add user view (this is currently the admin view with an editable form.)
-  // or make the context menu only accessible to admins and the assignment card is just a read only card?
 
   enum dialogs {
     Edit = 'Bearbeiten',
@@ -53,7 +43,9 @@ export function TaskDialog({ task }: TaskDialogProps) {
             <>
               <ContextMenu>
                 <ContextMenuTrigger>
-                  <AssignmentCard task={task} onOpen={handleOpen} />
+                  <div className='flex h-full items-center justify-center rounded-md bg-red-950'>
+                    <p className='select-none'>{sicknessEntry.title}</p>
+                  </div>
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                   <mdb.Trigger value={dialogs.Edit}>
@@ -70,12 +62,12 @@ export function TaskDialog({ task }: TaskDialogProps) {
                     <DialogOverlay />
                     <DialogContent className='w-[400px]'>
                       <DialogHeader>
-                        <DialogTitle>Aufgabe bearbeiten</DialogTitle>
+                        <DialogTitle>Krankheitseintrag bearbeiten</DialogTitle>
                       </DialogHeader>
                       <DialogDescription>
-                        Hier kann die Aufgabe bearbeitet werden
+                        Hier kann der Krankheitseintrag bearbeitet werden
                       </DialogDescription>
-                      <TaskEditForm task={task} />
+                      <SicknessEntryEditForm sicknessEntry={sicknessEntry} />
                     </DialogContent>
                   </DialogPortal>
                 </Dialog>
@@ -87,16 +79,12 @@ export function TaskDialog({ task }: TaskDialogProps) {
                     <DialogContent>
                       <DialogHeader className='space-y-2'>
                         <DialogTitle>Warnung</DialogTitle>
-                        {/* TODO: add more informations? */}
                         <DialogDescription>
-                          Sicher dass die Aufgabe{' '}
-                          <span className='text-accent-foreground'>
-                            {task.task.title}
-                          </span>{' '}
-                          geloescht werden soll?
+                          Sicher dass der Krankheitseintrag geloescht werden
+                          soll?
                         </DialogDescription>
                       </DialogHeader>
-                      <TaskDeleteForm task={task} />
+                      <SicknessEntryDeleteForm sicknessEntry={sicknessEntry} />
                     </DialogContent>
                   </DialogPortal>
                 </Dialog>
@@ -107,12 +95,12 @@ export function TaskDialog({ task }: TaskDialogProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Aufgabe bearbeiten</DialogTitle>
+          <DialogTitle>Krankheitseintrag bearbeiten</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          Hier kann die Aufgabe bearbeitet werden
+          Hier kann der Krankheitseintrag bearbeitet werden
         </DialogDescription>
-        <TaskEditForm task={task} />
+        <SicknessEntryEditForm sicknessEntry={sicknessEntry} />
       </DialogContent>
     </Dialog>
   )

@@ -66,6 +66,7 @@ const config = {
         700: colors.red[700],
         800: colors.red[800],
         900: colors.red[900],
+        950: colors.red[950],
       },
       yellow: {
         100: colors.yellow[100],

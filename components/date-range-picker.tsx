@@ -20,12 +20,14 @@ interface DateRangePickerProps extends React.HTMLAttributes<HTMLDivElement> {
   date: DateRange | undefined
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>
   time?: boolean
+  numberOfMonths?: number
 }
 
 export function DateRangePicker({
   date,
   setDate,
   time,
+  numberOfMonths = 1,
   className,
 }: DateRangePickerProps) {
   // dont render the time if no time is being input
@@ -79,7 +81,7 @@ export function DateRangePicker({
             defaultMonth={date?.from}
             selected={date}
             onSelect={handleDateChange}
-            numberOfMonths={1}
+            numberOfMonths={numberOfMonths}
           />
           {time && (
             <div className='border-t border-border p-3 pt-2'>

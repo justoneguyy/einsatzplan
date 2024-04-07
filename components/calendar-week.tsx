@@ -1,5 +1,10 @@
 'use client'
 
+import {
+  useMonthNavigation,
+  useOpenCalendarShortcut,
+  useWeekNavigation,
+} from '@/lib/hooks/useKeyboardNavigation'
 import { searchParams } from '@/lib/params/searchparams'
 import { cn } from '@/lib/utils'
 import {
@@ -14,26 +19,14 @@ import {
   endOfWeek,
   format,
   getWeek,
-  setDefaultOptions,
   startOfWeek,
   subMonths,
 } from 'date-fns'
-import { de } from 'date-fns/locale'
 import { useQueryStates } from 'nuqs'
-import { HTMLAttributes, useEffect, useState } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import { Button } from './ui/button'
 import { CalendarCustom } from './ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import {
-  useMonthNavigation,
-  useOpenCalendarShortcut,
-  useWeekNavigation,
-} from '@/lib/hooks/useKeyboardNavigation'
-
-setDefaultOptions({
-  locale: de,
-  weekStartsOn: 1,
-})
 
 interface DateRange {
   from: Date

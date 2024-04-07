@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { optionSchema } from '../schema'
 
-export const TaskSchema = z.object({
+export const TaskCreateSchema = z.object({
   title: z.string().min(1, {
     message: 'Der Titel ist erforderlich',
   }),

@@ -47,7 +47,7 @@ export const getUsersWithTasks = cache(async function () {
           group: true,
         },
       },
-      onCallServices: {
+      vacations: {
         include: {
           user: true,
         },

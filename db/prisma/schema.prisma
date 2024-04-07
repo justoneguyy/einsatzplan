@@ -21,7 +21,7 @@ model User {
   groups          UserGroup[]
   tasks           UserTask[]
   vacations       Vacation[]
-  sicknesses      Sickness[]
+  sicknesses      SicknessEntry[]
   onCallServices  OnCallService[]
 }
 
@@ -129,7 +129,7 @@ model Vacation {
 
 // cell background should be primary
 // text color should be red
-model Sickness {
+model SicknessEntry {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   title         String          // krank, Arztbesuch (there is an enum in /data/enums.ts for this)
   dateFrom      DateTime

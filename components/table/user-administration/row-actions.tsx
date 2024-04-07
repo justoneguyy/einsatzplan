@@ -10,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu'
 import { useRef, useState } from 'react'
-import { DialogItem } from '../dialog/ui/dialog-item'
-import UserDeleteForm from '../form/user-delete-form'
-import UserEditForm from '../form/user-edit-form'
-import { DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog'
+import { DialogItem } from '../../dialog/ui/dialog-item'
+import UserDeleteForm from '../../form/user-delete-form'
+import UserEditForm from '../../form/user-edit-form'
+import { DialogDescription, DialogHeader, DialogTitle } from '../../ui/dialog'
 import { UserType } from '@/data/user/types'
 
 export interface TableRowActionsProps {

@@ -1,9 +1,9 @@
 import { endOfWeek, format, setDefaultOptions, startOfWeek } from 'date-fns'
 import { de } from 'date-fns/locale'
 import {
+  createParser,
   createSearchParamsCache,
   createSerializer,
-  createParser,
 } from 'nuqs/server'
 
 setDefaultOptions({
@@ -24,7 +24,7 @@ const getWeekRange = () => {
   }
 }
 
-// custom parser. otherwise the date would be shown as datetime(utc) in the url
+// // custom parser. otherwise the date would be shown as datetime(utc) in the url
 const parseAsYYYYMMDD = createParser({
   parse(queryValue) {
     const parsedDate = new Date(queryValue)

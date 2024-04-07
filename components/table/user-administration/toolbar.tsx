@@ -1,20 +1,21 @@
-import { Option } from '@/lib/types'
+import { GroupsType } from '@/data/group/types'
+import { RolesType } from '@/data/role/types'
 import { Table } from '@tanstack/react-table'
-import { TableFilter } from './ui/table-filter'
-import { TableSearchbar } from './ui/table-searchbar'
+import { TableFilter } from '../ui/table-filter'
+import { TableSearchbar } from '../ui/table-searchbar'
 
 interface UserTableToolbarProps<TData> {
   table: Table<TData>
-  roleOptions: Option[]
-  groupOptions: Option[]
+  roles: RolesType
+  groups: GroupsType
   filter: string
   setFilter: (value: string) => void
 }
 
 export function UserTableToolbar<TData>({
   table,
-  roleOptions,
-  groupOptions,
+  roles,
+  groups,
   filter,
   setFilter,
 }: UserTableToolbarProps<TData>) {
@@ -33,14 +34,14 @@ export function UserTableToolbar<TData>({
           <TableFacetedFilter
             column={table.getColumn('role')}
             title='Rolle'
-            options={roleOptions}
+            options={roles}
           />
         )}
         {table.getColumn('groups') && (
           <TableFacetedFilter
             column={table.getColumn('groups')}
             title='Gruppe'
-            options={groupOptions}
+            options={groups}
           />
         )} */}
         {/* {isFiltered && (

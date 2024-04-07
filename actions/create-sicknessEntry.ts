@@ -1,15 +1,15 @@
 'use server'
 
-import { getSicknessEntryByEmployeeDate } from '@/data/sickness'
-import { SicknessEntrySchema } from '@/data/sickness/schema'
+import { getSicknessEntryByEmployeeDate } from '@/data/sicknessEntry'
+import { SicknessEntryCreateSchema } from '@/data/sicknessEntry/schema'
 import db from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 export const createSicknessEntry = async (
-  values: z.infer<typeof SicknessEntrySchema>
+  values: z.infer<typeof SicknessEntryCreateSchema>
 ) => {
-  const validatedFields = SicknessEntrySchema.safeParse(values)
+  const validatedFields = SicknessEntryCreateSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'ungültige Felder' }
@@ -30,7 +30,7 @@ export const createSicknessEntry = async (
     }
   }
 
-  await db.sickness.create({
+  await db.sicknessEntry.create({
     data: {
       title,
       dateFrom: date.from,
