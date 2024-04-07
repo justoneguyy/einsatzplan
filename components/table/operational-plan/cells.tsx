@@ -139,6 +139,8 @@ export const CellWeekday = ({
   const daysOfWeek = getWeekInterval()
   const day = daysOfWeek[index]
 
+  // TODO: maybe I should check for 'isWithinInterval' etc. in the direct call. might lead to better performance
+
   // TODO: this should show/have an indicator on every day. dont know how yet
   // 1. onCallService - should have a like 50% opacity baby-blueish background (there is an indicator for this in the CellUserProps already but it might not be enough)
   const onCallServiceForDay = onCallServices.find((onCallService) => {

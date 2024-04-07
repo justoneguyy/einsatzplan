@@ -39,7 +39,7 @@ export const OperationalPlanColumns: ColumnDef<OperationalPlanDataType>[] = [
     enableHiding: false,
     enableResizing: true,
     // TODO: change minSize (should only show the avatar (and the indicator) when <md)
-    minSize: 200,
+    minSize: 60,
     maxSize: 250,
   },
   ...Object.values(Weekdays).map((day, index) => {

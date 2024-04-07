@@ -10,6 +10,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
+  Table as TableType,
 } from '@tanstack/react-table'
 
 import {
@@ -22,7 +23,7 @@ import {
 } from '@/components/ui/table'
 import { GroupsType } from '@/data/group/types'
 import { RolesType } from '@/data/role/types'
-import { useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { UserCreateDialog } from '../../dialog/user-create-dialog'
 import { UserTableToolbar } from './toolbar'
 
@@ -33,7 +34,6 @@ interface UserTableProps<TData, TValue> {
   groups: GroupsType
 }
 
-// TODO: if performance is bad, add memoization
 export function UserTable<TData, TValue>({
   columns,
   data,
@@ -48,7 +48,7 @@ export function UserTable<TData, TValue>({
     data,
     columns,
     defaultColumn: {
-      minSize: 200,
+      minSize: 60,
       maxSize: 800,
     },
     getCoreRowModel: getCoreRowModel(),
@@ -69,6 +69,17 @@ export function UserTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
   })
 
+  const columnSizeVars = useMemo(() => {
+    const headers = table.getFlatHeaders()
+    const colSizes: { [key: string]: number } = {}
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i]!
+      colSizes[`--header-${header.id}-size`] = header.getSize()
+      colSizes[`--col-${header.column.id}-size`] = header.column.getSize()
+    }
+    return colSizes
+  }, [table.getState().columnSizingInfo])
+
   // think about removing the vertical border
   return (
     <div className='max-w-full space-y-2'>
@@ -79,8 +90,14 @@ export function UserTable<TData, TValue>({
         filter={filter}
         setFilter={setFilter}
       />
-      <div className='rounded-md border'>
-        <Table className='w-full'>
+      <div className='overflow-x-auto rounded-md border'>
+        <Table
+          className='min-w-full'
+          style={{
+            ...columnSizeVars,
+            width: table.getTotalSize(),
+          }}
+        >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -124,28 +141,7 @@ export function UserTable<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.map((row) => {
-              return (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        style={{ width: cell.column.getSize() }}
-                        className='border-l first:border-l-0 last:border-l-0'
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    )
-                  })}
-                </TableRow>
-              )
-            })}
-          </TableBody>
+          <MemoizedTableBody table={table} />
         </Table>
       </div>
       <div className='flex justify-end'>
@@ -154,3 +150,34 @@ export function UserTable<TData, TValue>({
     </div>
   )
 }
+
+function TableBodyCustom({ table }: { table: TableType<any> }) {
+  return (
+    <TableBody>
+      {table.getRowModel().rows.map((row) => {
+        return (
+          <TableRow key={row.id}>
+            {row.getVisibleCells().map((cell) => {
+              return (
+                <TableCell
+                  key={cell.id}
+                  className='border-l first:border-l-0 last:border-l-0'
+                  style={{
+                    width: `calc(var(--col-${cell.column.id}-size) * 1px)`,
+                  }}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              )
+            })}
+          </TableRow>
+        )
+      })}
+    </TableBody>
+  )
+}
+
+const MemoizedTableBody = memo(
+  TableBodyCustom,
+  (prev, next) => prev.table.options.data === next.table.options.data
+) as typeof TableBodyCustom
